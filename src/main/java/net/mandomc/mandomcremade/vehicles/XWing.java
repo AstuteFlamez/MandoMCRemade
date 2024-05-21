@@ -1,11 +1,10 @@
 package net.mandomc.mandomcremade.vehicles;
 
-import net.mandomc.mandomcremade.listeners.VehicleSafety;
+import net.mandomc.mandomcremade.listeners.VehicleSafetyEvents;
 import net.mandomc.mandomcremade.objects.Vehicles;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import net.mandomc.mandomcremade.utility.Utilities;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,8 +113,8 @@ public class XWing implements Listener {
 
             getAllActiveXWings().add(xWing);
 
-            VehicleSafety.entitiesInShip.add(xWing.getSeatOne());
-            VehicleSafety.entitiesInShip.add(xWing.getModel());
+            VehicleSafetyEvents.entitiesInShip.add(xWing.getSeatOne());
+            VehicleSafetyEvents.entitiesInShip.add(xWing.getModel());
 
             rideShip(player, xWing);
         } else {
@@ -135,7 +133,7 @@ public class XWing implements Listener {
         LivingEntity seat = (Phantom) xWing.getSeatOne();
         seat.addPassenger(player);
         xWing.setPilot(player);
-        VehicleSafety.playersInShip.add(xWing.getPilot());
+        VehicleSafetyEvents.playersInShip.add(xWing.getPilot());
 
         switch(customModelData){
             case 6:
@@ -160,8 +158,8 @@ public class XWing implements Listener {
         if(model.getEquipment().getHelmet().getItemMeta() == null) return;
         int customModelData = model.getEquipment().getHelmet().getItemMeta().getCustomModelData();
 
-        VehicleSafety.entitiesInShip.remove(seat);
-        VehicleSafety.entitiesInShip.remove(model);
+        VehicleSafetyEvents.entitiesInShip.remove(seat);
+        VehicleSafetyEvents.entitiesInShip.remove(model);
 
         seat.remove();
         model.remove();

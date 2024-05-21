@@ -1,6 +1,6 @@
 package net.mandomc.mandomcremade.vehicles;
 
-import net.mandomc.mandomcremade.listeners.VehicleSafety;
+import net.mandomc.mandomcremade.listeners.VehicleSafetyEvents;
 import net.mandomc.mandomcremade.objects.Vehicles;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
@@ -90,8 +90,8 @@ public class TieFighter implements Listener {
 
             allActiveTieFighters.add(tieFighter);
 
-            VehicleSafety.entitiesInShip.add(tieFighter.getSeatOne());
-            VehicleSafety.armorStandsInShip.add(tieFighter.getModel());
+            VehicleSafetyEvents.entitiesInShip.add(tieFighter.getSeatOne());
+            VehicleSafetyEvents.armorStandsInShip.add(tieFighter.getModel());
 
             rideShip(player, tieFighter);
 
@@ -103,7 +103,7 @@ public class TieFighter implements Listener {
     public void rideShip(Player player, Vehicles tieFighter){
 
         tieFighter.setPilot(player);
-        VehicleSafety.playersInShip.add(tieFighter.getPilot());
+        VehicleSafetyEvents.playersInShip.add(tieFighter.getPilot());
         LivingEntity seat1Living = (Phantom) tieFighter.getSeatOne();
         seat1Living.addPassenger(player);
 
@@ -115,8 +115,8 @@ public class TieFighter implements Listener {
         Entity seat = tieFighter.getSeatOne();
         Entity model = tieFighter.getModel();
 
-        VehicleSafety.entitiesInShip.remove(seat);
-        VehicleSafety.armorStandsInShip.remove(model);
+        VehicleSafetyEvents.entitiesInShip.remove(seat);
+        VehicleSafetyEvents.armorStandsInShip.remove(model);
 
         tieFighter.setPilot(null);
         tieFighter.setModel(null);

@@ -4,18 +4,12 @@ import net.mandomc.mandomcremade.utility.MatrixHolders;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-
-public class WarpTeleport implements Listener {
+public class WarpClickEvent implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event){

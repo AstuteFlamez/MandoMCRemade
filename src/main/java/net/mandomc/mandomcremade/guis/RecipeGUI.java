@@ -1,13 +1,14 @@
-package net.mandomc.mandomcremade.utility;
+package net.mandomc.mandomcremade.guis;
 
+import net.mandomc.mandomcremade.utility.CustomItems;
+import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class Inventories {
+public class RecipeGUI {
 
     /* 0  1  2  3  4  5  6  7  8
        9  10 11 12 13 14 15 16 17
@@ -51,8 +52,8 @@ public class Inventories {
     public static Inventory lightsabers(Player player){
         Inventory sabers = Bukkit.createInventory(player, 27, Messages.str("&2&lLightsaber Recipes"));
 
-        sabers.setItem(10, CustomItems.hilt("lukeSkywalker"));
-        sabers.setItem(12, CustomItems.hilt("anakinSkywalker"));
+        sabers.setItem(10, CustomItems.lightSaber("lukeSkywalker"));
+        sabers.setItem(12, CustomItems.lightSaber("anakinSkywalker"));
         sabers.setItem(25, CustomItems.back());
         sabers.setItem(26, CustomItems.close());
         return sabers;
@@ -100,7 +101,6 @@ public class Inventories {
         Inventory saber = Bukkit.createInventory(player, 54, Messages.str("&2&lLuke Skywalker Lightsaber Recipe"));
 
         saber.setItem(20, CustomItems.kyber("green"));
-        saber.setItem(21, CustomItems.activationStud());
         saber.setItem(25, CustomItems.lightSaber("lukeSkywalker"));
         saber.setItem(29, CustomItems.hilt("lukeSkywalker"));
         saber.setItem(23, CustomItems.workbench());
@@ -113,7 +113,6 @@ public class Inventories {
         Inventory saber = Bukkit.createInventory(player, 54, Messages.str("&1&lAnakin Skywalker Lightsaber Recipe"));
 
         saber.setItem(20, CustomItems.kyber("blue"));
-        saber.setItem(21, CustomItems.activationStud());
         saber.setItem(25, CustomItems.lightSaber("anakinSkywalker"));
         saber.setItem(29, CustomItems.hilt("anakinSkywalker"));
         saber.setItem(23, CustomItems.workbench());

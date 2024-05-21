@@ -9,15 +9,19 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class Warp implements CommandExecutor {
+public class Warp implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
@@ -27,7 +31,8 @@ public class Warp implements CommandExecutor {
             if(args.length==0){
                 if(player.hasPermission("mmc.warps")){
                     player.openInventory(warpCreator(player));
-
+                }else{
+                    Messages.noPermission(player);
                 }
             }else if(args.length==1){
                 warp(player, args[0]);
@@ -95,5 +100,17 @@ public class Warp implements CommandExecutor {
             } else {
                 player.openInventory(warpCreator(player));
             }}
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+        List<String> warps = Arrays.asList("alderaan", "arena", "blackmarket", "dathomir", "earth", "geonosis", "hoth", "ilum", "jabba", "kashyyyk", "mandalore", "mines", "moseisley", "morak", "mustafar", "naboo", "umbara");
+        if (args.length == 1) {
+            // Provide completions for warps
+            completions.addAll(warps);
+        }
+        return completions;
     }
 }

@@ -9,3 +9,11 @@ softdepend: [MythicMobs,WorldGuard]
 commands:
   warp:
     aliases: warps
+  forcestartkoth:
+  recipes:
+  reload:
+  pitch:
+  yaw:
+  vehicle:
+  give:
+  get:

@@ -18,11 +18,11 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-public class LightsaberThrow implements Listener {
+public class LightsaberThrowEvent implements Listener {
 
     private final HashMap<UUID, Long> lightsaberCooldown;
 
-    public LightsaberThrow(HashMap<UUID, Long> lightsaberCooldown) {
+    public LightsaberThrowEvent(HashMap<UUID, Long> lightsaberCooldown) {
         this.lightsaberCooldown = lightsaberCooldown;
     }
 
