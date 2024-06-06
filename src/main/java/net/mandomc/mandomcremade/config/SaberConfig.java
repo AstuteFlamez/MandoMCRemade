@@ -14,7 +14,7 @@ public class SaberConfig {
 
     //Finds or generates the custom config file
     public static void setup() {
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("MMCCore").getDataFolder(), "lightsabers.yml");
+        file = new File(Bukkit.getServer().getPluginManager().getPlugin("MandoMCRemade").getDataFolder(), "lightsabers.yml");
 
         if (!file.exists()) {
             try (InputStream inputStream = MandoMCRemade.class.getResourceAsStream("/lightsabers.yml");

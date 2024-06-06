@@ -1,6 +1,7 @@
 package net.mandomc.mandomcremade.enchants;
 
 import net.mandomc.mandomcremade.utility.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -15,6 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JedisLuckEnchant implements Listener {
 
@@ -28,12 +31,12 @@ public class JedisLuckEnchant implements Listener {
         // Check if the entity was killed by a player
         if (event.getEntity().getKiller() != null) {
             Player player = event.getEntity().getKiller();
-            ItemStack item = player.getItemInUse();
+            ItemStack item = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
 
             if(item == null){
                 return;
             }
-
+            
             if (item.getType().toString().endsWith("_SWORD") || item.getType().toString().endsWith("_AXE")) {
                 double doubleXpChance = getAdjustedDoubleXpChance(item);
 
@@ -41,7 +44,7 @@ public class JedisLuckEnchant implements Listener {
                 if (random.nextDouble() < doubleXpChance) {
                     int originalExp = event.getDroppedExp();
                     event.setDroppedExp(originalExp * 2);
-                    Messages.str("&7Dropped 2x EXP!");
+                    Messages.msg(player,"&7Dropped 2x EXP!");
                 }
             }
         }
@@ -74,46 +77,65 @@ public class JedisLuckEnchant implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         // Check if the clicked item is our custom enchanted book
-        ItemStack cursorItem = event.getCursor(); //enchantment book
-        ItemStack currentItem = event.getCurrentItem(); //weapon
+        ItemStack book = event.getCursor(); //enchantment book
+        ItemStack equipment = event.getCurrentItem(); //weapon
 
-        if ((cursorItem != null && cursorItem.getType() == Material.ENCHANTED_BOOK) &&
-                (currentItem != null && (currentItem.getType().toString().endsWith("_SWORD") || currentItem.getType().toString().endsWith("_AXE")))) {
-
-            if(cursorItem.getItemMeta() == null || cursorItem.getItemMeta().getLore() == null){
+        if ((book != null && book.getType() == Material.ENCHANTED_BOOK) &&
+                (equipment != null && (equipment.getType().toString().endsWith("_SWORD") || equipment.getType().toString().endsWith("_AXE")))) {
+            if(book.getItemMeta() == null || book.getItemMeta().getLore() == null){
                 return;
             }
+            ItemMeta bookMeta = book.getItemMeta();
+            if (bookMeta.getDisplayName().contains("Jedi's Luck")) {
 
-            if (cursorItem.getItemMeta().hasLore()) {
-                List<String> lore = cursorItem.getItemMeta().getLore();
-                for (String line : lore) {
-                    if (line.contains("Jedi's Luck")) {
-                        // Extract the level from the line
-                        String level = line.substring(line.indexOf("Jedi's Luck") + "Jedi's Luck".length()).trim();
+                if (bookMeta.hasLore()) {
+                    List<String> bookLore = bookMeta.getLore();
 
+                    // Extract the first and second lines of lore
+                    String firstLine = bookLore.getFirst();
+
+                    Player player = (Player) event.getWhoClicked();
+
+                    if(successfulApplication(extractNumber(firstLine))){
+                        String displayName = book.getItemMeta().getDisplayName();
                         // Apply the enchantment effect (glow)
-                        ItemMeta itemMeta = currentItem.getItemMeta();
-                        assert itemMeta != null;
-                        itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-
+                        ItemMeta equipmentMeta = equipment.getItemMeta();
+                        assert equipmentMeta != null;
+                        equipmentMeta.addEnchant(Enchantment.BREACH, 1, true);
                         // Add custom enchantment name to lore
-                        List<String> itemLore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
-                        assert itemLore != null;
-                        itemLore.add(ChatColor.GOLD + "Jedi's Luck " + level);
-                        itemMeta.setLore(itemLore);
+                        ArrayList<String> itemLore = new ArrayList<>();
+                        itemLore.add(displayName);
+                        equipmentMeta.setLore(itemLore);
 
                         // Update item meta
-                        currentItem.setItemMeta(itemMeta);
+                        equipment.setItemMeta(equipmentMeta);
 
-                        // Remove the custom enchanted book from the cursor
-                        event.getWhoClicked().setItemOnCursor(null);
-
-                        // Cancel the event to prevent default behavior
-                        event.setCancelled(true);
-                        return;  // Exit after processing
+                        Messages.msg(player, "&7The enchant was &asuccessfully &7applied!");
+                    }else{
+                        Messages.msg(player, "&7The enchant application &cfailed&7!");
                     }
+                    // Remove the custom enchanted book from the cursor
+                    event.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR, 1));
+
+                    // Cancel the event to prevent default behavior
+                    event.setCancelled(true);
                 }
             }
         }
+    }
+
+    // Method to extract number from a string using regex
+    private static int extractNumber(String text){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group());
+        }
+        return -1;
+    }
+
+    private static boolean successfulApplication(int successRate){
+
+        return new Random().nextInt(1, 100) < successRate;
     }
 }

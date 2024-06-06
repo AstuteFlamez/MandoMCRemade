@@ -197,11 +197,11 @@ public class XWing implements Listener {
             for (double t = 0; t < 128; t++) {
                 loc.add(direction);
 
-                player.getWorld().spawnParticle(Particle.REDSTONE, loc, 30, new Particle.DustOptions(Color.RED, 1F));
+                player.getWorld().spawnParticle(Particle.FIREWORK, loc, 30, new Particle.DustOptions(Color.RED, 1F));
 
                 if (loc.getBlock().getType().isSolid() || t == 127) {
                     player.getWorld().spawnParticle(Particle.CLOUD, loc, 30);
-                    player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 30);
+                    player.getWorld().spawnParticle(Particle.EXPLOSION, loc, 30);
                     if (isMobSpawningEnabled(loc, player)) {
                         if(loc.getWorld() == null) return;
                         loc.getWorld().createExplosion(loc, 1);

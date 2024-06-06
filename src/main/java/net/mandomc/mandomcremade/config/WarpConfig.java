@@ -14,7 +14,7 @@ public class WarpConfig {
 
     //Finds or generates the custom config file
     public static void setup() {
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("MMCCore").getDataFolder(), "warps.yml");
+        file = new File(Bukkit.getServer().getPluginManager().getPlugin("MandoMCRemade").getDataFolder(), "warps.yml");
 
         if (!file.exists()) {
             try (InputStream inputStream = MandoMCRemade.class.getResourceAsStream("/warps.yml");

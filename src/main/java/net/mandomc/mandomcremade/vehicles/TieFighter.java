@@ -141,11 +141,11 @@ public class TieFighter implements Listener {
             for (double t = 0; t < 128; t++) {
                 loc.add(direction);
 
-                player.getWorld().spawnParticle(Particle.REDSTONE, loc, 30, new Particle.DustOptions(Color.GREEN, 1F));
+                player.getWorld().spawnParticle(Particle.FIREWORK, loc, 30, new Particle.DustOptions(Color.GREEN, 1F));
 
                 if (loc.getBlock().getType().isSolid() || t == 127) {
                     player.getWorld().spawnParticle(Particle.CLOUD, loc, 30);
-                    player.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, loc, 30);
+                    player.getWorld().spawnParticle(Particle.EXPLOSION, loc, 30);
                     if (Utilities.isMobSpawningEnabled(loc, player)) {
                         for (Entity entity : loc.getWorld().getNearbyEntities(loc, 8.0, 8.0, 8.0)) {
                             Vector vector = Utilities.genVec(player.getLocation(), entity.getLocation());

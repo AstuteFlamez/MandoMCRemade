@@ -17,3 +17,5 @@ commands:
   vehicle:
   give:
   get:
+  enchant:
+    aliases: ce

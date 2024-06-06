@@ -57,7 +57,7 @@ public final class MandoMCRemade extends JavaPlugin {
         getCommand("give").setExecutor(new Give());
         getCommand("get").setExecutor(new Get());
         getCommand("vehicle").setExecutor(new Vehicle());
-        getCommand("enchant").setExecutor(new Vehicle());
+        getCommand("enchant").setExecutor(new Enchant());
 
 
         getServer().getPluginManager().registerEvents(new VehicleSafetyEvents(), this);
