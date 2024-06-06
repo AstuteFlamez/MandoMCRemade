@@ -1,0 +1,222 @@
+# Dathomir
+DathomirSlot: 9
+DathomirName: '&c&lDathomir'
+DathomirDesc:
+  - '&6&o→ Coming soon...'
+DathomirX: 19
+DathomirY: 66
+DathomirZ: -56
+DathomirYaw: -129.99
+DathomirPitch: 4.35
+DathomirRank: 0
+DathomirBlock: RED_GLAZED_TERRACOTTA
+# Mustafar
+MustafarSlot: 11
+MustafarName: '&4&lMustafar'
+MustafarDesc:
+  - '&6&o→ Coming soon...'
+MustafarX: -3
+MustafarY: 62
+MustafarZ: -43
+MustafarYaw: 157.65
+MustafarPitch: 1.099
+MustafarRank: 0
+MustafarBlock: MAGMA_BLOCK
+# Earth
+EarthSlot: 13
+EarthName: '&a&lEarth'
+EarthDesc:
+  - '&c→ Claimable'
+EarthX: -82
+EarthY: 120
+EarthZ: -88
+EarthYaw: 78.298
+EarthzPitch: -7.2
+EarthRank: 0
+EarthBlock: GRASS_BLOCK
+# Umbara
+UmbaraSlot: 15
+UmbaraName: '&1&lUmbara'
+UmbaraDesc:
+  - '&c&o→ Coming soon...'
+UmbaraX: -21
+UmbaraY: 73
+UmbaraZ: -21
+UmbaraYaw: -118.799988
+UmbaraPitch: 3.8999
+UmbaraRank: 0
+UmbaraBlock: WARPED_HYPHAE
+# Alderaan
+AlderaanSlot: 17
+AlderaanName: '&a&lAlderaan'
+AlderaanDesc:
+  - '&6→ Forestry'
+AlderaanX: -169
+AlderaanY: 44
+AlderaanZ: 192
+AlderaanYaw: 174.7999
+AlderaanPitch: 5.0499
+AlderaanRank: 0
+AlderaanBlock: GREEN_CONCRETE_POWDER
+# Concordia
+ConcordiaSlot: 27
+ConcordiaName: '&9&lConcordia'
+ConcordiaDesc:
+  - '&c→ PvP Arena'
+ConcordiaX: 16093
+ConcordiaY: 34
+ConcordiaZ: -3176
+ConcordiaYaw: 158.95
+ConcordiaPitch: 0.77
+ConcordiaRank: 0
+ConcordiaBlock: MUD_BRICKS
+# Kashyyyk
+KashyyykSlot: 29
+KashyyykName: '&2&lKashyyyk'
+KashyyykDesc:
+  - '&6&o→ Coming soon...'
+KashyyykX: -104
+KashyyykY: 17
+KashyyykZ: -15
+KashyyykYaw: -27.079
+KashyyykPitch: 1.4199
+KashyyykRank: 0
+KashyyykBlock: JUNGLE_WOOD
+# Naboo
+NabooSlot: 31
+NabooName: '&b&lNaboo'
+NabooDesc:
+  - '&a→ Spawn'
+NabooX: -12868
+NabooY: 142
+NabooZ: 1262
+NabooYaw: -3.27
+NabooPitch: -1.83
+NabooRank: 0
+NabooBlock: PRISMARINE
+# Ilum
+IlumSlot: 33
+IlumName: '&b&lIlum'
+IlumDesc:
+  - '&3→ Kyber Crystals'
+IlumX: 11
+IlumY: -60
+IlumZ: -56
+IlumYaw: 1.8
+IlumPitch: 4.5
+IlumRank: 0
+IlumBlock: BLUE_ICE
+# Geonosis
+GeonosisSlot: 35
+GeonosisName: '&6&lGeonosis'
+GeonosisDesc:
+  - '&c&o→ Coming soon...'
+GeonosisX: 59
+GeonosisY: 66
+GeonosisZ: -152
+GeonosisYaw: 110.8
+GeonosisPitch: 0.4
+GeonosisRank: 0
+GeonosisBlock: SMOOTH_RED_SANDSTONE
+# Morak
+MorakSlot: 45
+MorakName: '&2&lMorak'
+MorakDesc:
+  - '&7&o→ Coming soon...'
+MorakX: -342
+MorakY: 118
+MorakZ: -292
+MorakYaw: -52.1
+MorakPitch: -3.4
+MorakRank: 0
+MorakBlock: MANGROVE_WOOD
+# Tatooine
+TatooineSlot: 47
+TatooineName: '&6&lTatooine'
+TatooineDesc:
+  - '&8→ Black Market'
+  - '&2→ Jabba''s Palace'
+TatooineX: 1682
+TatooineY: 52
+TatooineZ: 181
+TatooineYaw: 179.0379
+TatooinePitch: 4.951
+TatoonieRank: 0
+TatooineBlock: SANDSTONE
+# Hoth
+HothSlot: 49
+HothName: '&f&lHoth'
+HothDesc:
+  - '&c→ KOTH'
+HothX: -47
+HothY: 80
+HothZ: -153
+HothYaw: -18.75
+HothPitch: -1.65
+HothRank: 0
+HothBlock: SNOW_BLOCK
+# Mandalore
+MandaloreSlot: 51
+MandaloreName: '&8&lMandalore'
+MandaloreDesc:
+  - '&8→ Mines'
+MandaloreX: 51
+MandaloreY: -58
+MandaloreZ: -36
+MandaloreYaw: 57.1
+MandalorePitch: -1.8
+MandaloreRank: 0
+MandaloreBlock: NETHERITE_BLOCK
+# #################################
+# #################################
+# #################################
+# #################################
+# #################################
+# BlackMarket
+BlackMarketSlot: 34
+BlackMarketName: '&8&lBlack Market'
+BlackMarketX: 1682
+BlackMarketY: 52
+BlackMarketZ: 181
+BlackMarketYaw: 179.0379
+BlackMarketPitch: 4.951
+BlackMarketRank: 0
+# Jabba'sPalace
+JabbaSlot: 37
+JabbaName: '&2&lJabba''s Palace'
+JabbaX: -154
+JabbaY: -50
+JabbaZ: 62
+JabbaYaw: -16.8
+JabbaPitch: -5.7
+JabbaRank: 0
+# Arena
+ArenaSlot: 38
+ArenaName: '&9&lDeath Watch Arena'
+ArenaX: 16093
+ArenaY: 34
+ArenaZ: -3176
+ArenaYaw: 158.95
+ArenaPitch: 0.77
+ArenaRank: 0
+# Mos Eisley
+MosEisleySlot: 24
+MosEisleyName: '&6&lMos Eisley'
+MosEisleyX: 16093
+MosEisleyY: 34
+MosEisleyZ: -3176
+MosEisleyYaw: 158.95
+MosEisleyPitch: 0.77
+MosEisleyRank: 0
+# Mines
+MinesSlot: 22
+MinesName: '&4&lConcordia Mines'
+MinesX: 16093
+MinesY: 34
+MinesZ: -3176
+MinesYaw: 158.95
+MinesPitch: 0.77
+MinesRank: 0
+
+
+
