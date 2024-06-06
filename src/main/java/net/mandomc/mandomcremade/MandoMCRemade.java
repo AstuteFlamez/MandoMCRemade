@@ -5,6 +5,7 @@ import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.enchants.JedisLuckEnchant;
 import net.mandomc.mandomcremade.listeners.LightsaberThrowEvent;
+import net.mandomc.mandomcremade.listeners.ServerListEvents;
 import net.mandomc.mandomcremade.listeners.VehicleSafetyEvents;
 import net.mandomc.mandomcremade.listeners.WarpClickEvent;
 import net.mandomc.mandomcremade.tasks.KothScheduler;
@@ -12,6 +13,7 @@ import net.mandomc.mandomcremade.tasks.ShipsRunnable;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -52,16 +54,18 @@ public final class MandoMCRemade extends JavaPlugin {
         getCommand("forcestartkoth").setExecutor(new ForceStartKoth());
         getCommand("yaw").setExecutor(new Yaw());
         getCommand("pitch").setExecutor(new Pitch());
-        getCommand("reload").setExecutor(new Reload());
+        getCommand("reload").setExecutor(new Reload(this));
         getCommand("recipes").setExecutor(new Recipes());
         getCommand("give").setExecutor(new Give());
         getCommand("get").setExecutor(new Get());
         getCommand("vehicle").setExecutor(new Vehicle());
         getCommand("enchant").setExecutor(new Enchant());
+        getCommand("maintenance").setExecutor(new Maintenance(this));
 
 
         getServer().getPluginManager().registerEvents(new VehicleSafetyEvents(), this);
         getServer().getPluginManager().registerEvents(new WarpClickEvent(), this);
+        getServer().getPluginManager().registerEvents(new ServerListEvents(this), this);
         getServer().getPluginManager().registerEvents(new LightsaberThrowEvent(lightsaberCooldown), this);
         getServer().getPluginManager().registerEvents(new JedisLuckEnchant(0.00), this);
     }
