@@ -1,6 +1,6 @@
 package net.mandomc.mandomcremade.vehicles;
 
-import net.mandomc.mandomcremade.listeners.VehicleSafetyEvents;
+import net.mandomc.mandomcremade.listeners.VehicleSafetyListener;
 import net.mandomc.mandomcremade.objects.Vehicles;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
@@ -113,8 +113,8 @@ public class XWing implements Listener {
 
             getAllActiveXWings().add(xWing);
 
-            VehicleSafetyEvents.entitiesInShip.add(xWing.getSeatOne());
-            VehicleSafetyEvents.entitiesInShip.add(xWing.getModel());
+            VehicleSafetyListener.entitiesInShip.add(xWing.getSeatOne());
+            VehicleSafetyListener.entitiesInShip.add(xWing.getModel());
 
             rideShip(player, xWing);
         } else {
@@ -133,7 +133,7 @@ public class XWing implements Listener {
         LivingEntity seat = (Phantom) xWing.getSeatOne();
         seat.addPassenger(player);
         xWing.setPilot(player);
-        VehicleSafetyEvents.playersInShip.add(xWing.getPilot());
+        VehicleSafetyListener.playersInShip.add(xWing.getPilot());
 
         switch(customModelData){
             case 6:
@@ -158,8 +158,8 @@ public class XWing implements Listener {
         if(model.getEquipment().getHelmet().getItemMeta() == null) return;
         int customModelData = model.getEquipment().getHelmet().getItemMeta().getCustomModelData();
 
-        VehicleSafetyEvents.entitiesInShip.remove(seat);
-        VehicleSafetyEvents.entitiesInShip.remove(model);
+        VehicleSafetyListener.entitiesInShip.remove(seat);
+        VehicleSafetyListener.entitiesInShip.remove(model);
 
         seat.remove();
         model.remove();

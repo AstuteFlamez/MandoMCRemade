@@ -1,1 +1,67 @@
+######################################
+# Welcome to the MandoMC Config File #
+######################################
+
+
+
+
+
+
+
+
+######################################
+#         Server List Info           #
+######################################
+
 Maintenance: true
+MaintenanceMOTD: '            &c&lMandoMC &7x &4&lMaintenance &7[1.20.6]                 &3Vehicles &7- &bForce Powers &7- &2Ewok Hunt &7- &aSabers'
+MOTD: '            &c&lMandoMC &7x &a&lOpen now! &7[1.20.6]                 &3Vehicles &7- &bForce Powers &7- &2Ewok Hunt &7- &aSabers'
+VersionName: 'MandoMC 1.20.6'
+ServerListHoverText:
+  - "§7§m---------------------------§r§c§lMandoMC§r§7§m---------------------------"
+  - "   §cSabers §7- §6Blasters §7- §eVehicles §7- §2Ewok Hunt §7- §bForce Powers §7- §dFactions"
+  - "§7§m--------------------------------------------------------------"
+  - "§fWebsite: §7- §a§oComing soon..."
+  - "§fDiscord: §7- §9discord.gg/3jGmpSddNt"
+  - "§7§m--------------------------------------------------------------"
+
+######################################
+#           Staff Options            #
+######################################
+
+WarnMessage: ''
+KickMessage: '&cYou have been kicked from MandoMC'
+
+######################################
+#           Lightsaber Options       #
+######################################
+
+#please give the following values as integers (or plugin will break)
+SaberThrowDegrees: 20
+SaberThrowCooldown: 0 #in seconds
+SaberThrowDamage: 24
+SaberThrowRange: 20
+#as a decimal
+SaberThrowThreshold: 0.95 #0-0.99, 0=don't even gotta aim, 0.99=gotta be SUPER accurate
+
+######################################
+#           Particle Options         #
+######################################
+
+ForceNeutralRed: 98
+ForceNeutralGreen: 102
+ForceNeutralBlue: 102
+
+ForceJediRed: 114
+ForceJediGreen: 218
+ForceJedilBlue: 232
+
+######################################
+#           Force Options            #
+######################################
+
+PullIRange: 40
+PullIIRadius: 15
+
+PushIIRange: 20
+PushIIRadius: 5

@@ -2,16 +2,15 @@ name: MandoMCRemade
 version: '${project.version}'
 main: net.mandomc.mandomcremade.MandoMCRemade
 api-version: '1.20'
-load: STARTUP
 authors: [ AstuteFlamez ]
 description: A core plugin for the minecraft server MandoMC.
-softdepend: [MythicMobs,WorldGuard]
+softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]
 commands:
   warp:
     aliases: warps
   forcestartkoth:
   recipes:
-  reload:
+  mmcreload:
   pitch:
   yaw:
   vehicle:
@@ -20,3 +19,6 @@ commands:
   enchant:
     aliases: ce
   maintenance:
+  summonainpc:
+  punish:
+  mmctest:

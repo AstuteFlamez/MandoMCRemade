@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 import java.util.ArrayList;
 
-public class VehicleSafetyEvents implements Listener {
+public class VehicleSafetyListener implements Listener {
 
     public static ArrayList<Entity> entitiesInShip = new ArrayList<>();
     public static ArrayList<Player> playersInShip = new ArrayList<>();

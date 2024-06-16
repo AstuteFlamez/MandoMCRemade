@@ -1,6 +1,7 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
+import net.mandomc.mandomcremade.config.PunishmentConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.tasks.KothRunnable;
@@ -26,14 +27,22 @@ public class Reload implements CommandExecutor {
         if (sender instanceof Player player) {
 
             if (player.hasPermission("mmc.admin.reload")) {
-                plugin.reloadConfig();
-                WarpConfig.reload();
-                SaberConfig.reload();
-                Bukkit.getConsoleSender().sendMessage("MMCCore successfully reloaded!");
+                reload();
+                Messages.msg(player, "&7You successfully reloaded the MandoMC Plugin");
             } else {
                 Messages.noPermission(player);
             }
+        }else{
+            reload();
         }
         return true;
+    }
+
+    public void reload(){
+        plugin.reloadConfig();
+        PunishmentConfig.reload();
+        WarpConfig.reload();
+        SaberConfig.reload();
+        Bukkit.getConsoleSender().sendMessage("MMCCore successfully reloaded!");
     }
 }
