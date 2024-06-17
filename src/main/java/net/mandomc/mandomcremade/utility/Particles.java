@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.checkerframework.checker.units.qual.Force;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,11 +20,11 @@ public class Particles {
 
     static MandoMCRemade plugin = MandoMCRemade.getInstance();
 
-    public static void playCircleOutwards(Player player, Location loc) {
+    public static void circleOutwards(Player player, Location loc, int radius) {
         new BukkitRunnable(){
             double startRadius = 0;
             final double radiusIncrease = 0.5;
-            final double endRadius = 10;
+            final double endRadius = radius;
             @Override
             public void run() {
                 circle(player, loc, startRadius);
@@ -35,7 +36,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0L, 1L);
     }
 
-    public static void playCircleInwards(Player player, Location loc, int radius) {
+    public static void circleInwards(Player player, Location loc, int radius) {
         new BukkitRunnable(){
             int startRadius = radius;
             final double radiusDecrease = 0.5;
@@ -79,7 +80,7 @@ public class Particles {
         return v.setX(x).setZ(z);
     }
 
-    public static void playHelix(Location loc) {
+    public static void helix(Location loc) {
         new BukkitRunnable() {
             double t = 0;
             final double r = 1;
@@ -103,7 +104,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playRadialWaves(Location loc){
+    public static void radialWaves(Location loc){
         new BukkitRunnable(){
             double t = Math.PI/4;
             public void run(){
@@ -135,7 +136,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playSphere(Location loc){
+    public static void sphere(Location loc){
         new BukkitRunnable(){
             double t = 0;
             public void run(){
@@ -167,7 +168,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playSphereLoop(Location loc){
+    public static void sphereLoop(Location loc){
         new BukkitRunnable(){
             double t = 0;
             public void run(){
@@ -190,7 +191,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playSpiral(Location loc){
+    public static void spiral(Location loc){
         new BukkitRunnable(){
             double t = 0;
             public void run(){
@@ -217,7 +218,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playSpiralHelix(Location loc){
+    public static void spiralHelix(Location loc){
         new BukkitRunnable(){
             double phi = 0;
             public void run(){
@@ -244,7 +245,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 3);
     }
 
-    public static void playSpiralHelixBoom(Location loc){
+    public static void spiralHelixBoom(Location loc){
         new BukkitRunnable(){
             double t,x,y,z = 0;
             public void run(){
@@ -268,7 +269,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 3);
     }
 
-    public static void playSpinningBeam(Player player){
+    public static void spinningBeam(Player player){
         new BukkitRunnable() {
             // Number of points in each circle
             int circlePoints = 10;
@@ -348,7 +349,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playOrbitingBeam(Player player){
+    public static void orbitingBeam(Player player, String ability, int range){
         new BukkitRunnable() {
             // Number of points to display, evenly spaced around the circle's radius
             int circlePoints = 3;
@@ -363,7 +364,7 @@ public class Particles {
             // Particle offset increment for each loop
             double increment = (2 * Math.PI) / rotationSpeed;
             double circlePointOffset = 0; // This is used to rotate the circle as the beam progresses
-            int beamLength = 60;
+            int beamLength = range;
             double radiusShrinkage = radius / (double) ((beamLength + 2) / 2);
             @Override
             public void run() {
@@ -385,8 +386,15 @@ public class Particles {
                 }
                 // Always spawn a center particle in the same direction the player was facing.
                 startLoc.add(dir);
-                Particle.DustTransition dustOptions = new Particle.DustTransition(Color.OLIVE, Color.OLIVE, 1);
-                player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, startLoc, 1, dustOptions);
+                world.spawnParticle(Particle.FIREWORK, startLoc, 0);
+                LivingEntity hitEntity = entityHit(player, startLoc);
+                if (hitEntity != null) {
+                    switch(ability){
+                        case "pushI":
+                            ForcePowers.push(hitEntity, player);
+                            break;
+                    }
+                }
                 startLoc.subtract(dir);
 
                 // Shrink each circle radius until it's just a point at the end of a long swirling cone
@@ -402,10 +410,10 @@ public class Particles {
                 }
                 startLoc.add(dir);
             }
-        }.runTaskTimer(MandoMCRemade.getInstance(), 0, 3);
+        }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playOscillatingBeam(Player player, String ability, int range) {
+    public static void oscillatingBeam(Player player, String ability, int range) {
         new BukkitRunnable() {
             int circlePoints = 6;
             double maxRadius = 1.5;
@@ -442,8 +450,7 @@ public class Particles {
                     if (hitEntity != null) {
                         switch(ability){
                             case "pullI":
-                                Vector vector = genVec(entityHit(player, playerLoc).getLocation(), player.getLocation());
-                                entityHit(player, playerLoc).setVelocity(vector);
+                                ForcePowers.pull(entityHit(player, playerLoc), player);
                                 break;
                         }
                     }
@@ -463,7 +470,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playControlledBeam(Player player) {
+    public static void controlledBeam(Player player) {
         new BukkitRunnable() {
             World world = player.getLocation().getWorld();
             int beamLength = 30;
@@ -488,7 +495,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void playRoof(Player player) {
+    public static void roof(Player player) {
         new BukkitRunnable() {
             double radius = 0.5;
             final Location location = player.getLocation();
@@ -524,7 +531,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 2);
     }
 
-    public static void playCircularBeam(Player player) {
+    public static void circularBeam(Player player) {
         new BukkitRunnable() {
             double radius = 0.1;
             double beamLength = 10; // Length of the beam
@@ -603,5 +610,50 @@ public class Particles {
             }
         }
         return livingEntity;
+    }
+
+    public static void beam(Player player){
+        // Player's eye location is the starting location for the particle
+        Location startLoc = player.getEyeLocation();
+
+        // We need to clone() this location, because we will add() to it later.
+        Location particleLoc = startLoc.clone();
+
+        World world = startLoc.getWorld(); // We need this later to show the particle
+
+        // dir is the Vector direction (offset from 0,0,0) the player is facing in 3D space
+        Vector dir = startLoc.getDirection();
+
+        /* vecOffset is used to determine where the next particle should appear
+        We are taking the direction and multiplying it by 0.5 to make it appear 1/2 block
+          in its continuing Vector direction.
+        NOTE: We have to clone() because multiply() modifies the original variable!
+        For a straight beam, we only need to calculate this once, as the direction does not change.
+        */
+        Vector vecOffset = dir.clone().multiply(0.5);
+
+        new BukkitRunnable(){
+            int maxBeamLength = 20; // Max beam length
+            int beamLength = 0; // Current beam length
+
+            // The run() function runs every X number of ticks - see below
+            public void run(){
+                beamLength ++; // This is the distance between each particle
+                // Kill this task if the beam length is max
+                if(beamLength >= maxBeamLength){
+                    world.spawnParticle(Particle.FLASH, particleLoc, 0);
+                    this.cancel();
+                    return;
+                }
+
+                // Now we add the direction vector offset to the particle's current location
+                particleLoc.add(vecOffset);
+
+                // Display the particle in the new location
+                world.spawnParticle(Particle.FIREWORK, particleLoc, 0);
+            }
+        }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
+        // 0 is the delay in ticks before starting this task
+        // 1 is the how often to repeat the run() function, in ticks (20 ticks are in one second)
     }
 }

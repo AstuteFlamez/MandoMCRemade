@@ -20,7 +20,7 @@ public class Test implements CommandExecutor {
 
         if(sender instanceof Player player){
             if(player.hasPermission("mmc.admin.test")){
-                ForceMethods.pull(player, 1);
+                ForceMethods.dash(player);
             }
         }
 

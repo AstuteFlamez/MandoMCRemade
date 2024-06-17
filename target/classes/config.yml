@@ -60,4 +60,10 @@ ForceJedilBlue: 232
 #           Force Options            #
 ######################################
 
+PullIRange: 40
 PullIIRadius: 15
+
+PushIRange: 60
+PushIIRadius: 5
+
+DashIRange: 10

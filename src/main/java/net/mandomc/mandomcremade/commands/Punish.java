@@ -1,5 +1,6 @@
 package net.mandomc.mandomcremade.commands;
 
+import net.mandomc.mandomcremade.guis.PunishGUI;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

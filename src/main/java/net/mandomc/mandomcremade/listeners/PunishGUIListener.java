@@ -2,6 +2,7 @@ package net.mandomc.mandomcremade.listeners;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.PunishmentConfig;
+import net.mandomc.mandomcremade.guis.PunishGUI;
 import net.mandomc.mandomcremade.utility.Glow;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;

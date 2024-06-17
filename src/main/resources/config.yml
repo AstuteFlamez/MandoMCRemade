@@ -63,5 +63,7 @@ ForceJedilBlue: 232
 PullIRange: 40
 PullIIRadius: 15
 
-PushIIRange: 20
+PushIRange: 60
 PushIIRadius: 5
+
+DashIRange: 10
