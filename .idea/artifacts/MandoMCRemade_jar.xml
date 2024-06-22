@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="MandoMCRemade:jar">
-    <output-path>$USER_HOME$/Desktop/minecraftServer/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../server/plugins</output-path>
     <root id="archive" name="MandoMCRemade.jar">
       <element id="module-output" name="MandoMCRemade" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/squareup/retrofit2/converter-jackson/2.9.0/converter-jackson-2.9.0.jar" path-in-jar="/" />

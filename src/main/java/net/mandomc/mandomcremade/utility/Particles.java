@@ -6,6 +6,8 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.checkerframework.checker.units.qual.Force;
@@ -20,14 +22,22 @@ public class Particles {
 
     static MandoMCRemade plugin = MandoMCRemade.getInstance();
 
-    public static void circleOutwards(Player player, Location loc, int radius) {
+    public static void circleOutwards(Location loc, int radius, Color c1, Color c2) {
         new BukkitRunnable(){
             double startRadius = 0;
             final double radiusIncrease = 0.5;
             final double endRadius = radius;
             @Override
             public void run() {
-                circle(player, loc, startRadius);
+                for (double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 36) {
+                    final double x = startRadius * cos(angle);
+                    final double z = startRadius * Math.sin(angle);
+
+                    loc.add(x, 0, z);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                    loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
+                    loc.subtract(x, 0, z);
+                }
                 startRadius += radiusIncrease;
                 if (startRadius >= endRadius) {
                     this.cancel();
@@ -36,32 +46,28 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0L, 1L);
     }
 
-    public static void circleInwards(Player player, Location loc, int radius) {
+    public static void circleInwards(Location loc, int radius, Color c1, Color c2) {
         new BukkitRunnable(){
             int startRadius = radius;
             final double radiusDecrease = 0.5;
             final double endRadius = 0;
             @Override
             public void run() {
-                circle(player, loc, startRadius);
+                for (double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 36) {
+                    final double x = startRadius * cos(angle);
+                    final double z = startRadius * Math.sin(angle);
+
+                    loc.add(x, 0, z);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                    loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
+                    loc.subtract(x, 0, z);
+                }
                 startRadius -= radiusDecrease;
                 if (startRadius <= endRadius) {
                     this.cancel();
                 }
             }
         }.runTaskTimer(MandoMCRemade.getInstance(), 0L, 1L);
-    }
-
-    private static void circle(Player player, Location loc, double startRadius) {
-        for (double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 36) {
-            final double x = startRadius * cos(angle);
-            final double z = startRadius * Math.sin(angle);
-
-            loc.add(x, 0, z);
-            Particle.DustTransition dustOptions = new Particle.DustTransition(Color.SILVER, Color.SILVER, 1);
-            player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
-            loc.subtract(x, 0, z);
-        }
     }
 
     public static final Vector rotateAroundAxisX(Vector v, double angle) {
@@ -104,7 +110,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void radialWaves(Location loc){
+    public static void radialWaves(Location loc, Color c1, Color c2, Color c3, Color c4){
         new BukkitRunnable(){
             double t = Math.PI/4;
             public void run(){
@@ -114,7 +120,7 @@ public class Particles {
                     double y = 2*Math.exp(-0.1*t) * sin(t) + 1.5;
                     double z = t*sin(theta);
                     loc.add(x,y,z);
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Color.MAROON, Color.MAROON, 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
                     loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
                     loc.subtract(x,y,z);
 
@@ -124,7 +130,7 @@ public class Particles {
                     y = 2*Math.exp(-0.1*t) * sin(t) + 1.5;
                     z = t*sin(theta);
                     loc.add(x,y,z);
-                    dustOptions = new Particle.DustTransition(Color.RED, Color.RED, 1);
+                    dustOptions = new Particle.DustTransition(c3, c4, 1);
                     loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
                     loc.subtract(x,y,z);
                 }
@@ -136,7 +142,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void sphere(Location loc){
+    public static void sphere(Location loc, Color c1, Color c2, Color c3, Color c4){
         new BukkitRunnable(){
             double t = 0;
             public void run(){
@@ -147,7 +153,7 @@ public class Particles {
                     double y = r*cos(t) + 1.5;
                     double z = r*sin(theta)*sin(t);
                     loc.add(x,y,z);
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Color.TEAL, Color.TEAL, 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
                     loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
                     loc.subtract(x,y,z);
 
@@ -156,19 +162,20 @@ public class Particles {
                     double y2 = r2*cos(t) + 1.5;
                     double z2 = r2*sin(theta)*sin(t);
                     loc.add(x2,y2,z2);
-                    dustOptions = new Particle.DustTransition(Color.AQUA, Color.AQUA, 1);
+                    dustOptions = new Particle.DustTransition(c3, c4, 1);
                     loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
                     loc.subtract(x2,y2,z2);
                 }
                 if (t > Math.PI){
                     this.cancel();
+
                 }
             }
 
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void sphereLoop(Location loc){
+    public static void sphereLoop(Location loc, Color one, Color two){
         new BukkitRunnable(){
             double t = 0;
             public void run(){
@@ -179,7 +186,7 @@ public class Particles {
                     double y = r*cos(t) + 1.5;
                     double z = r*sin(theta)*sin(t);
                     loc.add(x,y,z);
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Color.TEAL, Color.TEAL, 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(one, two, 1);
                     loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
                     loc.subtract(x,y,z);
                 }
@@ -218,6 +225,29 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
+    public static void spiralGround(Location loc, Color c1, Color c2){
+        new BukkitRunnable(){
+            double t = 0;
+            public void run(){
+
+                t += Math.PI / 4;
+                double x = 0.1 * t * Math.cos(t);
+                double y = 0.1 * t * 0;
+                double z = 0.1 * t * Math.sin(t);
+                loc.add(x, y, z);
+                Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
+                loc.subtract(x, y, z);
+
+                if (t > Math.PI * 10) {
+                    cancel();
+                }
+
+            }
+
+        }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
+    }
+
     public static void spiralHelix(Location loc){
         new BukkitRunnable(){
             double phi = 0;
@@ -245,7 +275,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 3);
     }
 
-    public static void spiralHelixBoom(Location loc){
+    public static void spiralHelixBoom(Location loc, Color c1, Color c2){
         new BukkitRunnable(){
             double t,x,y,z = 0;
             public void run(){
@@ -255,7 +285,7 @@ public class Particles {
                     y = 0.2*t;
                     z = 0.3*(4*Math.PI-t)*sin(t+i);
                     loc.add(x, y, z);
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Color.MAROON, Color.MAROON, 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
                     loc.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, loc, 1, dustOptions);
                     loc.subtract(x,y,z);
                 }
@@ -269,7 +299,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 3);
     }
 
-    public static void spinningBeam(Player player){
+    public static void spinningBeam(Player player, String ability, int range, Color c1, Color c2){
         new BukkitRunnable() {
             // Number of points in each circle
             int circlePoints = 10;
@@ -314,8 +344,20 @@ public class Particles {
                     // Add that vector to the player's current location
                     playerLoc.add(vec);
                     // Display the particle
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Color.MAROON, Color.MAROON, 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
                     player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, playerLoc, 1, dustOptions);
+                    LivingEntity livingEntity = entityHit(player, playerLoc);
+                    if (livingEntity != null) {
+                        switch(ability){
+                            case "blindI":
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, plugin.getConfig().getInt("BlindIDuration")*20, 1));
+                                break;
+                            case "chokeI":
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, plugin.getConfig().getInt("ChokeIDuration")*20, 0));
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, plugin.getConfig().getInt("ChokeIDuration")*20, 0));
+                                break;
+                        }
+                    }
                     // Reminder to self - the "data" option for a (particle, location, data) is speed, not count!!
                     // Since add() modifies the original variable, we have to subtract() it so the next calculation starts from the same location as this one.
                     playerLoc.subtract(vec);
@@ -349,7 +391,7 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void orbitingBeam(Player player, String ability, int range){
+    public static void orbitingBeam(Player player, String ability, int range, Color c1, Color c2, Color c3, Color c4){
         new BukkitRunnable() {
             // Number of points to display, evenly spaced around the circle's radius
             int circlePoints = 3;
@@ -381,17 +423,24 @@ public class Particles {
                     rotateAroundAxisY(vec, yaw);
 
                     startLoc.add(vec);
-                    world.spawnParticle(Particle.FLAME, startLoc, 0);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                    player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, startLoc, 1, dustOptions);
                     startLoc.subtract(vec);
                 }
                 // Always spawn a center particle in the same direction the player was facing.
                 startLoc.add(dir);
-                world.spawnParticle(Particle.FIREWORK, startLoc, 0);
-                LivingEntity hitEntity = entityHit(player, startLoc);
-                if (hitEntity != null) {
+                Particle.DustTransition dustOptions = new Particle.DustTransition(c3, c4, 1);
+                player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, startLoc, 1, dustOptions);
+                LivingEntity livingEntity = entityHit(player, startLoc);
+                if (livingEntity != null) {
                     switch(ability){
                         case "pushI":
-                            ForcePowers.push(hitEntity, player);
+                            Vector vector = genVec(player.getLocation(), livingEntity.getLocation());
+                            vector.setY(1);
+                            livingEntity.setVelocity(vector);
+                            break;
+                        case "chokeI":
+                            livingEntity.damage(plugin.getConfig().getInt("ChokeIDamage"), player);
                             break;
                     }
                 }
@@ -413,9 +462,9 @@ public class Particles {
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
     }
 
-    public static void oscillatingBeam(Player player, String ability, int range) {
+    public static void oscillatingBeam(Player player, String ability, int range, Color c1, Color c2) {
         new BukkitRunnable() {
-            int circlePoints = 6;
+            int circlePoints = 12;
             double maxRadius = 1.5;
             Location playerLoc = player.getEyeLocation();
             World world = playerLoc.getWorld();
@@ -444,13 +493,24 @@ public class Particles {
                     rotateAroundAxisX(vec, pitch);
                     rotateAroundAxisY(vec, yaw);
                     playerLoc.add(vec);
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Color.SILVER, Color.SILVER, 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
                     world.spawnParticle(Particle.DUST_COLOR_TRANSITION, playerLoc, 1, dustOptions);
-                    LivingEntity hitEntity = entityHit(player, playerLoc);
-                    if (hitEntity != null) {
+                    LivingEntity livingEntity = entityHit(player, playerLoc);
+                    if (livingEntity != null) {
                         switch(ability){
                             case "pullI":
-                                ForcePowers.pull(entityHit(player, playerLoc), player);
+                                Vector vector = genVec(livingEntity.getLocation(), player.getLocation());
+                                livingEntity.setVelocity(vector);
+                                break;
+                            case "drainI":
+                                double damage = plugin.getConfig().getDouble("DrainIDamage");
+                                livingEntity.damage(damage, player);
+                                double health = player.getHealth();
+                                if (player.getHealth() < (20.0-damage)) {
+                                    player.setHealth(health + damage);
+                                } else if (player.getHealth() >= (20-damage) && player.getHealth() <= 20.00) {
+                                    player.setHealth(20.00);
+                                }
                                 break;
                         }
                     }
@@ -612,7 +672,7 @@ public class Particles {
         return livingEntity;
     }
 
-    public static void beam(Player player){
+    public static void beam(Player player, Location loc1, Location loc2, Color c1, Color c2){
         // Player's eye location is the starting location for the particle
         Location startLoc = player.getEyeLocation();
 
@@ -622,7 +682,8 @@ public class Particles {
         World world = startLoc.getWorld(); // We need this later to show the particle
 
         // dir is the Vector direction (offset from 0,0,0) the player is facing in 3D space
-        Vector dir = startLoc.getDirection();
+        Vector dir = loc1.toVector().subtract(loc2.toVector()).normalize();
+        //Vector dir = startLoc.getDirection();
 
         /* vecOffset is used to determine where the next particle should appear
         We are taking the direction and multiplying it by 0.5 to make it appear 1/2 block
@@ -641,7 +702,8 @@ public class Particles {
                 beamLength ++; // This is the distance between each particle
                 // Kill this task if the beam length is max
                 if(beamLength >= maxBeamLength){
-                    world.spawnParticle(Particle.FLASH, particleLoc, 0);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                    player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, particleLoc, 1, dustOptions);
                     this.cancel();
                     return;
                 }
@@ -651,6 +713,54 @@ public class Particles {
 
                 // Display the particle in the new location
                 world.spawnParticle(Particle.FIREWORK, particleLoc, 0);
+            }
+        }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
+        // 0 is the delay in ticks before starting this task
+        // 1 is the how often to repeat the run() function, in ticks (20 ticks are in one second)
+    }
+
+    public static void beam(Player player, int length, Color c1, Color c2){
+        // Player's eye location is the starting location for the particle
+        Location startLoc = player.getEyeLocation();
+
+        // We need to clone() this location, because we will add() to it later.
+        Location particleLoc = startLoc.clone();
+
+        World world = startLoc.getWorld(); // We need this later to show the particle
+
+        // dir is the Vector direction (offset from 0,0,0) the player is facing in 3D space
+        Vector dir = startLoc.getDirection().normalize();
+        //Vector dir = startLoc.getDirection();
+
+        /* vecOffset is used to determine where the next particle should appear
+        We are taking the direction and multiplying it by 0.5 to make it appear 1/2 block
+          in its continuing Vector direction.
+        NOTE: We have to clone() because multiply() modifies the original variable!
+        For a straight beam, we only need to calculate this once, as the direction does not change.
+        */
+        Vector vecOffset = dir.clone().multiply(0.5);
+
+        new BukkitRunnable(){
+            int maxBeamLength = length; // Max beam length
+            int beamLength = 0; // Current beam length
+
+            // The run() function runs every X number of ticks - see below
+            public void run(){
+                beamLength ++; // This is the distance between each particle
+                // Kill this task if the beam length is max
+                if(beamLength >= maxBeamLength){
+                    LivingEntity livingEntity = entityHit(player, particleLoc);
+                    if (livingEntity != null) {
+                        particleLoc.getWorld().strikeLightning(livingEntity.getLocation());
+                    }
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                    player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, particleLoc, 1, dustOptions);
+                    this.cancel();
+                    return;
+                }
+
+                // Now we add the direction vector offset to the particle's current location
+                particleLoc.add(vecOffset);
             }
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
         // 0 is the delay in ticks before starting this task

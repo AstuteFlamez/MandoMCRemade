@@ -60,10 +60,99 @@ ForceJedilBlue: 232
 #           Force Options            #
 ######################################
 
+LeapIVelocity: 1.5
+LeapIIVelocity: 5
+LeapHexCode1: '#027566'
+LeapHexCode2: '#750221'
+
 PullIRange: 40
 PullIIRadius: 15
+PullHexCode1: '#9c1414'
+PullHexCode2: '#1471db'
 
 PushIRange: 60
 PushIIRadius: 5
+PushHexCode1: '#1471db'
+PushHexCode2: '#9c1414'
+PushHexCode3: '#1471db'
+PushHexCode4: '#9c1414'
 
 DashIRange: 10
+DashHexCode1: '#117502'
+DashHexCode2: '#027566'
+
+ScreamIDuration: 5
+ScreamIIDuration: 5
+ScreamHexCode1: '#9c1414'
+ScreamHexCode2: '#FFC700'
+ScreamHexCode3: '#9c1414'
+ScreamHexCode4: '#FFC700'
+
+ConfusionIRadius: 5
+ConfusionIIRadius: 10
+ConfusionIDuration: 5
+ConfusionIIDuration: 15
+ConfusionHexCode1: '#87A363'
+ConfusionHexCode2: '#1471db'
+
+StasisIRadius: 5
+StasisIIRadius: 10
+StasisIDuration: 5
+StasisIIDuration: 15
+StasisHexCode1: '#b43bcc'
+StasisHexCode2: '#33EBFF'
+StasisHexCode3: '#b43bcc'
+StasisHexCode4: '#8BAFE0'
+
+BlindIRange: 10
+BlindIDuration: 3
+BlindIIRadius: 5
+BlindIIDuration: 5
+BlindHexCode1: '#b43bcc'
+BlindHexCode2: '#000000'
+
+StealthIDuration:
+StealthIIDuration:
+StealthHexCode1: '#1471db'
+StealthHexCode2: '#F6F6F6'
+
+LightIAmount: 4
+LightHexCode1: '#1471db'
+LightHexCode2: '#fcba03'
+LightHexCode3: '#1471db'
+LightHexCode4: '#fcba03'
+
+HealIAmount: 0.5
+HealIIAmount: 1
+HealHexCode1: '#1471db'
+HealHexCode2: '#F82423'
+HealHexCode3: '#1471db'
+HealHexCode4: '#F82423'
+
+ChokeIRange: 20
+ChokeIIRadius: 5
+ChokeIDuration: 3
+ChokeIIDuration: 5
+ChokeHexCode1: '#9c1414'
+ChokeHexCode2: '#FFFFFF'
+
+CrushIRange: 20
+CrushIIRadius: 5
+CrushIDamage: 4
+CrushIIDamage: 6
+CrushHexCode1: '#9c1414'
+CrushHexCode2: '#A9656A'
+CrushHexCode3: '#9c1414'
+CrushHexCode4: '#A9656A'
+
+DrainIRange: 20
+DrainIIRadius: 5
+DrainIDamage: 4
+DrainIIDamage: 6
+DrainHexCode1: '#9c1414'
+DrainHexCode2: '#CD5CAB'
+
+LightningIRange: 20
+LightningIIRadius: 5
+LightningHexCode1: '#53dbd2'
+LightningHexCode2: '#02756e'

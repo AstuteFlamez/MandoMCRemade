@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import net.mandomc.mandomcremade.config.SaberConfig;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -74,5 +75,19 @@ public class Utilities {
         x = v.getX() * cos + v.getZ() * sin;
         z = v.getX() * -sin + v.getZ() * cos;
         return v.setX(x).setZ(z);
+    }
+
+    public static Color hexToColor(String hexCode) {
+        // Remove the hash at the beginning if it's there
+        if (hexCode.startsWith("#")) {
+            hexCode = hexCode.substring(1);
+        }
+
+        // Parse the hex code
+        int red = Integer.parseInt(hexCode.substring(0, 2), 16);
+        int green = Integer.parseInt(hexCode.substring(2, 4), 16);
+        int blue = Integer.parseInt(hexCode.substring(4, 6), 16);
+
+        return Color.fromRGB(red, green, blue);
     }
 }

@@ -68,7 +68,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
 
-        getCommand("mmctest").setExecutor(new Test());
+        getCommand("mmctest").setExecutor(new Test(this));
         getCommand("punish").setExecutor(new Punish());
         getCommand("summonainpc").setExecutor(new SummonAiNPC());
         getCommand("warp").setExecutor(new Warp());
