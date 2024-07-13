@@ -6,143 +6,172 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 public class RecipeGUIListener implements Listener {
 
     @EventHandler
-    public void onClick(InventoryClickEvent event){
-
+    public void onClick(InventoryClickEvent event) {
         String title = event.getView().getTitle();
         Player player = (Player) event.getWhoClicked();
+        Inventory clickedInventory = event.getClickedInventory();
 
-        if(event.getCurrentItem() == null){return;}
+        if (clickedInventory == null) return; // Clicked outside of any inventory
 
-        if(title.contains(Messages.str("Recipes"))){
-            switch(event.getSlot()){
-                case 23:
-                    player.openWorkbench(player.getLocation(), true);
-                case 26:
-                    player.closeInventory();
-                    break;
-                case 53:
-                    player.closeInventory();
-                    break;
-            }
+        // Prevent moving items in the GUIs
+        if (title.contains(Messages.str("&2&lMandoMC Recipes")) ||
+                title.contains(Messages.str("&2&lWeapon Recipes")) ||
+                title.contains(Messages.str("&2&lPart Recipes")) ||
+                title.contains(Messages.str("&2&lLightsaber Recipes")) ||
+                title.contains(Messages.str("&2&lLuke Skywalker Hilt Recipe")) ||
+                title.contains(Messages.str("&1&lAnakin Skywalker Hilt Recipe")) ||
+                title.contains(Messages.str("&2&lLuke Skywalker Lightsaber Recipe")) ||
+                title.contains(Messages.str("&1&lAnakin Skywalker Lightsaber Recipe")) ||
+                title.contains(Messages.str("&2&lLightsaber Core Recipe")) ||
+                title.contains(Messages.str("&8&lActivation Stud Recipe"))) {
+
+            event.setCancelled(true);
+            return;
         }
 
-        if(title.contains(Messages.str("&2&lMandoMC Recipes"))){
-            switch(event.getSlot()){
-                case 12: //weapons
-                    player.openInventory(RecipeGUI.weapons(player));
-                    break;
-                case 14: //parts
-                    player.openInventory(RecipeGUI.parts(player));
-                    break;
-            }
+        // Handle GUI interactions
+        switch (title) {
+            case "&2&lMandoMC Recipes":
+                handleRecipesClick(event, player);
+                break;
+            case "&2&lWeapon Recipes":
+                handleWeaponsClick(event, player);
+                break;
+            case "&2&lPart Recipes":
+                handlePartsClick(event, player);
+                break;
+            case "&2&lLightsaber Recipes":
+                handleLightsabersClick(event, player);
+                break;
+            case "&2&lLuke Skywalker Hilt Recipe":
+                handleLukeSkywalkerHiltClick(event, player);
+                break;
+            case "&1&lAnakin Skywalker Hilt Recipe":
+                handleAnakinSkywalkerHiltClick(event, player);
+                break;
+            case "&2&lLuke Skywalker Lightsaber Recipe":
+                handleLukeSkywalkerSaberClick(event, player);
+                break;
+            case "&1&lAnakin Skywalker Lightsaber Recipe":
+                handleAnakinSkywalkerSaberClick(event, player);
+                break;
+            case "&2&lLightsaber Core Recipe":
+            case "&8&lActivation Stud Recipe":
+                handleLightsaberCoreClick(event, player);
+                break;
+        }
+    }
+
+    private void handleRecipesClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 12:
+                player.openInventory(RecipeGUI.weapons(player));
+                break;
+            case 14:
+                player.openInventory(RecipeGUI.parts(player));
+                break;
+        }
+    }
+
+    private void handleWeaponsClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 13:
+                player.openInventory(RecipeGUI.lightsabers(player));
+                break;
+            case 25:
+                player.openInventory(RecipeGUI.recipes(player));
+                break;
+        }
+    }
+
+    private void handlePartsClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 10:
+                player.openInventory(RecipeGUI.lukeSkywalkerHilt(player));
+                break;
+            case 12:
+                player.openInventory(RecipeGUI.anakinSkywalkerHilt(player));
+                break;
+            case 16:
+                player.openInventory(RecipeGUI.lightsaberCore(player));
+                break;
+            case 25:
+                player.openInventory(RecipeGUI.recipes(player));
+                break;
+        }
+    }
+
+    private void handleLightsabersClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 10:
+                player.openInventory(RecipeGUI.lukeSkywalkerSaber(player));
+                break;
+            case 12:
+                player.openInventory(RecipeGUI.anakinSkywalkerSaber(player));
+                break;
+            case 25:
+                player.openInventory(RecipeGUI.weapons(player));
+                break;
+        }
+    }
+
+    private void handleLukeSkywalkerHiltClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 20:
+                player.openInventory(RecipeGUI.lightsaberCore(player));
+                break;
+            case 25:
+                player.openInventory(RecipeGUI.parts(player));
+                break;
+        }
+    }
+
+    private void handleAnakinSkywalkerHiltClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 20:
+                player.openInventory(RecipeGUI.lightsaberCore(player));
+                break;
+            case 25:
+                player.openInventory(RecipeGUI.parts(player));
+                break;
+        }
+    }
+
+    private void handleLukeSkywalkerSaberClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 25:
+                player.openInventory(RecipeGUI.parts(player));
+                break;
+            case 29:
+                player.openInventory(RecipeGUI.lukeSkywalkerHilt(player));
+                break;
+        }
+    }
+
+    private void handleAnakinSkywalkerSaberClick(InventoryClickEvent event, Player player) {
+        switch (event.getSlot()) {
+            case 25:
+                player.openInventory(RecipeGUI.parts(player));
+                break;
+            case 29:
+                player.openInventory(RecipeGUI.anakinSkywalkerHilt(player));
+                break;
+        }
+    }
+
+    private void handleLightsaberCoreClick(InventoryClickEvent event, Player player) {
+        if (event.getView().getTitle().equals(Messages.str("&8&lActivation Stud Recipe"))) {
+            event.setCancelled(true);
+            return;
         }
 
-        if(title.contains(Messages.str("&2&lWeapon Recipes"))){
-            switch(event.getSlot()){
-                case 13: //sabers
-                    player.openInventory(RecipeGUI.lightsabers(player));
-                    break;
-                case 25: //back
-                    player.openInventory(RecipeGUI.recipes(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&2&lPart Recipes"))){
-            switch(event.getSlot()){
-                case 10: //lukeHilt
-                    player.openInventory(RecipeGUI.lukeSkywalkerHilt(player));
-                    break;
-                case 12: //anakinHilt
-                    player.openInventory(RecipeGUI.anakinSkywalkerHilt(player));
-                    break;
-                case 14: //activationStud
-                    player.openInventory(RecipeGUI.activationStud(player));
-                    break;
-                case 16: //lightsaberCore
-                    player.openInventory(RecipeGUI.lightsaberCore(player));
-                    break;
-                case 25: //back
-                    player.openInventory(RecipeGUI.recipes(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&2&lLightsaber Recipes"))){
-            switch(event.getSlot()){
-                case 10: //lukeSaber
-                    player.openInventory(RecipeGUI.lukeSkywalkerSaber(player));
-                    break;
-                case 12: //anakinSaber
-                    player.openInventory(RecipeGUI.anakinSkywalkerSaber(player));
-                    break;
-                case 25: //back
-                    player.openInventory(RecipeGUI.weapons(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&2&lLuke Skywalker Hilt Recipe"))){
-            switch(event.getSlot()){
-                case 20: //lightsaberCore
-                    player.openInventory(RecipeGUI.lightsaberCore(player));
-                    break;
-                case 21: //activationStud
-                    player.openInventory(RecipeGUI.activationStud(player));
-                    break;
-                case 25: //back
-                    player.openInventory(RecipeGUI.parts(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&1&lAnakin Skywalker Hilt Recipe"))){
-            switch(event.getSlot()){
-                case 19: //activationStud
-                    player.openInventory(RecipeGUI.activationStud(player));
-                    break;
-                case 20: //lightsaberCore
-                    player.openInventory(RecipeGUI.lightsaberCore(player));
-                    break;
-                case 25: //back
-                    player.openInventory(RecipeGUI.parts(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&2&lLuke Skywalker Lightsaber Recipe"))){
-            switch(event.getSlot()){
-                case 25: //back
-                    player.openInventory(RecipeGUI.parts(player));
-                    break;
-                case 29: //hilt
-                    player.openInventory(RecipeGUI.lukeSkywalkerHilt(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&1&lAnakin Skywalker Lightsaber Recipe"))){
-            switch(event.getSlot()){
-                case 25: //back
-                    player.openInventory(RecipeGUI.parts(player));
-                    break;
-                case 29: //hilt
-                    player.openInventory(RecipeGUI.anakinSkywalkerHilt(player));
-                    break;
-            }
-        }
-
-        if(title.contains(Messages.str("&2&lLightsaber Core Recipe")) ||
-                title.contains(Messages.str("&8&lActivation Stud Recipe"))){
-            switch(event.getSlot()){
-                case 25: //back
-                    player.openInventory(RecipeGUI.parts(player));
-                    break;
-            }
+        if (event.getSlot() == 25) {
+            player.openInventory(RecipeGUI.parts(player));
         }
     }
 }

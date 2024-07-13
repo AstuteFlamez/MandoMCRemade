@@ -25,30 +25,6 @@ public class Recipes {
         coreRecipe.setIngredient('I', Material.IRON_INGOT);
         Bukkit.getServer().addRecipe(coreRecipe);
 
-        ItemStack stud = CustomItems.activationStud();
-        ShapedRecipe studRecipe = new ShapedRecipe(NamespacedKey.minecraft("stud"), stud);
-        studRecipe.shape("NNN",
-                         "NBN",
-                         "NNN");
-        studRecipe.setIngredient('B', Material.POLISHED_BLACKSTONE_BUTTON);
-        studRecipe.setIngredient('N', Material.IRON_NUGGET);
-        Bukkit.getServer().addRecipe(studRecipe);
-
-        ItemStack lukeHilt = CustomItems.hilt("lukeSkywalker");
-        ShapedRecipe lukeHiltRecipe = new ShapedRecipe(NamespacedKey.minecraft("lukehilt"), lukeHilt);
-        studRecipe.shape("IOG",
-                         "BCA",
-                         "TOR");
-        lukeHiltRecipe.setIngredient('I', Material.IRON_INGOT);
-        lukeHiltRecipe.setIngredient('O', Material.OBSIDIAN);
-        lukeHiltRecipe.setIngredient('G', Material.GOLD_INGOT);
-        lukeHiltRecipe.setIngredient('B', Material.IRON_BLOCK);
-        lukeHiltRecipe.setIngredient('C', new RecipeChoice.ExactChoice(CustomItems.lightsaberCore()));
-        lukeHiltRecipe.setIngredient('A', new RecipeChoice.ExactChoice(CustomItems.activationStud()));
-        lukeHiltRecipe.setIngredient('T', Material.REDSTONE_TORCH);
-        lukeHiltRecipe.setIngredient('R', Material.REDSTONE);
-        Bukkit.getServer().addRecipe(lukeHiltRecipe);
-
         ItemStack anakinHilt = CustomItems.hilt("anakinSkywalker");
         ShapedRecipe anakinHiltRecipe = new ShapedRecipe(NamespacedKey.minecraft("anakinhilt"), anakinHilt);
         anakinHiltRecipe.shape("IBR",
@@ -59,7 +35,7 @@ public class Recipes {
         anakinHiltRecipe.setIngredient('G', Material.GOLD_BLOCK);
         anakinHiltRecipe.setIngredient('B', Material.IRON_BLOCK);
         anakinHiltRecipe.setIngredient('C', new RecipeChoice.ExactChoice(CustomItems.lightsaberCore()));
-        anakinHiltRecipe.setIngredient('A', new RecipeChoice.ExactChoice(CustomItems.activationStud()));
+        anakinHiltRecipe.setIngredient('A', Material.STONE_BUTTON);
         anakinHiltRecipe.setIngredient('T', Material.REDSTONE_TORCH);
         anakinHiltRecipe.setIngredient('R', Material.REDSTONE);
         Bukkit.getServer().addRecipe(anakinHiltRecipe);

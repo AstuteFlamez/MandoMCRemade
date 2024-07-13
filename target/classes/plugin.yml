@@ -6,19 +6,6 @@ authors: [ AstuteFlamez ]
 description: A core plugin for the minecraft server MandoMC.
 softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]
 commands:
-  warp:
-    aliases: warps
-  forcestartkoth:
   recipes:
-  mmcreload:
-  pitch:
-  yaw:
   vehicle:
-  give:
-  get:
-  enchant:
-    aliases: ce
-  maintenance:
-  summonainpc:
-  punish:
-  mmctest:
+  mmc:

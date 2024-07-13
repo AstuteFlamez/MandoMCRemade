@@ -39,7 +39,7 @@ public class Vehicle implements CommandExecutor, Listener {
             conv.setItem(13, item);
             conv.setItem(30, CustomItems.xWing("red"));
             conv.setItem(32, CustomItems.tieFighter());
-            conv.setItem(53, CustomItems.close());
+            //conv.setItem(53, CustomItems.close());
 
             player.openInventory(conv);
         }
@@ -65,8 +65,8 @@ public class Vehicle implements CommandExecutor, Listener {
                     xWing.setItem(3, CustomItems.xWing("red"));
                     xWing.setItem(4, CustomItems.xWing("green"));
                     xWing.setItem(5, CustomItems.xWing("blue"));
-                    xWing.setItem(7, CustomItems.back());
-                    xWing.setItem(8, CustomItems.close());
+                    //xWing.setItem(7, CustomItems.back());
+                    //xWing.setItem(8, CustomItems.close());
 
                     player.openInventory(xWing);
                     break;
@@ -74,8 +74,8 @@ public class Vehicle implements CommandExecutor, Listener {
                     Inventory tie = Bukkit.createInventory(player, 9, Messages.str("&8&lTie Fighter"));
 
                     tie.setItem(4, CustomItems.tieFighter());
-                    tie.setItem(7, CustomItems.back());
-                    tie.setItem(8, CustomItems.close());
+                    //tie.setItem(7, CustomItems.back());
+                    //tie.setItem(8, CustomItems.close());
 
                     player.openInventory(tie);
                     break;

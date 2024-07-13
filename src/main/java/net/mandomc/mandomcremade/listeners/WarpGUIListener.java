@@ -1,5 +1,6 @@
 package net.mandomc.mandomcremade.listeners;
 
+import net.mandomc.mandomcremade.guis.WarpGUI;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ public class WarpGUIListener implements Listener {
         if (event.getView().getTitle().equalsIgnoreCase(Messages.str("&2&lMandoMC Warps"))) {
             event.setCancelled(true);
             int slot = event.getSlot();
-            Object[][] object = MatrixHolders.getWarpsMatrix();
+            Object[][] object = WarpGUI.getWarpsMatrix();
             for (Object[] objects : object) {
                 if (objects.length > 1) {
                     if (slot == (int) objects[1]) {

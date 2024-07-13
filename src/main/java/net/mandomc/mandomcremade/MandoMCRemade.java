@@ -5,22 +5,18 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.trait.TraitInfo;
 import net.mandomc.mandomcremade.commands.*;
-import net.mandomc.mandomcremade.config.PunishmentConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
-import net.mandomc.mandomcremade.enchants.JedisLuckEnchant;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.tasks.KothScheduler;
 import net.mandomc.mandomcremade.tasks.ShipsRunnable;
 import net.mandomc.mandomcremade.utility.Messages;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
@@ -46,8 +42,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-        PunishmentConfig.setup();
-        PunishmentConfig.get().options().copyDefaults(true);
         WarpConfig.setup();
         WarpConfig.get().options().copyDefaults(true);
         WarpConfig.save();
@@ -55,23 +49,13 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
 
-        getCommand("mmctest").setExecutor(new Test(this));
-        getCommand("punish").setExecutor(new Punish());
-        getCommand("warp").setExecutor(new Warp());
-        getCommand("forcestartkoth").setExecutor(new ForceStartKoth());
-        getCommand("mmc").setExecutor(new MMC());
-        getCommand("mmcreload").setExecutor(new Reload(this));
-        getCommand("recipes").setExecutor(new Recipes());
+        getCommand("mmc").setExecutor(new MMC(this));
         getCommand("vehicle").setExecutor(new Vehicle());
-        getCommand("enchant").setExecutor(new Enchant());
-        getCommand("maintenance").setExecutor(new Maintenance(this));
 
-        getServer().getPluginManager().registerEvents(new PunishGUIListener(this), this);
         getServer().getPluginManager().registerEvents(new VehicleSafetyListener(), this);
         getServer().getPluginManager().registerEvents(new WarpGUIListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
-        getServer().getPluginManager().registerEvents(new JedisLuckEnchant(0.00), this);
         getServer().getPluginManager().registerEvents(this, this);
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Status.Server.SERVER_INFO) {
             @Override

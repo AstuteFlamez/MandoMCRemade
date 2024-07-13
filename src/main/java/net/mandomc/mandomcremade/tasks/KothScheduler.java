@@ -1,8 +1,7 @@
 package net.mandomc.mandomcremade.tasks;
 
-import io.lumine.mythic.bukkit.utils.tasks.TaskScheduler;
 import net.mandomc.mandomcremade.MandoMCRemade;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -10,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 public class KothScheduler {
     private static final ZoneId CST_ZONE = ZoneId.of("America/Chicago");
 
@@ -23,7 +23,6 @@ public class KothScheduler {
 
         Runnable task = this::runTask;
 
-        // Schedule the initial delay
         long initialDelay = calculateInitialDelay();
         long period = TimeUnit.HOURS.toMillis(4);
 
@@ -34,7 +33,7 @@ public class KothScheduler {
         LocalDateTime now = LocalDateTime.now(CST_ZONE);
         LocalDateTime nextRun = now.withHour(12).withMinute(0).withSecond(0).withNano(0);
 
-        while (now.isAfter(nextRun) || now.equals(nextRun)) {
+        while (!now.isBefore(nextRun)) {
             nextRun = nextRun.plusHours(4);
         }
 
@@ -52,25 +51,15 @@ public class KothScheduler {
         millis -= TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
-        StringBuilder timeString = new StringBuilder();
-        if (hours > 0) {
-            timeString.append(hours).append(" hours ");
-        }
-        if (minutes > 0) {
-            timeString.append(minutes).append(" minutes ");
-        }
-        if (seconds > 0) {
-            timeString.append(seconds).append(" seconds");
-        }
-
-        if (timeString.isEmpty()) {
-            timeString.append("less than a second");
-        }
-
-        return timeString.toString().trim();
+        return String.format("%d hours %d minutes %d seconds", hours, minutes, seconds).trim();
     }
 
     private void runTask() {
-        new KothRunnable(MandoMCRemade.getInstance()).runTaskTimer(MandoMCRemade.getInstance(), 0L, 20L);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                new KothRunnable(MandoMCRemade.getInstance()).runTaskTimer(MandoMCRemade.getInstance(), 0L, 20L);
+            }
+        }.runTask(MandoMCRemade.getInstance());
     }
 }

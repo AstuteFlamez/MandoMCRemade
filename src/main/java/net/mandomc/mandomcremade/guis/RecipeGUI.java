@@ -18,12 +18,15 @@ public class RecipeGUI {
        45 46 47 48 49 50 51 51 53
      */
 
+    private static ItemStack close = CustomItems.item(Material.BARRIER, "&c&lCLOSE", 0);
+    private static ItemStack back = CustomItems.item(Material.ARROW, "&c&lBACK", 0);
+
     public static Inventory recipes(Player player){
         Inventory recipes = Bukkit.createInventory(player, 27, Messages.str("&2&lMandoMC Recipes"));
 
-        recipes.setItem(12, CustomItems.weaponRecipes());
-        recipes.setItem(14, CustomItems.partRecipes());
-        recipes.setItem(26, CustomItems.close());
+        recipes.setItem(12, CustomItems.item(Material.SHIELD, "&4&lWeapon Recipes", 1));
+        recipes.setItem(14, CustomItems.item(Material.BEACON, "&6&lPart Recipes", 0));
+        recipes.setItem(26, close);
 
         return recipes;
     }
@@ -31,21 +34,20 @@ public class RecipeGUI {
     public static Inventory weapons(Player player){
         Inventory weapons = Bukkit.createInventory(player, 27, Messages.str("&2&lWeapon Recipes"));
 
-        weapons.setItem(13, CustomItems.lightsaberRecipes());
-        weapons.setItem(25, CustomItems.back());
-        weapons.setItem(26, CustomItems.close());
+        weapons.setItem(13, CustomItems.item(Material.SHIELD, "&a&lLightsaber Recipes", 1));
+        weapons.setItem(25, back);
+        weapons.setItem(26, close);
         return weapons;
     }
 
     public static Inventory parts(Player player){
         Inventory parts = Bukkit.createInventory(player, 27, Messages.str("&2&lPart Recipes"));
 
-        parts.setItem(10, CustomItems.hilt("lukeSkywalker"));
-        parts.setItem(12, CustomItems.hilt("anakinSkywalker"));
-        parts.setItem(14, CustomItems.activationStud());
-        parts.setItem(16, CustomItems.lightsaberCore());
-        parts.setItem(25, CustomItems.back());
-        parts.setItem(26, CustomItems.close());
+        parts.setItem(11, CustomItems.hilt("lukeSkywalker"));
+        parts.setItem(13, CustomItems.hilt("anakinSkywalker"));
+        parts.setItem(15, CustomItems.lightsaberCore());
+        parts.setItem(25, back);
+        parts.setItem(26, close);
         return parts;
     }
 
@@ -54,8 +56,8 @@ public class RecipeGUI {
 
         sabers.setItem(10, CustomItems.lightSaber("lukeSkywalker"));
         sabers.setItem(12, CustomItems.lightSaber("anakinSkywalker"));
-        sabers.setItem(25, CustomItems.back());
-        sabers.setItem(26, CustomItems.close());
+        sabers.setItem(25, back);
+        sabers.setItem(26, close);
         return sabers;
     }
 
@@ -67,14 +69,14 @@ public class RecipeGUI {
         hilt.setItem(12, new ItemStack(Material.GOLD_INGOT, 1));
         hilt.setItem(19, new ItemStack(Material.IRON_BLOCK, 1));
         hilt.setItem(20, CustomItems.lightsaberCore());
-        hilt.setItem(21, CustomItems.activationStud());
-        hilt.setItem(25, CustomItems.hilt("lukeSkywalker"));
+        hilt.setItem(21, new ItemStack(Material.STONE_BUTTON, 1));
+        hilt.setItem(25, CustomItems.hilt("LukeSkywalker"));
         hilt.setItem(28, new ItemStack(Material.REDSTONE_TORCH, 1));
         hilt.setItem(29, new ItemStack(Material.OBSIDIAN, 1));
         hilt.setItem(30, new ItemStack(Material.REDSTONE, 1));
         hilt.setItem(23, CustomItems.workbench());
-        hilt.setItem(52, CustomItems.back());
-        hilt.setItem(53, CustomItems.close());
+        hilt.setItem(52, back);
+        hilt.setItem(53, close);
         return hilt;
     }
 
@@ -84,40 +86,40 @@ public class RecipeGUI {
         hilt.setItem(10, new ItemStack(Material.IRON_INGOT, 1));
         hilt.setItem(11, new ItemStack(Material.IRON_BLOCK, 1));
         hilt.setItem(12, new ItemStack(Material.REDSTONE, 1));
-        hilt.setItem(19, CustomItems.activationStud());
+        hilt.setItem(19, new ItemStack(Material.STONE_BUTTON, 1));
         hilt.setItem(20, CustomItems.lightsaberCore());
         hilt.setItem(21, new ItemStack(Material.GOLD_BLOCK, 1));
-        hilt.setItem(25, CustomItems.hilt("anakinSkywalker"));
+        hilt.setItem(25, CustomItems.hilt("AnakinSkywalker"));
         hilt.setItem(28, new ItemStack(Material.REDSTONE_TORCH, 1));
         hilt.setItem(29, new ItemStack(Material.OBSIDIAN, 1));
         hilt.setItem(30, new ItemStack(Material.OBSIDIAN, 1));
         hilt.setItem(23, CustomItems.workbench());
-        hilt.setItem(52, CustomItems.back());
-        hilt.setItem(53, CustomItems.close());
+        hilt.setItem(52, back);
+        hilt.setItem(53, close);
         return hilt;
     }
 
     public static Inventory lukeSkywalkerSaber(Player player){
         Inventory saber = Bukkit.createInventory(player, 54, Messages.str("&2&lLuke Skywalker Lightsaber Recipe"));
 
-        saber.setItem(20, CustomItems.kyber("green"));
-        saber.setItem(25, CustomItems.lightSaber("lukeSkywalker"));
-        saber.setItem(29, CustomItems.hilt("lukeSkywalker"));
+        //saber.setItem(20, CustomItems.kyber("green"));
+        saber.setItem(25, CustomItems.lightSaber("LukeSkywalker"));
+        saber.setItem(29, CustomItems.hilt("LukeSkywalker"));
         saber.setItem(23, CustomItems.workbench());
-        saber.setItem(52, CustomItems.back());
-        saber.setItem(53, CustomItems.close());
+        saber.setItem(52, back);
+        saber.setItem(53, close);
         return saber;
     }
 
     public static Inventory anakinSkywalkerSaber(Player player){
         Inventory saber = Bukkit.createInventory(player, 54, Messages.str("&1&lAnakin Skywalker Lightsaber Recipe"));
 
-        saber.setItem(20, CustomItems.kyber("blue"));
-        saber.setItem(25, CustomItems.lightSaber("anakinSkywalker"));
-        saber.setItem(29, CustomItems.hilt("anakinSkywalker"));
+        //saber.setItem(20, CustomItems.kyber("blue"));
+        saber.setItem(25, CustomItems.lightSaber("AnakinSkywalker"));
+        saber.setItem(29, CustomItems.hilt("AnakinSkywalker"));
         saber.setItem(23, CustomItems.workbench());
-        saber.setItem(52, CustomItems.back());
-        saber.setItem(53, CustomItems.close());
+        saber.setItem(52, back);
+        saber.setItem(53, close);
         return saber;
     }
 
@@ -135,27 +137,8 @@ public class RecipeGUI {
         core.setItem(29, new ItemStack(Material.NETHERITE_INGOT, 1));
         core.setItem(30, new ItemStack(Material.IRON_INGOT, 1));
         core.setItem(23, CustomItems.workbench());
-        core.setItem(52, CustomItems.back());
-        core.setItem(53, CustomItems.close());
-        return core;
-    }
-
-    public static Inventory activationStud(Player player){
-        Inventory core = Bukkit.createInventory(player, 54, Messages.str("&8&lActivation Stud Recipe"));
-
-        core.setItem(10, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(11, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(12, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(19, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(20, new ItemStack(Material.POLISHED_BLACKSTONE_BUTTON, 1));
-        core.setItem(21, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(25, CustomItems.activationStud());
-        core.setItem(28, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(29, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(30, new ItemStack(Material.IRON_NUGGET, 1));
-        core.setItem(23, CustomItems.workbench());
-        core.setItem(52, CustomItems.back());
-        core.setItem(53, CustomItems.close());
+        core.setItem(52, back);
+        core.setItem(53, close);
         return core;
     }
 

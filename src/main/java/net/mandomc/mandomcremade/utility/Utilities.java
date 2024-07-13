@@ -7,6 +7,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -15,7 +16,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 public class Utilities {
+
+    private static final String[] WEAPON_NAMES = {
+            "LukeSkywalker", "AnakinSkywalker"
+    };
+
+    private static final String[] KYBER_NAMES = {
+            "RedKyber", "BlueKyber", "GreenKyber", "PurpleKyber", "WhiteKyber", "YellowKyber"
+    };
 
     public static boolean isMobSpawningEnabled(Location location, Player player){
         LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
@@ -89,5 +101,64 @@ public class Utilities {
         int blue = Integer.parseInt(hexCode.substring(4, 6), 16);
 
         return Color.fromRGB(red, green, blue);
+    }
+
+    public static String formatTimeDifference(Date date) {
+        long currentTime = System.currentTimeMillis();
+        long givenTime = date.getTime();
+        long diffInMillis = Math.abs(currentTime - givenTime);
+
+        long days = TimeUnit.MILLISECONDS.toDays(diffInMillis);
+        long hours = TimeUnit.MILLISECONDS.toHours(diffInMillis) - TimeUnit.DAYS.toHours(days);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(diffInMillis));
+
+        StringBuilder result = new StringBuilder();
+        if (days > 0) {
+            result.append(days).append(" days");
+        }
+        if (hours > 0) {
+            if (!result.isEmpty()) result.append(", ");
+            result.append(hours).append(" hours");
+        }
+        if (minutes > 0) {
+            if (!result.isEmpty()) result.append(", ");
+            result.append(minutes).append(" minutes");
+        }
+
+        return !result.isEmpty() ? result.toString() : "0 minutes";
+    }
+
+    private static Object[] createWeaponRow(String weaponName) {
+        return new Object[]{
+                weaponName.toLowerCase(),
+                SaberConfig.get().getInt(weaponName + "SaberName"),
+                SaberConfig.get().getString(weaponName + "HiltName"),
+                SaberConfig.get().getStringList(weaponName + "CustomModelData"),
+                SaberConfig.get().getDouble(weaponName + "Damage")
+        };
+    }
+
+    public static Object[][] getWeaponMatrix() {
+        Object[][] matrix = new Object[WEAPON_NAMES.length][2];
+        for (int i = 0; i < WEAPON_NAMES.length; i++) {
+            matrix[i] = createWeaponRow(WEAPON_NAMES[i]);
+        }
+        return matrix;
+    }
+
+    private static Object[] createKyberRow(String kyberName) {
+        return new Object[]{
+                kyberName.toLowerCase(),
+                MandoMCRemade.getInstance().getConfig().getInt(kyberName + "Name"),
+                MandoMCRemade.getInstance().getConfig().getString(kyberName + "CustomModelData")
+        };
+    }
+
+    public static Object[][] getKyberMatrix() {
+        Object[][] matrix = new Object[KYBER_NAMES.length][6];
+        for (int i = 0; i < KYBER_NAMES.length; i++) {
+            matrix[i] = createKyberRow(KYBER_NAMES[i]);
+        }
+        return matrix;
     }
 }

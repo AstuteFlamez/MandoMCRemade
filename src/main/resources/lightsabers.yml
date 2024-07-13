@@ -1,2 +1,9 @@
-LukeSkywalker: 17
-AnakinSkywalker: 17
+LukeSkywalkerSaberName: "&aLuke Skywaker's Lightsaber"
+LukeSkywalkerHiltName: "&7Luke Skywaker's Hilt"
+LukeSkywalkerCustomModelData: 1
+LukeSkywalkerDamage: 20
+
+AnakinSkywalkerSaberName: "&9Anakin Skywaker's Lightsaber"
+AnakinSkywalkerHiltName: "&7Anakin Skywaker's Hilt"
+AnakinSkywalkerCustomModelData: 2
+AnakinSkywalkerDamage: 22

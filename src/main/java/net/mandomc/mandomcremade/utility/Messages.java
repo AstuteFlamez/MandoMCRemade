@@ -16,9 +16,15 @@ public class Messages {
     public static void msg(Player player, String string){
         player.sendMessage(prefix() + str(string));
     }
+
     public static void noPermission(Player player){
         player.sendMessage(str(prefix() + "&cThe Force is not with you..."));
     }
+
+    public static void syntaxError(Player player){
+        player.sendMessage(str(prefix() + "&cYou typed the command incorrectly..."));
+    }
+
 
     /*
     &0 = black

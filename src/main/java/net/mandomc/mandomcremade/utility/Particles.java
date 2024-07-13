@@ -1,7 +1,6 @@
 package net.mandomc.mandomcremade.utility;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.objects.LivingEntityWrapper;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -10,9 +9,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.checkerframework.checker.units.qual.Force;
-
-import java.util.concurrent.CompletableFuture;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
