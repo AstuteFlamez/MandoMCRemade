@@ -1,7 +1,8 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.utility.ForcePowers;
+import net.mandomc.mandomcremade.abilities.Choke;
+import net.mandomc.mandomcremade.abilities.Crush;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class Test implements CommandExecutor {
 
         if(sender instanceof Player player){
             if(player.hasPermission("mmc.admin.test")){
-                ForcePowers.blind(player, 1, plugin);
+                Crush.crush(player, 2, plugin);
             }
         }
 

@@ -1,7 +1,6 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.utility.GetEnchant;
-import net.mandomc.mandomcremade.utility.GiveOrGet;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

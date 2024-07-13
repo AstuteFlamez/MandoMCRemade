@@ -1,7 +1,7 @@
 name: MandoMCRemade
 version: '1.0'
 main: net.mandomc.mandomcremade.MandoMCRemade
-api-version: '1.20'
+api-version: '1.21'
 authors: [ AstuteFlamez ]
 description: A core plugin for the minecraft server MandoMC.
 softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]

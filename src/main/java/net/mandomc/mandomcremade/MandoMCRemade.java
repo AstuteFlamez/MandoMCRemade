@@ -13,15 +13,12 @@ import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.enchants.JedisLuckEnchant;
 import net.mandomc.mandomcremade.listeners.*;
-import net.mandomc.mandomcremade.objects.ConvoTrait;
 import net.mandomc.mandomcremade.tasks.KothScheduler;
 import net.mandomc.mandomcremade.tasks.ShipsRunnable;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -30,8 +27,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     public static MandoMCRemade instance;
     public static String kothTime = Messages.str("The next KOTH will be in ");
     private final HashMap<UUID, Long> lightsaberCooldown;
-    private File path = new File(this.getDataFolder() + "/custom_items");
-    private final ArrayList<ItemStack> customItemsArray = new ArrayList<>();
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
@@ -49,8 +44,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-
-        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(ConvoTrait.class));
 
         new ShipsRunnable(this).runTaskTimer(this, 0L, 1L);
         KothScheduler kothScheduler = new KothScheduler();
@@ -70,21 +63,16 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         getCommand("mmctest").setExecutor(new Test(this));
         getCommand("punish").setExecutor(new Punish());
-        getCommand("summonainpc").setExecutor(new SummonAiNPC());
         getCommand("warp").setExecutor(new Warp());
         getCommand("forcestartkoth").setExecutor(new ForceStartKoth());
-        getCommand("yaw").setExecutor(new Yaw());
-        getCommand("pitch").setExecutor(new Pitch());
+        getCommand("mmc").setExecutor(new MMC());
         getCommand("mmcreload").setExecutor(new Reload(this));
         getCommand("recipes").setExecutor(new Recipes());
-        getCommand("give").setExecutor(new Give());
-        getCommand("get").setExecutor(new Get());
         getCommand("vehicle").setExecutor(new Vehicle());
         getCommand("enchant").setExecutor(new Enchant());
         getCommand("maintenance").setExecutor(new Maintenance(this));
 
         getServer().getPluginManager().registerEvents(new PunishGUIListener(this), this);
-        getServer().getPluginManager().registerEvents(new NPCListeners(this), this);
         getServer().getPluginManager().registerEvents(new VehicleSafetyListener(), this);
         getServer().getPluginManager().registerEvents(new WarpGUIListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);

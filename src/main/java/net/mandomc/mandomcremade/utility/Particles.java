@@ -439,8 +439,8 @@ public class Particles {
                             vector.setY(1);
                             livingEntity.setVelocity(vector);
                             break;
-                        case "chokeI":
-                            livingEntity.damage(plugin.getConfig().getInt("ChokeIDamage"), player);
+                        case "crushI":
+                            livingEntity.damage(plugin.getConfig().getInt("CrushIDamage"), player);
                             break;
                     }
                 }
@@ -672,29 +672,21 @@ public class Particles {
         return livingEntity;
     }
 
-    public static void beam(Player player, Location loc1, Location loc2, Color c1, Color c2){
+    public static void beam(Player player, int range, Location loc1, Location loc2, Color c1, Color c2){
         // Player's eye location is the starting location for the particle
         Location startLoc = player.getEyeLocation();
 
         // We need to clone() this location, because we will add() to it later.
         Location particleLoc = startLoc.clone();
 
-        World world = startLoc.getWorld(); // We need this later to show the particle
-
         // dir is the Vector direction (offset from 0,0,0) the player is facing in 3D space
         Vector dir = loc1.toVector().subtract(loc2.toVector()).normalize();
         //Vector dir = startLoc.getDirection();
 
-        /* vecOffset is used to determine where the next particle should appear
-        We are taking the direction and multiplying it by 0.5 to make it appear 1/2 block
-          in its continuing Vector direction.
-        NOTE: We have to clone() because multiply() modifies the original variable!
-        For a straight beam, we only need to calculate this once, as the direction does not change.
-        */
         Vector vecOffset = dir.clone().multiply(0.5);
 
         new BukkitRunnable(){
-            int maxBeamLength = 20; // Max beam length
+            int maxBeamLength = range; // Max beam length
             int beamLength = 0; // Current beam length
 
             // The run() function runs every X number of ticks - see below
@@ -702,8 +694,6 @@ public class Particles {
                 beamLength ++; // This is the distance between each particle
                 // Kill this task if the beam length is max
                 if(beamLength >= maxBeamLength){
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
-                    player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, particleLoc, 1, dustOptions);
                     this.cancel();
                     return;
                 }
@@ -711,8 +701,8 @@ public class Particles {
                 // Now we add the direction vector offset to the particle's current location
                 particleLoc.add(vecOffset);
 
-                // Display the particle in the new location
-                world.spawnParticle(Particle.FIREWORK, particleLoc, 0);
+                Particle.DustTransition dustOptions = new Particle.DustTransition(c1, c2, 1);
+                player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, particleLoc, 1, dustOptions);
             }
         }.runTaskTimer(MandoMCRemade.getInstance(), 0, 1);
         // 0 is the delay in ticks before starting this task
