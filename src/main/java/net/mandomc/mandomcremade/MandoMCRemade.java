@@ -39,12 +39,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         instance = this;
 
-        if(getServer().getPluginManager().getPlugin("Citizens") == null || !getServer().getPluginManager().getPlugin("Citizens").isEnabled()) {
-            getLogger().log(Level.SEVERE, "Citizens 2.0 not found or not enabled");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
         new ShipsRunnable(this).runTaskTimer(this, 0L, 1L);
         KothScheduler kothScheduler = new KothScheduler();
         kothScheduler.start();
