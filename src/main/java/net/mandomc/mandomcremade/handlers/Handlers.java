@@ -1,4 +1,4 @@
-package net.mandomc.mandomcremade.utility;
+package net.mandomc.mandomcremade.handlers;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -19,7 +19,7 @@ import org.bukkit.util.Vector;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class Utilities {
+public class Handlers {
 
     private static final String[] WEAPON_NAMES = {
             "LukeSkywalker", "AnakinSkywalker"

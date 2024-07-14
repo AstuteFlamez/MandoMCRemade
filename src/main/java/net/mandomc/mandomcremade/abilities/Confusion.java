@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -36,8 +36,8 @@ public class Confusion {
                 break;
         }
         Particles.spiralGround(player.getLocation(),
-                Utilities.hexToColor(config.getString("ConfusionHexCode1")),
-                Utilities.hexToColor(config.getString("ConfusionHexCode2")));
+                Handlers.hexToColor(config.getString("ConfusionHexCode1")),
+                Handlers.hexToColor(config.getString("ConfusionHexCode2")));
     }
 
 }

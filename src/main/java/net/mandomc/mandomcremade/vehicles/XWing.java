@@ -4,7 +4,7 @@ import net.mandomc.mandomcremade.listeners.VehicleSafetyListener;
 import net.mandomc.mandomcremade.objects.Vehicles;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static net.mandomc.mandomcremade.utility.Utilities.isMobSpawningEnabled;
+import static net.mandomc.mandomcremade.handlers.Handlers.isMobSpawningEnabled;
 
 public class XWing implements Listener {
 
@@ -89,7 +89,7 @@ public class XWing implements Listener {
             LivingEntity seat = (Phantom) player.getWorld().spawnEntity(loc, EntityType.PHANTOM);
             LivingEntity model = (Zombie) player.getPlayer().getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 
-            Utilities.takeOneItemAway(player);
+            Handlers.takeOneItemAway(player);
 
             seat.setAI(false);
             seat.setSilent(true);

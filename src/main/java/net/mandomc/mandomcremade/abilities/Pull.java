@@ -2,14 +2,14 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import static net.mandomc.mandomcremade.utility.Utilities.genVec;
+import static net.mandomc.mandomcremade.handlers.Handlers.genVec;
 
 public class Pull {
 
@@ -20,8 +20,8 @@ public class Pull {
                 Particles.oscillatingBeam(player,
                         "pullI",
                         plugin.getConfig().getInt("PullIRange"),
-                        Utilities.hexToColor(config.getString("PullHexCode1")),
-                        Utilities.hexToColor(config.getString("PullHexCode2")));
+                        Handlers.hexToColor(config.getString("PullHexCode1")),
+                        Handlers.hexToColor(config.getString("PullHexCode2")));
                 break;
             case 2:
                 int radius = MandoMCRemade.getInstance().getConfig().getInt("PullIIRadius");
@@ -33,8 +33,8 @@ public class Pull {
                 }
                 Particles.circleInwards(player.getLocation(),
                         radius,
-                        Utilities.hexToColor(config.getString("PullHexCode1")),
-                        Utilities.hexToColor(config.getString("PullHexCode2")));
+                        Handlers.hexToColor(config.getString("PullHexCode1")),
+                        Handlers.hexToColor(config.getString("PullHexCode2")));
         }
     }
 

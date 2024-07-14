@@ -9,10 +9,12 @@ import net.mandomc.mandomcremade.commands.*;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.listeners.*;
+import net.mandomc.mandomcremade.handlers.Recipes;
 import net.mandomc.mandomcremade.tasks.KothScheduler;
 import net.mandomc.mandomcremade.tasks.ShipsRunnable;
+import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
-import org.bukkit.configuration.file.FileConfiguration;
+import net.mandomc.mandomcremade.utility.RecipeList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,14 +33,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
+
+        getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is enabled");
 
         instance = this;
-
-        new ShipsRunnable(this).runTaskTimer(this, 0L, 1L);
-        KothScheduler kothScheduler = new KothScheduler();
-        kothScheduler.start();
-        kothTime += kothScheduler.timeUntilNextTask();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
@@ -49,10 +47,22 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
 
+        Recipes.createRecipe(CustomItems.lightsaberCore(), "core", RecipeList.core);
+        Recipes.createRecipe(CustomItems.hilt("LukeSkywalker"), "lukeskywalkerhilt", RecipeList.lukeSkywalkerHilt);
+        Recipes.createRecipe(CustomItems.lightSaber("LukeSkywalker"), "lukeskywalkersaber", RecipeList.lukeSkywalkerSaber);
+        Recipes.createRecipe(CustomItems.hilt("AnakinSkywalker"), "anakinskywalkerhilt", RecipeList.anakinSkywalkerHilt);
+        Recipes.createRecipe(CustomItems.lightSaber("AnakinSkywalker"), "anakinskywalkersaber", RecipeList.anakinSkywalkerSaber);
+
+        new ShipsRunnable(this).runTaskTimer(this, 0L, 1L);
+        KothScheduler kothScheduler = new KothScheduler();
+        kothScheduler.start();
+        kothTime += kothScheduler.timeUntilNextTask();
+
         getCommand("mmc").setExecutor(new MMC(this));
         getCommand("vehicle").setExecutor(new Vehicle());
 
         getServer().getPluginManager().registerEvents(new VehicleSafetyListener(), this);
+        getServer().getPluginManager().registerEvents(new RecipeGUIListener(), this);
         getServer().getPluginManager().registerEvents(new WarpGUIListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);

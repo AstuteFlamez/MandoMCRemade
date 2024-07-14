@@ -2,6 +2,7 @@ package net.mandomc.mandomcremade.listeners;
 
 import net.mandomc.mandomcremade.guis.RecipeGUI;
 import net.mandomc.mandomcremade.utility.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,9 +17,44 @@ public class RecipeGUIListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         Inventory clickedInventory = event.getClickedInventory();
 
+        Bukkit.broadcastMessage(title);
+
         if (clickedInventory == null) return; // Clicked outside of any inventory
 
-        // Prevent moving items in the GUIs
+        // Handle GUI interactions
+        switch (title) {
+            case "MandoMC Recipes":
+                Bukkit.broadcastMessage(1);
+                handleRecipesClick(event, player);
+                break;
+            case "Weapon Recipes":
+                handleWeaponsClick(event, player);
+                break;
+            case "Part Recipes":
+                handlePartsClick(event, player);
+                break;
+            case "Lightsaber Recipes":
+                handleLightsabersClick(event, player);
+                break;
+            case "Luke Skywalker Hilt Recipe":
+                handleLukeSkywalkerHiltClick(event, player);
+                break;
+            case "Anakin Skywalker Hilt Recipe":
+                handleAnakinSkywalkerHiltClick(event, player);
+                break;
+            case "Luke Skywalker Lightsaber Recipe":
+                handleLukeSkywalkerSaberClick(event, player);
+                break;
+            case "Anakin Skywalker Lightsaber Recipe":
+                handleAnakinSkywalkerSaberClick(event, player);
+                break;
+            case "Lightsaber Core Recipe":
+            case "Activation Stud Recipe":
+                handleLightsaberCoreClick(event, player);
+                break;
+        }
+
+        /*// Prevent moving items in the GUIs
         if (title.contains(Messages.str("&2&lMandoMC Recipes")) ||
                 title.contains(Messages.str("&2&lWeapon Recipes")) ||
                 title.contains(Messages.str("&2&lPart Recipes")) ||
@@ -31,40 +67,7 @@ public class RecipeGUIListener implements Listener {
                 title.contains(Messages.str("&8&lActivation Stud Recipe"))) {
 
             event.setCancelled(true);
-            return;
-        }
-
-        // Handle GUI interactions
-        switch (title) {
-            case "&2&lMandoMC Recipes":
-                handleRecipesClick(event, player);
-                break;
-            case "&2&lWeapon Recipes":
-                handleWeaponsClick(event, player);
-                break;
-            case "&2&lPart Recipes":
-                handlePartsClick(event, player);
-                break;
-            case "&2&lLightsaber Recipes":
-                handleLightsabersClick(event, player);
-                break;
-            case "&2&lLuke Skywalker Hilt Recipe":
-                handleLukeSkywalkerHiltClick(event, player);
-                break;
-            case "&1&lAnakin Skywalker Hilt Recipe":
-                handleAnakinSkywalkerHiltClick(event, player);
-                break;
-            case "&2&lLuke Skywalker Lightsaber Recipe":
-                handleLukeSkywalkerSaberClick(event, player);
-                break;
-            case "&1&lAnakin Skywalker Lightsaber Recipe":
-                handleAnakinSkywalkerSaberClick(event, player);
-                break;
-            case "&2&lLightsaber Core Recipe":
-            case "&8&lActivation Stud Recipe":
-                handleLightsaberCoreClick(event, player);
-                break;
-        }
+        }*/
     }
 
     private void handleRecipesClick(InventoryClickEvent event, Player player) {

@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,10 +33,10 @@ public class Stasis {
                 }
                 break;
         }
-        Particles.radialWaves(player.getLocation(), Utilities.hexToColor(config.getString("StasisHexCode1")),
-                Utilities.hexToColor(config.getString("StasisHexCode2")),
-                Utilities.hexToColor(config.getString("StasisHexCode3")),
-                Utilities.hexToColor(config.getString("StasisHexCode4")));
+        Particles.radialWaves(player.getLocation(), Handlers.hexToColor(config.getString("StasisHexCode1")),
+                Handlers.hexToColor(config.getString("StasisHexCode2")),
+                Handlers.hexToColor(config.getString("StasisHexCode3")),
+                Handlers.hexToColor(config.getString("StasisHexCode4")));
     }
 
 }

@@ -1,7 +1,7 @@
 package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,7 +24,7 @@ public class Leap {
             @Override
             public void run() {
                 if(player.getLocation().subtract(0,1,0).getBlock().getType() == Material.AIR){
-                    Particle.DustTransition dustOptions = new Particle.DustTransition(Utilities.hexToColor(config.getString("LeapHexCode1")), Utilities.hexToColor(config.getString("LeapHexCode1")), 1);
+                    Particle.DustTransition dustOptions = new Particle.DustTransition(Handlers.hexToColor(config.getString("LeapHexCode1")), Handlers.hexToColor(config.getString("LeapHexCode1")), 1);
                     player.getWorld().spawnParticle(Particle.DUST_COLOR_TRANSITION, player.getLocation(), 1, dustOptions);
                 }else{
                     cancel();

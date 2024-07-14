@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -18,8 +18,8 @@ public class Blind {
         switch(level){
             case 1:
                 Particles.spinningBeam(player, "blindI", plugin.getConfig().getInt("BlindIRange"),
-                        Utilities.hexToColor(config.getString("BlindHexCode1")),
-                        Utilities.hexToColor(config.getString("BlindHexCode2")));
+                        Handlers.hexToColor(config.getString("BlindHexCode1")),
+                        Handlers.hexToColor(config.getString("BlindHexCode2")));
                 break;
             case 2:
                 radius = MandoMCRemade.getInstance().getConfig().getInt("BlindIIRadius");
@@ -29,8 +29,8 @@ public class Blind {
                     }
                 }
                 Particles.spiralGround(player.getLocation(),
-                        Utilities.hexToColor(config.getString("BlindHexCode1")),
-                        Utilities.hexToColor(config.getString("BlindHexCode2")));
+                        Handlers.hexToColor(config.getString("BlindHexCode1")),
+                        Handlers.hexToColor(config.getString("BlindHexCode2")));
                 break;
         }
     }

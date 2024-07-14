@@ -2,14 +2,14 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import static net.mandomc.mandomcremade.utility.Utilities.genVec;
+import static net.mandomc.mandomcremade.handlers.Handlers.genVec;
 
 public class Push {
 
@@ -20,10 +20,10 @@ public class Push {
                 Particles.orbitingBeam(player,
                         "pushI",
                         plugin.getConfig().getInt("PushIRange"),
-                        Utilities.hexToColor(config.getString("PushHexCode1")),
-                        Utilities.hexToColor(config.getString("PushHexCode2")),
-                        Utilities.hexToColor(config.getString("PushHexCode3")),
-                        Utilities.hexToColor(config.getString("PushHexCode4")));
+                        Handlers.hexToColor(config.getString("PushHexCode1")),
+                        Handlers.hexToColor(config.getString("PushHexCode2")),
+                        Handlers.hexToColor(config.getString("PushHexCode3")),
+                        Handlers.hexToColor(config.getString("PushHexCode4")));
                 break;
             case 2:
                 int radius = MandoMCRemade.getInstance().getConfig().getInt("PushIIRadius");
@@ -36,8 +36,8 @@ public class Push {
                 }
                 Particles.circleOutwards(player.getLocation(),
                         radius,
-                        Utilities.hexToColor(config.getString("PushHexCode1")),
-                        Utilities.hexToColor(config.getString("PushHexCode2")));
+                        Handlers.hexToColor(config.getString("PushHexCode1")),
+                        Handlers.hexToColor(config.getString("PushHexCode2")));
         }
     }
 

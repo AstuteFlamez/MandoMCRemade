@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -31,8 +31,8 @@ public class Dash {
                 distance,
                 start,
                 player.getLocation(),
-                Utilities.hexToColor(config.getString("DashHexCode1")),
-                Utilities.hexToColor(config.getString("DashHexCode2")));
+                Handlers.hexToColor(config.getString("DashHexCode1")),
+                Handlers.hexToColor(config.getString("DashHexCode2")));
     }
 
 }

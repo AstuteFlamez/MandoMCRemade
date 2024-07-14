@@ -1,4 +1,4 @@
-package net.mandomc.mandomcremade.utility;
+package net.mandomc.mandomcremade.handlers;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

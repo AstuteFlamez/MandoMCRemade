@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -18,8 +18,8 @@ public class Choke {
             case 1:
                 Particles.spinningBeam(player, "chokeI",
                         config.getInt("ChokeIRange"),
-                        Utilities.hexToColor(config.getString("ChokeHexCode1")),
-                        Utilities.hexToColor(config.getString("ChokeHexCode2")));
+                        Handlers.hexToColor(config.getString("ChokeHexCode1")),
+                        Handlers.hexToColor(config.getString("ChokeHexCode2")));
                 break;
             case 2:
                 int radius = config.getInt("ChokeIIRadius");
@@ -31,8 +31,8 @@ public class Choke {
                 }
                 Particles.circleOutwards(player.getLocation(),
                         radius,
-                        Utilities.hexToColor(config.getString("ChokeHexCode1")),
-                        Utilities.hexToColor(config.getString("ChokeHexCode2")));
+                        Handlers.hexToColor(config.getString("ChokeHexCode1")),
+                        Handlers.hexToColor(config.getString("ChokeHexCode2")));
                 break;
         }
     }

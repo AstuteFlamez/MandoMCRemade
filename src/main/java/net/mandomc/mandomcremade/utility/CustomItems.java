@@ -1,5 +1,6 @@
 package net.mandomc.mandomcremade.utility;
 
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -7,7 +8,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -90,12 +90,13 @@ public class CustomItems {
     }
 
     public static ItemStack kyber(String color) {
-        Object[][] kyberData = Utilities.getKyberMatrix();
+        Object[][] kyberData = Handlers.getKyberMatrix();
         String displayName = null;
         int customModelData = 0;
 
         for (Object[] kyber : kyberData) {
-            if (kyber[0].toString().equals(color)) {
+            String kyberssss = (String) kyber[0];
+            if (kyberssss.equals(color)) {
                 displayName = (String) kyber[0];
                 customModelData = (int) kyber[1];
                 break;
@@ -116,7 +117,7 @@ public class CustomItems {
 
 
     public static ItemStack hilt(String character) {
-        Object[][] weaponData = Utilities.getWeaponMatrix();
+        Object[][] weaponData = Handlers.getWeaponMatrix();
         String displayName = null;
         int customModelData = 0;
 
@@ -141,7 +142,7 @@ public class CustomItems {
     }
 
     public static ItemStack lightSaber(String character) {
-        Object[][] weaponData = Utilities.getWeaponMatrix();
+        Object[][] weaponData = Handlers.getWeaponMatrix();
         String displayName = null;
         int customModelData = 0;
         double damage = 0.0;

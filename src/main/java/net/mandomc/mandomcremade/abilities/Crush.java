@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,10 +16,10 @@ public class Crush {
             case 1:
                 Particles.orbitingBeam(player, "crushI",
                         config.getInt("CrushIRange"),
-                        Utilities.hexToColor(config.getString("CrushHexCode1")),
-                        Utilities.hexToColor(config.getString("CrushHexCode2")),
-                        Utilities.hexToColor(config.getString("CrushHexCode3")),
-                        Utilities.hexToColor(config.getString("CrushHexCode4")));
+                        Handlers.hexToColor(config.getString("CrushHexCode1")),
+                        Handlers.hexToColor(config.getString("CrushHexCode2")),
+                        Handlers.hexToColor(config.getString("CrushHexCode3")),
+                        Handlers.hexToColor(config.getString("CrushHexCode4")));
                 break;
             case 2:
                 int radius = config.getInt("CrushIIRadius");
@@ -32,8 +32,8 @@ public class Crush {
                 }
                 Particles.circleInwards(player.getLocation(),
                         radius,
-                        Utilities.hexToColor(config.getString("CrushHexCode1")),
-                        Utilities.hexToColor(config.getString("CrushHexCode2")));
+                        Handlers.hexToColor(config.getString("CrushHexCode1")),
+                        Handlers.hexToColor(config.getString("CrushHexCode2")));
                 break;
         }
     }

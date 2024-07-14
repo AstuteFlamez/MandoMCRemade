@@ -4,7 +4,7 @@ import net.mandomc.mandomcremade.listeners.VehicleSafetyListener;
 import net.mandomc.mandomcremade.objects.Vehicles;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -60,7 +60,7 @@ public class TieFighter implements Listener {
 
     public void createShip(Player player){
 
-        if(Utilities.isMobSpawningEnabled(player.getLocation(), player)){
+        if(Handlers.isMobSpawningEnabled(player.getLocation(), player)){
 
             Vehicles tieFighter = new Vehicles();
 
@@ -146,9 +146,9 @@ public class TieFighter implements Listener {
                 if (loc.getBlock().getType().isSolid() || t == 127) {
                     player.getWorld().spawnParticle(Particle.CLOUD, loc, 30);
                     player.getWorld().spawnParticle(Particle.EXPLOSION, loc, 30);
-                    if (Utilities.isMobSpawningEnabled(loc, player)) {
+                    if (Handlers.isMobSpawningEnabled(loc, player)) {
                         for (Entity entity : loc.getWorld().getNearbyEntities(loc, 8.0, 8.0, 8.0)) {
-                            Vector vector = Utilities.genVec(player.getLocation(), entity.getLocation());
+                            Vector vector = Handlers.genVec(player.getLocation(), entity.getLocation());
                             vector.setY(1.2);
                             entity.setVelocity(vector);
                         }

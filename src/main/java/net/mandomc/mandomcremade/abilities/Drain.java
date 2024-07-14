@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,8 +16,8 @@ public class Drain {
             case 1:
                 Particles.oscillatingBeam(player, "drainI",
                         config.getInt("DrainIRange"),
-                        Utilities.hexToColor(config.getString("DrainHexCode1")),
-                        Utilities.hexToColor(config.getString("DrainHexCode2")));
+                        Handlers.hexToColor(config.getString("DrainHexCode1")),
+                        Handlers.hexToColor(config.getString("DrainHexCode2")));
                 break;
             case 2:
                 int radius = config.getInt("DrainIIRadius");
@@ -34,8 +34,8 @@ public class Drain {
                     }
                 }
                 Particles.spiralGround(player.getLocation(),
-                        Utilities.hexToColor(config.getString("DrainHexCode1")),
-                        Utilities.hexToColor(config.getString("DrainHexCode2")));
+                        Handlers.hexToColor(config.getString("DrainHexCode1")),
+                        Handlers.hexToColor(config.getString("DrainHexCode2")));
                 break;
         }
     }

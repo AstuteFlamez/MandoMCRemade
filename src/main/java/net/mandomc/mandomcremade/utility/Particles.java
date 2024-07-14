@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
-import static net.mandomc.mandomcremade.utility.Utilities.genVec;
+import static net.mandomc.mandomcremade.handlers.Handlers.genVec;
 
 public class Particles {
 

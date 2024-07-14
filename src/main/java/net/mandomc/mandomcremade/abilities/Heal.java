@@ -2,7 +2,7 @@ package net.mandomc.mandomcremade.abilities;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Particles;
-import net.mandomc.mandomcremade.utility.Utilities;
+import net.mandomc.mandomcremade.handlers.Handlers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -32,10 +32,10 @@ public class Heal {
                 break;
         }
         Particles.sphere(player.getLocation(),
-                Utilities.hexToColor(config.getString("HealHexCode1")),
-                Utilities.hexToColor(config.getString("HealHexCode2")),
-                Utilities.hexToColor(config.getString("HealHexCode3")),
-                Utilities.hexToColor(config.getString("HealHexCode4")));
+                Handlers.hexToColor(config.getString("HealHexCode1")),
+                Handlers.hexToColor(config.getString("HealHexCode2")),
+                Handlers.hexToColor(config.getString("HealHexCode3")),
+                Handlers.hexToColor(config.getString("HealHexCode4")));
     }
 
 }
