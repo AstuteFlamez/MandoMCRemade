@@ -131,15 +131,15 @@ public class Handlers {
     private static Object[] createWeaponRow(String weaponName) {
         return new Object[]{
                 weaponName.toLowerCase(),
-                SaberConfig.get().getInt(weaponName + "SaberName"),
+                SaberConfig.get().getString(weaponName + "SaberName"),
                 SaberConfig.get().getString(weaponName + "HiltName"),
-                SaberConfig.get().getStringList(weaponName + "CustomModelData"),
-                SaberConfig.get().getDouble(weaponName + "Damage")
+                SaberConfig.get().getInt(weaponName + "CustomModelData"),
+                SaberConfig.get().getInt(weaponName + "Damage")
         };
     }
 
     public static Object[][] getWeaponMatrix() {
-        Object[][] matrix = new Object[WEAPON_NAMES.length][2];
+        Object[][] matrix = new Object[WEAPON_NAMES.length][5];
         for (int i = 0; i < WEAPON_NAMES.length; i++) {
             matrix[i] = createWeaponRow(WEAPON_NAMES[i]);
         }
@@ -149,13 +149,13 @@ public class Handlers {
     private static Object[] createKyberRow(String kyberName) {
         return new Object[]{
                 kyberName.toLowerCase(),
-                MandoMCRemade.getInstance().getConfig().getInt(kyberName + "Name"),
-                MandoMCRemade.getInstance().getConfig().getString(kyberName + "CustomModelData")
+                MandoMCRemade.getInstance().getConfig().getString(kyberName + "Name"),
+                MandoMCRemade.getInstance().getConfig().getInt(kyberName + "CustomModelData")
         };
     }
 
     public static Object[][] getKyberMatrix() {
-        Object[][] matrix = new Object[KYBER_NAMES.length][6];
+        Object[][] matrix = new Object[KYBER_NAMES.length][3];
         for (int i = 0; i < KYBER_NAMES.length; i++) {
             matrix[i] = createKyberRow(KYBER_NAMES[i]);
         }

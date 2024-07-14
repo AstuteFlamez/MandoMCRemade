@@ -1,9 +1,11 @@
 package net.mandomc.mandomcremade.utility;
 
 import net.mandomc.mandomcremade.handlers.Handlers;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -95,10 +97,10 @@ public class CustomItems {
         int customModelData = 0;
 
         for (Object[] kyber : kyberData) {
-            String kyberssss = (String) kyber[0];
+            String kyberssss = (String) kyber[1];
             if (kyberssss.equals(color)) {
-                displayName = (String) kyber[0];
-                customModelData = (int) kyber[1];
+                displayName = (String) kyber[1];
+                customModelData = (int) kyber[2];
                 break;
             }
         }
@@ -117,14 +119,14 @@ public class CustomItems {
 
 
     public static ItemStack hilt(String character) {
-        Object[][] weaponData = Handlers.getWeaponMatrix();
+        Object[][] hiltData = Handlers.getWeaponMatrix();
         String displayName = null;
         int customModelData = 0;
 
-        for (Object[] warp : weaponData) {
-            if (warp[0].toString().equals(character)) {
-                displayName = (String) warp[1];
-                customModelData = (int) warp[2];
+        for (Object[] hilt : hiltData) {
+            if (hilt[0].equals(character)) {
+                displayName = (String) hilt[2];
+                customModelData = (int) hilt[3];
                 break;
             }
         }
@@ -143,15 +145,16 @@ public class CustomItems {
 
     public static ItemStack lightSaber(String character) {
         Object[][] weaponData = Handlers.getWeaponMatrix();
-        String displayName = null;
+
+        String displayName = "";
         int customModelData = 0;
         double damage = 0.0;
 
-        for (Object[] warp : weaponData) {
-            if (warp[0].toString().equals(character)) {
-                displayName = (String) warp[0];
-                customModelData = (int) warp[2];
-                damage = (double) warp[3];
+        for (Object[] weapon : weaponData) {
+            if (weapon[0].equals(character)) {
+                displayName = (String) weapon[1];
+                customModelData = (int) weapon[3];
+                damage = (int) weapon[4];
                 break;
             }
         }
@@ -161,15 +164,17 @@ public class CustomItems {
         if (itemMeta != null) {
             itemMeta.setDisplayName(Messages.str(displayName));
             ArrayList<String> itemLore = new ArrayList<>();
+
             itemLore.add(Messages.str("&6&l&oOptifine Required!"));
             itemLore.add("");
-            itemLore.add(Messages.str("\"&7An elegant weapon from a more civilized age.\""));
+            itemLore.add(Messages.str("&7\"An elegant weapon from a more civilized age.\""));
             itemLore.add("");
             itemLore.add(Messages.str("&7Melee Damage: &c" + damage));
             itemLore.add("");
             itemLore.add(Messages.str("&6Ability: Saber Throw -> &e&lSHIFT + LEFT CLICK"));
             itemLore.add(Messages.str("&7Saber Throw Damage: &c24"));
             itemLore.add(Messages.str("&7Saber Throw Cooldown: &c10 seconds"));
+
             itemMeta.setLore(itemLore);
             itemMeta.setCustomModelData(customModelData);
             itemMeta.setUnbreakable(true);
@@ -180,8 +185,14 @@ public class CustomItems {
 
             item.setItemMeta(itemMeta);
         }
+
+        for(Player player : Bukkit.getOnlinePlayers()){
+            player.getInventory().addItem(item);
+        }
+
         return item;
     }
+
 
     public static ItemStack workbench() {
         ItemStack item = new ItemStack(Material.CRAFTING_TABLE);

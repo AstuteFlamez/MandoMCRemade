@@ -3,6 +3,7 @@ package net.mandomc.mandomcremade.listeners;
 import net.mandomc.mandomcremade.guis.RecipeGUI;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,43 +14,39 @@ public class RecipeGUIListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        String title = event.getView().getTitle();
+        String title = ChatColor.stripColor(event.getView().getTitle());
         Player player = (Player) event.getWhoClicked();
         Inventory clickedInventory = event.getClickedInventory();
-
-        Bukkit.broadcastMessage(title);
 
         if (clickedInventory == null) return; // Clicked outside of any inventory
 
         // Handle GUI interactions
         switch (title) {
             case "MandoMC Recipes":
-                Bukkit.broadcastMessage(1);
                 handleRecipesClick(event, player);
                 break;
-            case "Weapon Recipes":
+            case "Weapons":
                 handleWeaponsClick(event, player);
                 break;
-            case "Part Recipes":
+            case "Parts":
                 handlePartsClick(event, player);
                 break;
-            case "Lightsaber Recipes":
+            case "Lightsabers":
                 handleLightsabersClick(event, player);
                 break;
-            case "Luke Skywalker Hilt Recipe":
+            case "Luke Skywalker Hilt":
                 handleLukeSkywalkerHiltClick(event, player);
                 break;
-            case "Anakin Skywalker Hilt Recipe":
+            case "Anakin Skywalker Hilt":
                 handleAnakinSkywalkerHiltClick(event, player);
                 break;
-            case "Luke Skywalker Lightsaber Recipe":
+            case "Luke Skywalker Lightsaber":
                 handleLukeSkywalkerSaberClick(event, player);
                 break;
-            case "Anakin Skywalker Lightsaber Recipe":
+            case "Anakin Skywalker Lightsaber":
                 handleAnakinSkywalkerSaberClick(event, player);
                 break;
-            case "Lightsaber Core Recipe":
-            case "Activation Stud Recipe":
+            case "Lightsaber Core":
                 handleLightsaberCoreClick(event, player);
                 break;
         }
@@ -72,10 +69,10 @@ public class RecipeGUIListener implements Listener {
 
     private void handleRecipesClick(InventoryClickEvent event, Player player) {
         switch (event.getSlot()) {
-            case 12:
+            case 9:
                 player.openInventory(RecipeGUI.weapons(player));
                 break;
-            case 14:
+            case 10:
                 player.openInventory(RecipeGUI.parts(player));
                 break;
         }
@@ -83,7 +80,7 @@ public class RecipeGUIListener implements Listener {
 
     private void handleWeaponsClick(InventoryClickEvent event, Player player) {
         switch (event.getSlot()) {
-            case 13:
+            case 9:
                 player.openInventory(RecipeGUI.lightsabers(player));
                 break;
             case 25:
@@ -94,13 +91,13 @@ public class RecipeGUIListener implements Listener {
 
     private void handlePartsClick(InventoryClickEvent event, Player player) {
         switch (event.getSlot()) {
-            case 10:
+            case 9:
                 player.openInventory(RecipeGUI.lukeSkywalkerHilt(player));
                 break;
-            case 12:
+            case 10:
                 player.openInventory(RecipeGUI.anakinSkywalkerHilt(player));
                 break;
-            case 16:
+            case 11:
                 player.openInventory(RecipeGUI.lightsaberCore(player));
                 break;
             case 25:
@@ -114,7 +111,7 @@ public class RecipeGUIListener implements Listener {
             case 10:
                 player.openInventory(RecipeGUI.lukeSkywalkerSaber(player));
                 break;
-            case 12:
+            case 11:
                 player.openInventory(RecipeGUI.anakinSkywalkerSaber(player));
                 break;
             case 25:
@@ -168,11 +165,6 @@ public class RecipeGUIListener implements Listener {
     }
 
     private void handleLightsaberCoreClick(InventoryClickEvent event, Player player) {
-        if (event.getView().getTitle().equals(Messages.str("&8&lActivation Stud Recipe"))) {
-            event.setCancelled(true);
-            return;
-        }
-
         if (event.getSlot() == 25) {
             player.openInventory(RecipeGUI.parts(player));
         }
