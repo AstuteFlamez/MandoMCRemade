@@ -61,6 +61,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getCommand("mmc").setExecutor(new MMC(this));
         getCommand("vehicle").setExecutor(new Vehicle());
 
+        getServer().getPluginManager().registerEvents(new CustomItemsListener(), this);
         getServer().getPluginManager().registerEvents(new VehicleSafetyListener(), this);
         getServer().getPluginManager().registerEvents(new RecipeGUIListener(), this);
         getServer().getPluginManager().registerEvents(new WarpGUIListener(), this);

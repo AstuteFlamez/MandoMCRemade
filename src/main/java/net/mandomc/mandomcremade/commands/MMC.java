@@ -3,6 +3,7 @@ package net.mandomc.mandomcremade.commands;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
+import net.mandomc.mandomcremade.guis.CustomItemsGUI;
 import net.mandomc.mandomcremade.guis.RecipeGUI;
 import net.mandomc.mandomcremade.guis.WarpGUI;
 import net.mandomc.mandomcremade.tasks.KothRunnable;
@@ -40,6 +41,11 @@ public class MMC implements CommandExecutor, TabCompleter {
         }
 
         switch (args[0].toLowerCase()) {
+            case "get":
+                if(player.hasPermission("mmc.admin.get")) {
+                    player.openInventory(CustomItemsGUI.customItems(player));
+                }
+                break;
             case "yaw":
                 Messages.msg(player, "&7Your yaw is: " + player.getLocation().getYaw() + "!");
                 break;
@@ -167,6 +173,8 @@ public class MMC implements CommandExecutor, TabCompleter {
                     completions.add("maintenance");
                 } else if (sender.hasPermission("mmc.admin.reload")) {
                     completions.add("reload");
+                } else if (sender.hasPermission("mmc.admin.get")) {
+                    completions.add("get");
                 }
             }
             case 2 -> {

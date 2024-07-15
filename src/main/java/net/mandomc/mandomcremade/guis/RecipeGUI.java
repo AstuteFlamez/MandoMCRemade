@@ -26,8 +26,8 @@ public class RecipeGUI {
     public static Inventory recipes(Player player){
         Inventory inv = Bukkit.createInventory(player, 27, Messages.str("&2&lMandoMC Recipes"));
 
-        inv.setItem(9, CustomItems.item(Material.SHIELD, "&4&lWeapon Recipes", 1));
-        inv.setItem(10, CustomItems.item(Material.BEACON, "&6&lPart Recipes", 0));
+        inv.setItem(12, CustomItems.item(Material.SHIELD, "&4&lWeapon Recipes", 1));
+        inv.setItem(14, CustomItems.item(Material.BEACON, "&6&lPart Recipes", 0));
         inv.setItem(26, close);
 
         return inv;
@@ -36,7 +36,7 @@ public class RecipeGUI {
     public static Inventory weapons(Player player){
         Inventory inv = Bukkit.createInventory(player, 27, Messages.str("&2&lWeapons"));
 
-        inv.setItem(9, CustomItems.item(Material.SHIELD, "&a&lLightsaber Recipes", 1));
+        inv.setItem(13, CustomItems.item(Material.SHIELD, "&a&lLightsaber Recipes", 1));
         inv.setItem(25, back);
         inv.setItem(26, close);
         return inv;
@@ -45,9 +45,9 @@ public class RecipeGUI {
     public static Inventory parts(Player player){
         Inventory inv = Bukkit.createInventory(player, 27, Messages.str("&2&lParts"));
 
-        inv.setItem(9, CustomItems.hilt("lukeskywalker"));
-        inv.setItem(10, CustomItems.hilt("anakinskywalker"));
-        inv.setItem(11, CustomItems.lightsaberCore());
+        inv.setItem(12, CustomItems.hilt("lukeskywalker"));
+        inv.setItem(13, CustomItems.hilt("anakinskywalker"));
+        inv.setItem(14, CustomItems.lightsaberCore());
         inv.setItem(25, back);
         inv.setItem(26, close);
         return inv;
@@ -56,36 +56,16 @@ public class RecipeGUI {
     public static Inventory lightsabers(Player player){
         Inventory inv = Bukkit.createInventory(player, 27, Messages.str("&2&lLightsabers"));
 
-        inv.setItem(9, CustomItems.lightSaber("lukeskywalker"));
-        inv.setItem(10, CustomItems.lightSaber("anakinskywalker"));
+        inv.setItem(12, CustomItems.lightSaber("lukeskywalker"));
+        inv.setItem(14, CustomItems.lightSaber("anakinskywalker"));
         inv.setItem(25, back);
         inv.setItem(26, close);
         return inv;
     }
 
-    public static Inventory lukeSkywalkerHilt(Player player){
-        Inventory inv = Bukkit.createInventory(player, 54, Messages.str("&2&lLuke Skywalker Hilt"));
-        return Recipes.addRecipeToInv(inv, RecipeList.lukeSkywalkerHilt);
-    }
-
-    public static Inventory anakinSkywalkerHilt(Player player){
-        Inventory inv = Bukkit.createInventory(player, 54, Messages.str("&1&lAnakin Skywalker Hilt"));
-        return Recipes.addRecipeToInv(inv, RecipeList.anakinSkywalkerHilt);
-    }
-
-    public static Inventory lukeSkywalkerSaber(Player player){
-        Inventory inv = Bukkit.createInventory(player, 54, Messages.str("&2&lLuke Skywalker Lightsaber"));
-        return Recipes.addRecipeToInv(inv, RecipeList.lukeSkywalkerSaber);
-    }
-
-    public static Inventory anakinSkywalkerSaber(Player player){
-        Inventory inv = Bukkit.createInventory(player, 54, Messages.str("&1&lAnakin Skywalker Lightsaber"));
-        return Recipes.addRecipeToInv(inv, RecipeList.anakinSkywalkerSaber);
-    }
-
-    public static Inventory lightsaberCore(Player player){
-        Inventory inv = Bukkit.createInventory(player, 54, Messages.str("&2&lLightsaber Core"));
-        return Recipes.addRecipeToInv(inv, RecipeList.core);
+    public static void createRecipeInv(Player player, String displayName, ItemStack[] itemList) {
+        Inventory inv = Bukkit.createInventory(player, 54, Messages.str(displayName));
+        player.openInventory(Recipes.addRecipeToInv(inv, itemList));
     }
 
 }

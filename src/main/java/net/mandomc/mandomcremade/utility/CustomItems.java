@@ -186,10 +186,6 @@ public class CustomItems {
             item.setItemMeta(itemMeta);
         }
 
-        for(Player player : Bukkit.getOnlinePlayers()){
-            player.getInventory().addItem(item);
-        }
-
         return item;
     }
 
