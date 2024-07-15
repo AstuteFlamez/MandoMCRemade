@@ -31,7 +31,6 @@ public class CustomItems {
         ItemStack item = new ItemStack(Material.WOODEN_SWORD);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(color + "X-Wing Starfighter"));
             ArrayList<String> itemLore = new ArrayList<>();
             itemLore.add(Messages.str("&7Right click to spawn and fly!"));
             itemLore.add(Messages.str("&7/vehicle to change color!"));
@@ -42,17 +41,17 @@ public class CustomItems {
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
 
             switch (color) {
-                case "&c":
-                    itemMeta.setDisplayName(color + "Red Squadron X-Wing");
-                    itemMeta.setCustomModelData(6);
+                case "red":
+                    itemMeta.setDisplayName(Messages.str("&cRed Squadron X-Wing"));
+                    itemMeta.setCustomModelData(1);
                     break;
-                case "&2":
-                    itemMeta.setDisplayName(color + "Green Squadron X-Wing");
-                    itemMeta.setCustomModelData(7);
+                case "green":
+                    itemMeta.setDisplayName(Messages.str("&2Green Squadron X-Wing"));
+                    itemMeta.setCustomModelData(2);
                     break;
-                case "&3":
-                    itemMeta.setDisplayName(color + "Blue Squadron X-Wing");
-                    itemMeta.setCustomModelData(9);
+                case "blue":
+                    itemMeta.setDisplayName(Messages.str("&3Blue Squadron X-Wing"));
+                    itemMeta.setCustomModelData(3);
                     break;
             }
 
@@ -73,7 +72,7 @@ public class CustomItems {
             itemLore.add(Messages.str("&6Ability: Laser Cannons -> &e&lLEFT CLICK"));
             itemLore.add(Messages.str("&7Laser Cannons Cooldown: &c2 seconds"));
             itemMeta.setLore(itemLore);
-            itemMeta.setCustomModelData(8);
+            itemMeta.setCustomModelData(4);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
             item.setItemMeta(itemMeta);
         }
@@ -93,12 +92,11 @@ public class CustomItems {
 
     public static ItemStack kyber(String color) {
         Object[][] kyberData = Handlers.getKyberMatrix();
-        String displayName = null;
+        String displayName = "";
         int customModelData = 0;
 
         for (Object[] kyber : kyberData) {
-            String kyberssss = (String) kyber[1];
-            if (kyberssss.equals(color)) {
+            if(kyber[0].equals(color)){
                 displayName = (String) kyber[1];
                 customModelData = (int) kyber[2];
                 break;
@@ -120,7 +118,7 @@ public class CustomItems {
 
     public static ItemStack hilt(String character) {
         Object[][] hiltData = Handlers.getWeaponMatrix();
-        String displayName = null;
+        String displayName = "";
         int customModelData = 0;
 
         for (Object[] hilt : hiltData) {
@@ -131,7 +129,7 @@ public class CustomItems {
             }
         }
 
-        ItemStack item = new ItemStack(Material.WOODEN_SWORD);
+        ItemStack item = new ItemStack(Material.STICK);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
             itemMeta.setDisplayName(Messages.str(displayName));

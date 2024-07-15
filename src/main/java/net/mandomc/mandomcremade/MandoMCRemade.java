@@ -73,7 +73,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
             public void onPacketSending(PacketEvent event) {
                 WrappedServerPing packet = event.getPacket().getServerPings().read(0);
 
-                packet.setPlayersOnline(66);
                 packet.setPlayersMaximum(66);
 
                 if (getConfig().getBoolean("Maintenance")) {
@@ -88,8 +87,11 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
                 // Create WrappedGameProfile objects for the custom player list
                 List<WrappedGameProfile> profiles = new ArrayList<>();
                 for (int i = 0; i < getConfig().getStringList("ServerListHoverText").size(); i++) {
-                    profiles.add(new WrappedGameProfile(String.valueOf(i + 1), getConfig().getStringList("ServerListHoverText").get(i)));
+                    String hoverText = getConfig().getStringList("ServerListHoverText").get(i);
+                    UUID uuid = UUID.randomUUID(); // Generate a random UUID
+                    profiles.add(new WrappedGameProfile(uuid.toString(), hoverText));
                 }
+
                 packet.setPlayers(profiles);
 
                 event.getPacket().getServerPings().write(0, packet);

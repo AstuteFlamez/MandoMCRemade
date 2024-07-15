@@ -35,14 +35,14 @@ public class RecipeList {
 
     public static ItemStack[] lukeSkywalkerSaber = new ItemStack[]{
             null, null, null,
-            null, CustomItems.kyber("GreenKyber"), null,
-            null, CustomItems.hilt("LukeSkywalker"), null
+            null, CustomItems.kyber("greenkyber"), null,
+            null, CustomItems.hilt("lukeskywalker"), null
     };
 
     public static ItemStack[] anakinSkywalkerSaber = new ItemStack[]{
             null, null, null,
-            null, CustomItems.kyber("BlueKyber"), null,
-            null, CustomItems.hilt("AnakinSkywalker"), null
+            null, CustomItems.kyber("bluekyber"), null,
+            null, CustomItems.hilt("anakinskywalker"), null
     };
 
 }

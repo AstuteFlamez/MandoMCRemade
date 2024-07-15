@@ -37,8 +37,6 @@ public class Recipes {
         inv.setItem(28, list[6]);
         inv.setItem(29, list[7]);
         inv.setItem(30, list[8]);
-        inv.setItem(52, CustomItems.item(Material.ARROW, "&c&lBACK", 0));
-        inv.setItem(53, CustomItems.item(Material.BARRIER, "&c&lCLOSE", 0));
 
         return inv;
     }

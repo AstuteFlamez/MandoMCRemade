@@ -16,12 +16,12 @@ public class CustomItemsGUI implements Listener {
         inv.setItem(1, CustomItems.xWing("red"));
         inv.setItem(2, CustomItems.xWing("green"));
         inv.setItem(3, CustomItems.xWing("blue"));
-        inv.setItem(4, CustomItems.kyber("red"));
-        inv.setItem(5, CustomItems.kyber("green"));
-        inv.setItem(6, CustomItems.kyber("blue"));
-        inv.setItem(7, CustomItems.kyber("purple"));
-        inv.setItem(8, CustomItems.kyber("yellow"));
-        inv.setItem(9, CustomItems.kyber("white"));
+        inv.setItem(4, CustomItems.kyber("redkyber"));
+        inv.setItem(5, CustomItems.kyber("greenkyber"));
+        inv.setItem(6, CustomItems.kyber("bluekyber"));
+        inv.setItem(7, CustomItems.kyber("purplekyber"));
+        inv.setItem(8, CustomItems.kyber("yellowkyber"));
+        inv.setItem(9, CustomItems.kyber("whitekyber"));
         inv.setItem(10, CustomItems.lightsaberCore());
         inv.setItem(11, CustomItems.hilt("lukeskywalker"));
         inv.setItem(12, CustomItems.hilt("anakinskywalker"));
