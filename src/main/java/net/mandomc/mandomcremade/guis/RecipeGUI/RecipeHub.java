@@ -23,6 +23,7 @@ public class RecipeHub extends InventoryGUI {
 
     @Override
     protected Inventory createInventory() {
+        //create size of inventory and name
         return Bukkit.createInventory(null, 3 * 9, Messages.str("&4&lMandoMC Recipes"));
     }
 
@@ -35,6 +36,7 @@ public class RecipeHub extends InventoryGUI {
         super.decorate(player);
     }
 
+    //button = what you want to happen when item is clicked
     private InventoryButton createWeaponButton(ItemStack itemStack) {
         return new InventoryButton()
                 .creator(player -> itemStack)
