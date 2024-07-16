@@ -8,23 +8,27 @@ import com.comphenix.protocol.wrappers.WrappedServerPing;
 import net.mandomc.mandomcremade.commands.*;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
+import net.mandomc.mandomcremade.koth.KOTHCommand;
+import net.mandomc.mandomcremade.koth.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.guis.GUIManager;
-import net.mandomc.mandomcremade.tasks.KothScheduler;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public static MandoMCRemade instance;
-    public static String kothTime = Messages.str("The next KOTH will be in ");
+    private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
 
     public MandoMCRemade() {
@@ -49,7 +53,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.save();
 
         GUIManager guiManager = new GUIManager();
-
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
 
@@ -59,15 +62,27 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Recipes.createRecipe(CustomItems.hilt("AnakinSkywalker"), "anakinskywalkerhilt", Recipes.anakinSkywalkerHilt);
         Recipes.createRecipe(CustomItems.lightSaber("AnakinSkywalker"), "anakinskywalkersaber", Recipes.anakinSkywalkerSaber);
 
-        KothScheduler kothScheduler = new KothScheduler();
-        kothScheduler.start();
-        kothTime += kothScheduler.timeUntilNextTask();
-
         getCommand("mmc").setExecutor(new MMC(guiManager, this));
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
         getServer().getPluginManager().registerEvents(this, this);
+
+        //Define the KOTH location and capture radius
+        Location kothLocation = new Location(Bukkit.getWorld("world"), 0, 64, 0);
+        double captureRadius = 10.0;
+
+        kothManager = new KOTHManager(this, kothLocation, captureRadius);
+        this.getCommand("koth").setExecutor(new KOTHCommand(this, kothManager));
+
+        // Schedule KOTH event every 4 hours
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                kothManager.startKOTH();
+            }
+        }.runTaskTimer(this, TimeUnit.MINUTES.toSeconds(5) * 20, TimeUnit.HOURS.toSeconds(4) * 20);
+
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Status.Server.SERVER_INFO) {
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -105,6 +120,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         // Plugin shutdown logic
         ProtocolLibrary.getProtocolManager().removePacketListeners(this);
         getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
+        kothManager.endKOTH();
 
     }
 
@@ -112,4 +128,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         return instance;
     }
 
+    public KOTHManager getKOTHManager() {
+        return kothManager;
+    }
 }

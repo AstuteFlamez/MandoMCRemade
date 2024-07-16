@@ -29,7 +29,7 @@ public class PartRecipes extends InventoryGUI {
     @Override
     public void decorate(Player player) {
 
-        this.addButton(12, this.createHiltButton(CustomItems.item(Material.STICK, "&a&lHilt Recipes", 3)));
+        this.addButton(12, this.createHiltButton(CustomItems.item(Material.STICK, "&a&lHilt Recipes", 4)));
         this.addButton(14, this.createLightsaberCoreButton(CustomItems.lightsaberCore()));
         this.addButton(26, this.createBackButton(CustomItems.item(Material.ARROW, "&c&lBACK", 0)));
 

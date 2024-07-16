@@ -6,7 +6,6 @@ import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.guis.ItemsGUI.ItemHub;
 import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
-import net.mandomc.mandomcremade.tasks.KothRunnable;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -136,7 +135,7 @@ public class MMC implements CommandExecutor, TabCompleter {
 
         switch (args[1].toLowerCase()) {
             case "start":
-                new KothRunnable(MandoMCRemade.getInstance()).runTaskTimer(MandoMCRemade.getInstance(), 0L, 20L);
+                //new KothRunnable(MandoMCRemade.getInstance()).runTaskTimer(MandoMCRemade.getInstance(), 0L, 20L);
                 break;
             case "end":
                 Messages.msg(player, "&cThis feature has not been implemented yet.");

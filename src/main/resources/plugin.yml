@@ -7,3 +7,4 @@ description: A core plugin for the minecraft server MandoMC.
 softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]
 commands:
   mmc:
+  koth:
