@@ -1,9 +1,10 @@
-package net.mandomc.mandomcremade.managers.RecipeGUI.weapons;
+package net.mandomc.mandomcremade.guis.RecipeGUI.weapons;
 
-import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.managers.InventoryButton;
-import net.mandomc.mandomcremade.managers.InventoryGUI;
-import net.mandomc.mandomcremade.managers.RecipeGUI.weapons.lightsabers.LightsaberRecipes;
+import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.guis.InventoryButton;
+import net.mandomc.mandomcremade.guis.InventoryGUI;
+import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
+import net.mandomc.mandomcremade.guis.RecipeGUI.weapons.lightsabers.LightsaberRecipes;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
@@ -49,7 +50,7 @@ public class WeaponRecipes extends InventoryGUI {
                 .creator(player -> itemStack)
                 .consumer(event -> {
                     Player player = (Player) event.getWhoClicked();
-                    this.guiManager.openGUI(new WeaponRecipes(guiManager), player);
+                    this.guiManager.openGUI(new RecipeHub(guiManager), player);
                 });
     }
 

@@ -3,9 +3,9 @@ package net.mandomc.mandomcremade.commands;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
-import net.mandomc.mandomcremade.guis.CustomItemsGUI;
-import net.mandomc.mandomcremade.guis.RecipeGUI;
-import net.mandomc.mandomcremade.guis.WarpGUI;
+import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.guis.ItemsGUI.ItemHub;
+import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
 import net.mandomc.mandomcremade.tasks.KothRunnable;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
@@ -23,9 +23,11 @@ import java.util.List;
 
 public class MMC implements CommandExecutor, TabCompleter {
 
+    private final GUIManager guiManager;
     private final MandoMCRemade plugin;
 
-    public MMC(MandoMCRemade plugin) {
+    public MMC(GUIManager guiManager, MandoMCRemade plugin) {
+        this.guiManager = guiManager;
         this.plugin = plugin;
     }
 
@@ -35,7 +37,7 @@ public class MMC implements CommandExecutor, TabCompleter {
 
             switch (args[0].toLowerCase()) {
                 case "give":
-                    handleGiveCommand(args);
+                    //handleGiveCommand(args);
                     break;
             }
 
@@ -50,12 +52,12 @@ public class MMC implements CommandExecutor, TabCompleter {
         switch (args[0].toLowerCase()) {
             case "get":
                 if(player.hasPermission("mmc.admin.get")) {
-                    player.openInventory(CustomItemsGUI.customItems(player));
+                    this.guiManager.openGUI(new ItemHub(guiManager), player);
                 }
                 break;
             case "give":
                 if(player.hasPermission("mmc.admin.give")) {
-                    handleGiveCommand(args);
+                    //handleGiveCommand(args);
                 }
                 break;
             case "yaw":
@@ -80,7 +82,7 @@ public class MMC implements CommandExecutor, TabCompleter {
                 }
                 break;
             case "recipes":
-                player.openInventory(RecipeGUI.recipes(player));
+                this.guiManager.openGUI(new RecipeHub(guiManager), player);
                 break;
             case "warp":
                 handleWarpCommand(player, args);
@@ -119,16 +121,7 @@ public class MMC implements CommandExecutor, TabCompleter {
     }
 
     private void handleWarpCommand(Player player, String[] args) {
-        if (args.length == 1) {
-            player.openInventory(WarpGUI.warpCreator(player));
-        } else {
-            WarpGUI.warp(player, args[1]);
-        }
-    }
 
-    private void handleGiveCommand(String[] args) {
-        if (args.length <=1 || Bukkit.getPlayer(args[0]) == null) return;
-        Bukkit.getPlayer(args[0]).getInventory().addItem(CustomItemsGUI.getItem(args[1]));
     }
 
     private void handleKothCommand(Player player, String[] args) {

@@ -1,10 +1,10 @@
-package net.mandomc.mandomcremade.managers.RecipeGUI;
+package net.mandomc.mandomcremade.guis.RecipeGUI;
 
-import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.managers.InventoryButton;
-import net.mandomc.mandomcremade.managers.InventoryGUI;
-import net.mandomc.mandomcremade.managers.RecipeGUI.parts.PartRecipes;
-import net.mandomc.mandomcremade.managers.RecipeGUI.weapons.WeaponRecipes;
+import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.guis.InventoryButton;
+import net.mandomc.mandomcremade.guis.InventoryGUI;
+import net.mandomc.mandomcremade.guis.RecipeGUI.parts.PartRecipes;
+import net.mandomc.mandomcremade.guis.RecipeGUI.weapons.WeaponRecipes;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ public class RecipeHub extends InventoryGUI {
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lMandoMC Recipes"));
+        return Bukkit.createInventory(null, 3 * 9, Messages.str("&4&lMandoMC Recipes"));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RecipeHub extends InventoryGUI {
                 .creator(player -> itemStack)
                 .consumer(event -> {
                     Player player = (Player) event.getWhoClicked();
-                    this.guiManager.openGUI(new PartRecipes(), player);
+                    this.guiManager.openGUI(new PartRecipes(guiManager), player);
                 });
     }
 

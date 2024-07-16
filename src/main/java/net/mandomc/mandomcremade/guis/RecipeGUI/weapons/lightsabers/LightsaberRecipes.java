@@ -1,9 +1,9 @@
-package net.mandomc.mandomcremade.managers.RecipeGUI.weapons.lightsabers;
+package net.mandomc.mandomcremade.guis.RecipeGUI.weapons.lightsabers;
 
-import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.managers.InventoryButton;
-import net.mandomc.mandomcremade.managers.InventoryGUI;
-import net.mandomc.mandomcremade.managers.RecipeGUI.weapons.WeaponRecipes;
+import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.guis.InventoryButton;
+import net.mandomc.mandomcremade.guis.InventoryGUI;
+import net.mandomc.mandomcremade.guis.RecipeGUI.weapons.WeaponRecipes;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
@@ -12,17 +12,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class AnakinSkywalker extends InventoryGUI {
+public class LightsaberRecipes extends InventoryGUI {
 
     private final GUIManager guiManager;
 
-    public AnakinSkywalker(GUIManager guiManager) {
+    public LightsaberRecipes(GUIManager guiManager) {
         this.guiManager = guiManager;
     }
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&9&lAnakin Skywalker's Lightsaber"));
+        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lLightsabers"));
     }
 
     @Override
@@ -31,6 +31,7 @@ public class AnakinSkywalker extends InventoryGUI {
         this.addButton(12, this.createLukeButton(CustomItems.lightSaber("LukeSkywalker")));
         this.addButton(14, this.createAnakinButton(CustomItems.lightSaber("AnakinSkywalker")));
         this.addButton(26, this.createBackButton(CustomItems.item(Material.ARROW, "&c&lBACK", 0)));
+
 
         super.decorate(player);
     }

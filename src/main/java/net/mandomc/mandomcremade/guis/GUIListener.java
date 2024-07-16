@@ -1,4 +1,4 @@
-package net.mandomc.mandomcremade.managers;
+package net.mandomc.mandomcremade.guis;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

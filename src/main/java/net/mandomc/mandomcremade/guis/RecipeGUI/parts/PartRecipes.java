@@ -1,9 +1,10 @@
-package net.mandomc.mandomcremade.managers.RecipeGUI.weapons.lightsabers;
+package net.mandomc.mandomcremade.guis.RecipeGUI.parts;
 
-import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.managers.InventoryButton;
-import net.mandomc.mandomcremade.managers.InventoryGUI;
-import net.mandomc.mandomcremade.managers.RecipeGUI.weapons.WeaponRecipes;
+import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.guis.InventoryButton;
+import net.mandomc.mandomcremade.guis.InventoryGUI;
+import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
+import net.mandomc.mandomcremade.guis.RecipeGUI.parts.hilts.HiltRecipes;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
@@ -12,45 +13,45 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class LightsaberRecipes extends InventoryGUI {
+public class PartRecipes extends InventoryGUI {
 
     private final GUIManager guiManager;
 
-    public LightsaberRecipes(GUIManager guiManager) {
+    public PartRecipes(GUIManager guiManager) {
         this.guiManager = guiManager;
     }
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lLightsabers"));
+        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lPart Recipes"));
     }
 
     @Override
     public void decorate(Player player) {
 
-        this.addButton(12, this.createLukeButton(CustomItems.lightSaber("LukeSkywalker")));
-        this.addButton(14, this.createAnakinButton(CustomItems.lightSaber("AnakinSkywalker")));
+        this.addButton(12, this.createHiltButton(CustomItems.item(Material.STICK, "&a&lHilt Recipes", 3)));
+        this.addButton(14, this.createLightsaberCoreButton(CustomItems.lightsaberCore()));
         this.addButton(26, this.createBackButton(CustomItems.item(Material.ARROW, "&c&lBACK", 0)));
 
 
         super.decorate(player);
     }
 
-    private InventoryButton createLukeButton(ItemStack itemStack) {
+    private InventoryButton createHiltButton(ItemStack itemStack) {
         return new InventoryButton()
                 .creator(player -> itemStack)
                 .consumer(event -> {
                     Player player = (Player) event.getWhoClicked();
-                    this.guiManager.openGUI(new LukeSkywalker(guiManager), player);
+                    this.guiManager.openGUI(new HiltRecipes(guiManager), player);
                 });
     }
 
-    private InventoryButton createAnakinButton(ItemStack itemStack) {
+    private InventoryButton createLightsaberCoreButton(ItemStack itemStack) {
         return new InventoryButton()
                 .creator(player -> itemStack)
                 .consumer(event -> {
                     Player player = (Player) event.getWhoClicked();
-                    this.guiManager.openGUI(new AnakinSkywalker(guiManager), player);
+                    this.guiManager.openGUI(new LightsaberCore(guiManager), player);
                 });
     }
 
@@ -59,7 +60,7 @@ public class LightsaberRecipes extends InventoryGUI {
                 .creator(player -> itemStack)
                 .consumer(event -> {
                     Player player = (Player) event.getWhoClicked();
-                    this.guiManager.openGUI(new WeaponRecipes(guiManager), player);
+                    this.guiManager.openGUI(new RecipeHub(guiManager), player);
                 });
     }
 

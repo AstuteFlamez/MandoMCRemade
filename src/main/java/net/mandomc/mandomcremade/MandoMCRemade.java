@@ -9,8 +9,8 @@ import net.mandomc.mandomcremade.commands.*;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.listeners.*;
-import net.mandomc.mandomcremade.managers.GUIListener;
-import net.mandomc.mandomcremade.managers.GUIManager;
+import net.mandomc.mandomcremade.guis.GUIListener;
+import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.tasks.KothScheduler;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
@@ -63,11 +63,8 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         kothScheduler.start();
         kothTime += kothScheduler.timeUntilNextTask();
 
-        getCommand("mmc").setExecutor(new MMC(this));
+        getCommand("mmc").setExecutor(new MMC(guiManager, this));
 
-        getServer().getPluginManager().registerEvents(new CustomItemsListener(), this);
-        getServer().getPluginManager().registerEvents(new RecipeGUIListener(), this);
-        getServer().getPluginManager().registerEvents(new WarpGUIListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
         getServer().getPluginManager().registerEvents(this, this);
