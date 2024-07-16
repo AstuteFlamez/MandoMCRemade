@@ -12,17 +12,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class LightsaberRecipes extends InventoryGUI {
+public class AnakinSkywalker extends InventoryGUI {
 
     private final GUIManager guiManager;
 
-    public LightsaberRecipes(GUIManager guiManager) {
+    public AnakinSkywalker(GUIManager guiManager) {
         this.guiManager = guiManager;
     }
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lLightsabers"));
+        return Bukkit.createInventory(null, 3 * 9, Messages.str("&9&lAnakin Skywalker's Lightsaber"));
     }
 
     @Override
@@ -31,7 +31,6 @@ public class LightsaberRecipes extends InventoryGUI {
         this.addButton(12, this.createLukeButton(CustomItems.lightSaber("LukeSkywalker")));
         this.addButton(14, this.createAnakinButton(CustomItems.lightSaber("AnakinSkywalker")));
         this.addButton(26, this.createBackButton(CustomItems.item(Material.ARROW, "&c&lBACK", 0)));
-
 
         super.decorate(player);
     }

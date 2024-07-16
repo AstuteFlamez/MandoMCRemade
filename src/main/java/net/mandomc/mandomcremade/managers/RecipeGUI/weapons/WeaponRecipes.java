@@ -22,13 +22,13 @@ public class WeaponRecipes extends InventoryGUI {
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lMandoMC Recipes"));
+        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lWeapons"));
     }
 
     @Override
     public void decorate(Player player) {
 
-        this.addButton(13, this.createLightsaberButton(CustomItems.item(Material.SHIELD, "&a&lLightsaber Recipes", 1));
+        this.addButton(13, this.createLightsaberButton(CustomItems.item(Material.SHIELD, "&a&lLightsaber Recipes", 1)));
         this.addButton(26, this.createBackButton(CustomItems.item(Material.ARROW, "&c&lBACK", 0)));
 
 

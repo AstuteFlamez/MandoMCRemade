@@ -19,6 +19,16 @@ public class Recipes {
     private static final ItemStack redstoneTorch = new ItemStack(Material.REDSTONE_TORCH);
     private static final ItemStack stoneButton = new ItemStack(Material.STONE_BUTTON);
 
+    /*
+    11 12 13
+    20 21 22   24
+    29 30 31
+
+
+                    53
+     */
+
+
     public static ItemStack[] core = new ItemStack[]{
             ironIngot, netheriteIngot, ironIngot,
             netheriteBlock, ironBlock, netheriteBlock,
