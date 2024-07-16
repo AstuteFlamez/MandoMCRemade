@@ -1,9 +1,8 @@
 package net.mandomc.mandomcremade.guis;
 
-import net.mandomc.mandomcremade.handlers.Recipes;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
-import net.mandomc.mandomcremade.utility.RecipeList;
+import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -2,7 +2,6 @@ package net.mandomc.mandomcremade.listeners;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.utility.Messages;
-import net.mandomc.mandomcremade.utility.Particles;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

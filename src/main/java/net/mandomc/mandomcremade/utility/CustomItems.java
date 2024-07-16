@@ -1,11 +1,10 @@
 package net.mandomc.mandomcremade.utility;
 
-import net.mandomc.mandomcremade.handlers.Handlers;
-import org.bukkit.Bukkit;
+import net.mandomc.mandomcremade.MandoMCRemade;
+import net.mandomc.mandomcremade.config.SaberConfig;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -90,18 +89,9 @@ public class CustomItems {
         return item;
     }
 
-    public static ItemStack kyber(String color) {
-        Object[][] kyberData = Handlers.getKyberMatrix();
-        String displayName = "";
-        int customModelData = 0;
-
-        for (Object[] kyber : kyberData) {
-            if(kyber[0].equals(color)){
-                displayName = (String) kyber[1];
-                customModelData = (int) kyber[2];
-                break;
-            }
-        }
+    public static ItemStack kyber(String kyberName) {
+        String displayName = MandoMCRemade.getInstance().getConfig().getString(kyberName + "Name");
+        int customModelData = MandoMCRemade.getInstance().getConfig().getInt(kyberName + "CustomModelData");
 
         ItemStack item = new ItemStack(Material.NETHER_STAR);
         ItemMeta itemMeta = item.getItemMeta();
@@ -117,22 +107,13 @@ public class CustomItems {
 
 
     public static ItemStack hilt(String character) {
-        Object[][] hiltData = Handlers.getWeaponMatrix();
-        String displayName = "";
-        int customModelData = 0;
-
-        for (Object[] hilt : hiltData) {
-            if (hilt[0].equals(character)) {
-                displayName = (String) hilt[2];
-                customModelData = (int) hilt[3];
-                break;
-            }
-        }
+        String displayName = SaberConfig.get().getString(character + "Name");
+        int customModelData = SaberConfig.get().getInt(character + "CustomModelData");
 
         ItemStack item = new ItemStack(Material.STICK);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(displayName));
+            itemMeta.setDisplayName(Messages.str(displayName + " Hilt"));
             itemMeta.setCustomModelData(customModelData);
             itemMeta.setUnbreakable(true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
@@ -142,25 +123,15 @@ public class CustomItems {
     }
 
     public static ItemStack lightSaber(String character) {
-        Object[][] weaponData = Handlers.getWeaponMatrix();
 
-        String displayName = "";
-        int customModelData = 0;
-        double damage = 0.0;
-
-        for (Object[] weapon : weaponData) {
-            if (weapon[0].equals(character)) {
-                displayName = (String) weapon[1];
-                customModelData = (int) weapon[3];
-                damage = (int) weapon[4];
-                break;
-            }
-        }
+        String displayName = SaberConfig.get().getString(character + "Name");
+        int customModelData = SaberConfig.get().getInt(character + "CustomModelData");
+        int damage = SaberConfig.get().getInt(character + "Damage");
 
         ItemStack item = new ItemStack(Material.SHIELD);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(displayName));
+            itemMeta.setDisplayName(Messages.str(displayName + " Lightsaber"));
             ArrayList<String> itemLore = new ArrayList<>();
 
             itemLore.add(Messages.str("&6&l&oOptifine Required!"));
@@ -184,20 +155,6 @@ public class CustomItems {
             item.setItemMeta(itemMeta);
         }
 
-        return item;
-    }
-
-
-    public static ItemStack workbench() {
-        ItemStack item = new ItemStack(Material.CRAFTING_TABLE);
-        ItemMeta itemMeta = item.getItemMeta();
-        if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str("&8Crafting Table"));
-            ArrayList<String> itemLore = new ArrayList<>();
-            itemLore.add(Messages.str("&7Craft this recipe using a workbench!"));
-            itemMeta.setLore(itemLore);
-            item.setItemMeta(itemMeta);
-        }
         return item;
     }
 }

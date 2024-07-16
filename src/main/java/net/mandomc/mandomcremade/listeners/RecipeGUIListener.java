@@ -1,7 +1,7 @@
 package net.mandomc.mandomcremade.listeners;
 
 import net.mandomc.mandomcremade.guis.RecipeGUI;
-import net.mandomc.mandomcremade.utility.RecipeList;
+import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -91,13 +91,13 @@ public class RecipeGUIListener implements Listener {
 
         switch(ChatColor.stripColor(displayName)) {
             case "Luke Skywalker's Hilt":
-                RecipeGUI.createRecipeInv(player, "&2&lLuke Skywalker's Hilt", RecipeList.lukeSkywalkerHilt);
+                RecipeGUI.createRecipeInv(player, "&2&lLuke Skywalker's Hilt", Recipes.lukeSkywalkerHilt);
                 break;
             case "Anakin Skywalker's Hilt":
-                RecipeGUI.createRecipeInv(player, "&1&lAnakin Skywalker's Hilt", RecipeList.anakinSkywalkerHilt);
+                RecipeGUI.createRecipeInv(player, "&1&lAnakin Skywalker's Hilt", Recipes.anakinSkywalkerHilt);
                 break;
             case "Lightsaber Core":
-                RecipeGUI.createRecipeInv(player, "&b&lLightsaber Core", RecipeList.core);
+                RecipeGUI.createRecipeInv(player, "&b&lLightsaber Core", Recipes.core);
                 break;
             case "BACK":
                 player.openInventory(RecipeGUI.recipes(player));
@@ -112,10 +112,10 @@ public class RecipeGUIListener implements Listener {
 
         switch(ChatColor.stripColor(displayName)) {
             case "Luke Skywalker's Lightsaber":
-                RecipeGUI.createRecipeInv(player, "&2&lLuke Skywalker's Lightsaber", RecipeList.lukeSkywalkerSaber);
+                RecipeGUI.createRecipeInv(player, "&2&lLuke Skywalker's Lightsaber", Recipes.lukeSkywalkerSaber);
                 break;
             case "Anakin Skywalker's Lightsaber":
-                RecipeGUI.createRecipeInv(player, "&9&lAnakin Skywalker's Lightsaber", RecipeList.anakinSkywalkerSaber);
+                RecipeGUI.createRecipeInv(player, "&9&lAnakin Skywalker's Lightsaber", Recipes.anakinSkywalkerSaber);
                 break;
             case "BACK":
                 player.openInventory(RecipeGUI.weapons(player));

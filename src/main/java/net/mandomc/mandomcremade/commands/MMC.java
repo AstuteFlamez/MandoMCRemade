@@ -32,6 +32,13 @@ public class MMC implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
+
+            switch (args[0].toLowerCase()) {
+                case "give":
+                    handleGiveCommand(args);
+                    break;
+            }
+
             return true;
         }
 
@@ -44,6 +51,11 @@ public class MMC implements CommandExecutor, TabCompleter {
             case "get":
                 if(player.hasPermission("mmc.admin.get")) {
                     player.openInventory(CustomItemsGUI.customItems(player));
+                }
+                break;
+            case "give":
+                if(player.hasPermission("mmc.admin.give")) {
+                    handleGiveCommand(args);
                 }
                 break;
             case "yaw":
@@ -112,6 +124,11 @@ public class MMC implements CommandExecutor, TabCompleter {
         } else {
             WarpGUI.warp(player, args[1]);
         }
+    }
+
+    private void handleGiveCommand(String[] args) {
+        if (args.length <=1 || Bukkit.getPlayer(args[0]) == null) return;
+        Bukkit.getPlayer(args[0]).getInventory().addItem(CustomItemsGUI.getItem(args[1]));
     }
 
     private void handleKothCommand(Player player, String[] args) {

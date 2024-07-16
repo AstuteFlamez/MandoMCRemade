@@ -9,12 +9,13 @@ import net.mandomc.mandomcremade.commands.*;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.listeners.*;
-import net.mandomc.mandomcremade.handlers.Recipes;
+import net.mandomc.mandomcremade.managers.GUIListener;
+import net.mandomc.mandomcremade.managers.GUIManager;
 import net.mandomc.mandomcremade.tasks.KothScheduler;
-import net.mandomc.mandomcremade.tasks.ShipsRunnable;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
-import net.mandomc.mandomcremade.utility.RecipeList;
+import net.mandomc.mandomcremade.utility.Recipes;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,22 +48,24 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
 
-        Recipes.createRecipe(CustomItems.lightsaberCore(), "core", RecipeList.core);
-        Recipes.createRecipe(CustomItems.hilt("LukeSkywalker"), "lukeskywalkerhilt", RecipeList.lukeSkywalkerHilt);
-        Recipes.createRecipe(CustomItems.lightSaber("LukeSkywalker"), "lukeskywalkersaber", RecipeList.lukeSkywalkerSaber);
-        Recipes.createRecipe(CustomItems.hilt("AnakinSkywalker"), "anakinskywalkerhilt", RecipeList.anakinSkywalkerHilt);
-        Recipes.createRecipe(CustomItems.lightSaber("AnakinSkywalker"), "anakinskywalkersaber", RecipeList.anakinSkywalkerSaber);
+        GUIManager guiManager = new GUIManager();
 
-        new ShipsRunnable(this).runTaskTimer(this, 0L, 1L);
+        GUIListener guiListener = new GUIListener(guiManager);
+        Bukkit.getPluginManager().registerEvents(guiListener, this);
+
+        Recipes.createRecipe(CustomItems.lightsaberCore(), "core", Recipes.core);
+        Recipes.createRecipe(CustomItems.hilt("LukeSkywalker"), "lukeskywalkerhilt", Recipes.lukeSkywalkerHilt);
+        Recipes.createRecipe(CustomItems.lightSaber("LukeSkywalker"), "lukeskywalkersaber", Recipes.lukeSkywalkerSaber);
+        Recipes.createRecipe(CustomItems.hilt("AnakinSkywalker"), "anakinskywalkerhilt", Recipes.anakinSkywalkerHilt);
+        Recipes.createRecipe(CustomItems.lightSaber("AnakinSkywalker"), "anakinskywalkersaber", Recipes.anakinSkywalkerSaber);
+
         KothScheduler kothScheduler = new KothScheduler();
         kothScheduler.start();
         kothTime += kothScheduler.timeUntilNextTask();
 
         getCommand("mmc").setExecutor(new MMC(this));
-        getCommand("vehicle").setExecutor(new Vehicle());
 
         getServer().getPluginManager().registerEvents(new CustomItemsListener(), this);
-        getServer().getPluginManager().registerEvents(new VehicleSafetyListener(), this);
         getServer().getPluginManager().registerEvents(new RecipeGUIListener(), this);
         getServer().getPluginManager().registerEvents(new WarpGUIListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
