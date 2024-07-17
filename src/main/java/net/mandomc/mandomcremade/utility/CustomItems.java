@@ -11,9 +11,36 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class CustomItems {
+
+    public static final HashMap<String, ItemStack> CUSTOM_ITEM_MAP;
+
+    static {
+        CUSTOM_ITEM_MAP = new HashMap<>();
+        CUSTOM_ITEM_MAP.put("tieFighter", CustomItems.tieFighter());
+        CUSTOM_ITEM_MAP.put("xWingRed", CustomItems.xWing("red"));
+        CUSTOM_ITEM_MAP.put("xWingGreen", CustomItems.xWing("green"));
+        CUSTOM_ITEM_MAP.put("xWingBlue", CustomItems.xWing("blue"));
+        CUSTOM_ITEM_MAP.put("RedKyber", CustomItems.kyber("RedKyber"));
+        CUSTOM_ITEM_MAP.put("GreenKyber", CustomItems.kyber("GreenKyber"));
+        CUSTOM_ITEM_MAP.put("BlueKyber", CustomItems.kyber("BlueKyber"));
+        CUSTOM_ITEM_MAP.put("PurpleKyber", CustomItems.kyber("PurpleKyber"));
+        CUSTOM_ITEM_MAP.put("YellowKyber", CustomItems.kyber("YellowKyber"));
+        CUSTOM_ITEM_MAP.put("WhiteKyber", CustomItems.kyber("WhiteKyber"));
+        CUSTOM_ITEM_MAP.put("lightsaberCore", CustomItems.lightsaberCore());
+        CUSTOM_ITEM_MAP.put("hiltLukeSkywalker", CustomItems.hilt("LukeSkywalker"));
+        CUSTOM_ITEM_MAP.put("hiltAnakinSkywalker", CustomItems.hilt("AnakinSkywalker"));
+        CUSTOM_ITEM_MAP.put("lightSaberLukeSkywalker", CustomItems.lightSaber("LukeSkywalker"));
+        CUSTOM_ITEM_MAP.put("lightSaberAnakinSkywalker", CustomItems.lightSaber("AnakinSkywalker"));
+    }
+
+    // Optional method to get the map
+    public static HashMap<String, ItemStack> getCustomItemMap() {
+        return CUSTOM_ITEM_MAP;
+    }
 
     public static ItemStack item(Material material, String displayName, int customModelData){
         ItemStack item = new ItemStack(material);

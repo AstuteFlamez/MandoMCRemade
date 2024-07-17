@@ -11,7 +11,7 @@ public class Messages {
     }
 
     public static String prefix(){
-        return str("&a&lMandoMC &8 » &7");
+        return str("&a&lMandoMC &8» &7");
     }
 
     public static void msg(Player player, String string){
@@ -25,7 +25,6 @@ public class Messages {
     public static void syntaxError(Player player){
         player.sendMessage(str(prefix() + "&cYou typed the command incorrectly..."));
     }
-
 
     /*
     &0 = black

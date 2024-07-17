@@ -1,5 +1,6 @@
 package net.mandomc.mandomcremade.utility;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
@@ -75,23 +76,17 @@ public class Recipes {
             if (list[i] != null) {
                 recipe.setIngredient(keys[i], new RecipeChoice.ExactChoice(list[i]));
             }
+            // Register the recipe with the server
+            Bukkit.addRecipe(recipe);
         }
     }
 
-    public static Inventory addRecipeToInv(Inventory inv, ItemStack[] list){
-
-        inv.setItem(10, list[0]);
-        inv.setItem(11, list[1]);
-        inv.setItem(12, list[2]);
-        inv.setItem(19, list[3]);
-        inv.setItem(20, list[4]);
-        inv.setItem(22, list[10]);
-        inv.setItem(21, list[5]);
-        inv.setItem(28, list[6]);
-        inv.setItem(29, list[7]);
-        inv.setItem(30, list[8]);
-
-        return inv;
+    // Example method to initialize and register all recipes
+    public static void registerRecipes() {
+        //createRecipe(CustomItems.lightsaberCore(), "core", Recipes.core);
+        //createRecipe(CustomItems.hilt("LukeSkywalker"), "luke_skywalker_hilt", lukeSkywalkerHilt);
+        //createRecipe(CustomItems.hilt("AnakinSkywalker"), "anakin_skywalker_hilt", anakinSkywalkerHilt);
+        //createRecipe(CustomItems.lightSaber("LukeSkywalker"), "luke_skywalker_saber", lukeSkywalkerSaber);
+        //createRecipe(CustomItems.lightSaber("AnakinSkywalker"), "anakin_skywalker_saber", anakinSkywalkerSaber);
     }
-
 }

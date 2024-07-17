@@ -3,9 +3,12 @@ package net.mandomc.mandomcremade.commands;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
+import net.mandomc.mandomcremade.db.Database;
+import net.mandomc.mandomcremade.db.Perks;
 import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.guis.ItemsGUI.ItemHub;
 import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
+import net.mandomc.mandomcremade.utility.CustomItems;
 import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,21 +16,26 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class MMC implements CommandExecutor, TabCompleter {
 
     private final GUIManager guiManager;
     private final MandoMCRemade plugin;
+    private final Database database;
 
-    public MMC(GUIManager guiManager, MandoMCRemade plugin) {
+    public MMC(GUIManager guiManager, MandoMCRemade plugin, Database database) {
         this.guiManager = guiManager;
         this.plugin = plugin;
+        this.database = database;
     }
 
     @Override
@@ -36,7 +44,14 @@ public class MMC implements CommandExecutor, TabCompleter {
 
             switch (args[0].toLowerCase()) {
                 case "give":
-                    //handleGiveCommand(args);
+                    handleGiveCommand(args);
+                    break;
+                case "perk":
+                    try {
+                        handlePerkCommand(args);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
             }
 
@@ -56,7 +71,7 @@ public class MMC implements CommandExecutor, TabCompleter {
                 break;
             case "give":
                 if(player.hasPermission("mmc.admin.give")) {
-                    //handleGiveCommand(args);
+                    handleGiveCommand(args);
                 }
                 break;
             case "yaw":
@@ -119,6 +134,51 @@ public class MMC implements CommandExecutor, TabCompleter {
         }
     }
 
+    private void handleGiveCommand(String[] args) {
+        HashMap<String, ItemStack> map = CustomItems.getCustomItemMap();
+        String name = args[1];
+        String type = args[2];
+        if(args.length != 3) return;
+        if(Bukkit.getPlayer(name) != null && map.get(type) != null) {
+            Player player = Bukkit.getPlayer(name);
+            ItemStack item = map.get(type);
+            player.getInventory().addItem(item);
+        }
+    }
+
+    private void handlePerkCommand(String[] args) throws SQLException {
+
+        String action = args[1];
+        String type = args[2];
+        String name = args[3];
+
+        if(args.length != 4) return;
+        if(Bukkit.getPlayer(name) != null) {
+            Player player = Bukkit.getPlayer(name);
+            Perks perks = database.getPerks(player);
+
+            switch(type){
+                case "lightsaberthrow":
+                    switch(action){
+                        case "lock":
+                            perks.setLightsaberThrow(0);
+                            database.updatePerks(perks);
+                            Bukkit.getConsoleSender().sendMessage(player.getName() + " has had their lightsaber throw perk locked");
+                            break;
+                        case "unlock":
+                            perks.setLightsaberThrow(1);
+                            database.updatePerks(perks);
+                            Bukkit.getConsoleSender().sendMessage(player.getName() + " has had their lightsaber throw perk unlocked");
+                            break;
+                        default:
+                            break;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
     private void handleWarpCommand(Player player, String[] args) {
 
     }
@@ -173,7 +233,7 @@ public class MMC implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         List<String> arg0 = Arrays.asList("yaw", "pitch", "test", "recipes", "warp", "maintenance", "reload");
-        List<String> warps = Arrays.asList("alderaan", "arena", "blackmarket", "dathomir", "earth", "geonosis", "hoth", "ilum", "jabba", "kashyyyk", "mandalore", "mines", "moseisley", "morak", "mustafar", "naboo", "umbara");
+        //List<String> warps = Arrays.asList("alderaan", "arena", "blackmarket", "dathomir", "earth", "geonosis", "hoth", "ilum", "jabba", "kashyyyk", "mandalore", "mines", "moseisley", "morak", "mustafar", "naboo", "umbara");
 
         switch (args.length) {
             case 1 -> {
@@ -193,10 +253,26 @@ public class MMC implements CommandExecutor, TabCompleter {
                             completions.addAll(Arrays.asList("on", "off"));
                         }
                     }
-                    case "warp" -> completions.addAll(warps);
+                    //case "warp" -> completions.addAll(warps);
                     case "koth" -> {
                         if (sender.hasPermission("mmc.admin.koth")) {
                             completions.addAll(Arrays.asList("start", "end"));
+                        }
+                    }
+                    case "give" -> {
+                        if (sender.hasPermission("mmc.admin.give")) {
+                            for(Player player : Bukkit.getOnlinePlayers()) {
+                                completions.add(player.getName());
+                            }
+                        }
+                    }
+                }
+            }
+            case 3 -> {
+                switch (args[0].toLowerCase()) {
+                    case "give" -> {
+                        if (sender.hasPermission("mmc.admin.give")) {
+                            completions.addAll(CustomItems.CUSTOM_ITEM_MAP.keySet());
                         }
                     }
                 }

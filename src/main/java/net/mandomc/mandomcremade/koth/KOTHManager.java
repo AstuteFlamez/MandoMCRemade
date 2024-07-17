@@ -1,6 +1,7 @@
 package net.mandomc.mandomcremade.koth;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
+import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -31,7 +32,7 @@ public class KOTHManager {
     public void startKOTH() {
         kothActive = true;
         playerPoints.clear();
-        bossBar = Bukkit.createBossBar("KOTH Event", BarColor.BLUE, BarStyle.SOLID);
+        bossBar = Bukkit.createBossBar(Messages.str(plugin.getConfig().getString("KothBossBarName")), BarColor.RED, BarStyle.SEGMENTED_20);
         for (Player player : Bukkit.getOnlinePlayers()) {
             bossBar.addPlayer(player);
         }

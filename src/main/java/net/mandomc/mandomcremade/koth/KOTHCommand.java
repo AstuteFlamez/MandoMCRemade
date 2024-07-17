@@ -8,11 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class KOTHCommand implements CommandExecutor {
-    private final MandoMCRemade plugin;
     private final KOTHManager kothManager;
 
-    public KOTHCommand(MandoMCRemade plugin, KOTHManager kothManager) {
-        this.plugin = plugin;
+    public KOTHCommand(KOTHManager kothManager) {
         this.kothManager = kothManager;
     }
 
