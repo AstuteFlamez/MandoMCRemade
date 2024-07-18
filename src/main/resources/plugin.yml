@@ -47,3 +47,11 @@ commands:
 permissions:
   mmc.admin.give:
     description: Gives access to give command.
+  mmc.admins.get:
+    description: Gives access to get command.
+  mmc.admin.reload:
+    description: Gives access to reload command.
+  mmc.admin.maintenance:
+    description: Gives access to Maintenance command.
+  mmc.admin.koth:
+    description: Gives access to koth command.

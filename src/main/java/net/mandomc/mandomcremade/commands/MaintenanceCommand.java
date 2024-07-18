@@ -16,6 +16,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
+
 public class MaintenanceCommand implements CommandExecutor, TabCompleter {
 
     private final MandoMCRemade plugin;
@@ -34,7 +36,7 @@ public class MaintenanceCommand implements CommandExecutor, TabCompleter {
                 setMaintenanceMode(sender, false, "&7The server has exited maintenance mode.");
                 break;
             default:
-                if (sender instanceof Player player) Messages.msg(player, "&cPlease use the format /mmc maintenance <on/off>");
+                if (sender instanceof Player player) player.sendMessage("&cPlease use the format /mmc maintenance <on/off>");
                 else Bukkit.getConsoleSender().sendMessage("&cPlease use the format /mmc maintenance <on/off>");
                 break;
         }
@@ -47,13 +49,13 @@ public class MaintenanceCommand implements CommandExecutor, TabCompleter {
         if (enable) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (!p.hasPermission("mmc.admin.maintenance")) {
-                    p.kickPlayer(Messages.str(kickMessage));
+                    p.kickPlayer(str(kickMessage));
                 }
             }
-            if (sender instanceof Player player) Messages.msg(player, "&7The server has gone into maintenance mode.");
+            if (sender instanceof Player player) player.sendMessage("&7The server has gone into maintenance mode.");
             else Bukkit.getConsoleSender().sendMessage("&7The server has gone into maintenance mode.");
         } else {
-            if (sender instanceof Player player) Messages.msg(player, "&7The server has exited maintenance mode.");
+            if (sender instanceof Player player) player.sendMessage("&7The server has exited maintenance mode.");
             else Bukkit.getConsoleSender().sendMessage("&7The server has exited maintenance mode.");
         }
     }

@@ -1,6 +1,5 @@
 package net.mandomc.mandomcremade.commands;
 
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +10,7 @@ public class PitchCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false;
-        Messages.msg(player, "&7Your pitch is: " + player.getLocation().getPitch() + "!");
+        player.sendMessage("&7Your pitch is: " + player.getLocation().getPitch() + "!");
         return false;
     }
 }

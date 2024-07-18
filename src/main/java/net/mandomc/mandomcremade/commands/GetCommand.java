@@ -27,7 +27,7 @@ public class GetCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false;
-        this.guiManager.openGUI(new ItemHub(guiManager), player);
+        this.guiManager.openGUI(new ItemHub(), player);
         return true;
     }
 }

@@ -1,6 +1,5 @@
 package net.mandomc.mandomcremade.commands;
 
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,11 +24,11 @@ public class KothCommand implements CommandExecutor, TabCompleter {
                 //new KothRunnable(MandoMCRemade.getInstance()).runTaskTimer(MandoMCRemade.getInstance(), 0L, 20L);
                 break;
             case "end":
-                if (sender instanceof Player player) Messages.msg(player, "&cThis feature has not been implemented yet.");
+                if (sender instanceof Player player) player.sendMessage("&cThis feature has not been implemented yet.");
                 else Bukkit.getConsoleSender().sendMessage("&cThis feature has not been implemented yet.");
                 break;
             default:
-                if (sender instanceof Player player) Messages.msg(player, "&cPlease use the format /mmc koth <start/end>");
+                if (sender instanceof Player player) player.sendMessage("&cPlease use the format /mmc koth <start/end>");
                 else Bukkit.getConsoleSender().sendMessage("&cPlease use the format /mmc koth <start/end>");
                 return false;
         }
