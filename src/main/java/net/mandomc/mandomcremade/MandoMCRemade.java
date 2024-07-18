@@ -10,7 +10,6 @@ import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.koth.KOTHCommand;
 import net.mandomc.mandomcremade.koth.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
@@ -37,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public static MandoMCRemade instance;
+    private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
     public static ArrayList<Energy> energyList;
@@ -63,7 +63,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
 
-        Database database = new Database();
+        database = new Database();
 
         try {
             database.getConnection();
@@ -126,7 +126,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getCommand("reload").setExecutor(new ReloadCommand(this));
         getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
         getCommand("recipes").setExecutor(new RecipesCommand(guiManager));
-        getCommand("koth").setExecutor(new KothCommand());
     }
 
     public void setUpKOTH(){
@@ -191,25 +190,21 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+        Energy playerEnergy = Energy.getPlayerEnergy(player);
+
+        if(playerEnergy == null) return;
 
         if (event.getAction().name().contains("LEFT")) {
 
-            ItemStack item = event.getItem();
-            Energy playerEnergy = Energy.getPlayerEnergy(player);
-            if (playerEnergy != null && playerEnergy <= 0) 
-                {
-                    event.setCancelled(true);
-                }
-            else if (isLightsaber(item))
+            if (isLightsaber(item))
                 {
                     playerEnergy.setEnergy(playerEnergy.getEnergy() - 10);
                 }
 
         }
-        if (player.isSprinting() && (playerEnergy != null && playerEnergy <= 0)) {
-            player.setSprinting(false);
-        }
     }
+
     private boolean isLightsaber(ItemStack item) {
 
         ItemMeta meta = item.getItemMeta();

@@ -1,7 +1,8 @@
-package net.mandomc.mandomcremade.koth;
+package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.LangConfig;
+import net.mandomc.mandomcremade.koth.KOTHManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
