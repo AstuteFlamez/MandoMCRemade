@@ -74,6 +74,7 @@ public class SaberThrowListener implements Listener {
     private void activateLightsaberCooldown(Player player) {
         lightsaberCooldown.put(player.getUniqueId(), System.currentTimeMillis());
         player.sendMessage(MandoMCRemade.str("&6You threw your lightsaber!"));
+        Energy.getPlayerEnergy(player.setEnergy(playerEnergy.getEnergy() - 10);
         playerThrowEvent(player, player.getLocation(), targetedEnemy(player,
                 plugin.getConfig().getInt("SaberThrowRange"),
                 plugin.getConfig().getDouble("SaberThrowThreshold")));
