@@ -1,7 +1,7 @@
 package net.mandomc.mandomcremade.commands;
 
-import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
+import net.mandomc.mandomcremade.managers.GUIManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

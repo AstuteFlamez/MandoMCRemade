@@ -1,16 +1,16 @@
 package net.mandomc.mandomcremade.commands;
 
-import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.utility.CustomItems;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,21 +18,59 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GiveCommand implements CommandExecutor, TabCompleter {
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
-    public GiveCommand() {}
+
+public class GiveCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        HashMap<String, ItemStack> map = CustomItems.getCustomItemMap();
-        String name = args[0];
-        if(args.length != 2) return false;
-        String type = args[1];
-        if(Bukkit.getPlayer(name) == null || map.get(type) == null) return false;
+        // Check if the correct number of arguments are provided
+        FileConfiguration config = LangConfig.get();
+        String prefix = str(config.getString("Prefix"));
 
-        Player player = Bukkit.getPlayer(name);
+        if(sender instanceof Player player){
+            if(!player.hasPermission("mmc.admin.give")){
+                String noPermission = str(config.getString("NoPermission"));
+                player.sendMessage(prefix + noPermission);
+            }
+        }
+
+        if (args.length != 2) {
+            String usage = str("&cUsage: /give <player> <item>");
+            sender.sendMessage(prefix + usage);
+            return true;
+        }
+
+        String name = args[0];
+        String type = args[1];
+
+        // Ensure the player and item type are valid
+        Player receiver = Bukkit.getPlayer(name);
+        HashMap<String, ItemStack> map = CustomItems.getCustomItemMap();
         ItemStack item = map.get(type);
-        player.getInventory().addItem(item);
+
+        if (receiver == null) {
+            String playerNotFound = str("&cPlayer not found.");
+            sender.sendMessage(prefix + playerNotFound);
+            return true;
+        }
+
+        if (item == null) {
+            String itemNotFound = str("&cItem not found.");
+            sender.sendMessage(prefix + itemNotFound);
+            return true;
+        }
+
+        // Give the item to the player
+        receiver.getInventory().addItem(item);
+
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        type = meta.getDisplayName();
+
+        String giveMSG = str("&7You gave " + type + " &7to " + name + ".");
+        sender.sendMessage(prefix + giveMSG);
         return true;
     }
 

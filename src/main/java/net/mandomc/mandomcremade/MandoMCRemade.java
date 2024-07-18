@@ -6,19 +6,19 @@ import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import net.mandomc.mandomcremade.commands.*;
+import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.koth.KOTHCommand;
 import net.mandomc.mandomcremade.managers.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.managers.EnergyManager;
 import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.utility.Energy;
-import net.mandomc.mandomcremade.utility.Messages;
+import net.mandomc.mandomcremade.objects.Energy;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,14 +77,14 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         Recipes.registerRecipes();
 
-        getCommand("mmc").setExecutor(new MMC(guiManager, this, database));
-
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
 
         setUpKOTH();
+
+        setUpCommands(guiManager);
 
         setUpServerList();
     }
@@ -105,12 +105,29 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     public void setUpConfigs(){
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+
+        LangConfig.setup();
+        LangConfig.get().options().copyDefaults(true);
+        LangConfig.save();
+
         WarpConfig.setup();
         WarpConfig.get().options().copyDefaults(true);
         WarpConfig.save();
+
         SaberConfig.setup();
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
+    }
+
+    public void setUpCommands(GUIManager guiManager){
+        getCommand("give").setExecutor(new GiveCommand());
+        getCommand("perk").setExecutor(new PerkCommand(this.database));
+        getCommand("get").setExecutor(new GetCommand(guiManager));
+        getCommand("yaw").setExecutor(new YawCommand());
+        getCommand("pitch").setExecutor(new PitchCommand());
+        getCommand("reload").setExecutor(new ReloadCommand(this));
+        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
+        getCommand("recipes").setExecutor(new RecipesCommand(guiManager));
     }
 
     public void setUpKOTH(){
@@ -146,10 +163,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
                 if (getConfig().getBoolean("Maintenance")) {
                     packet.setVersionProtocol(1);
                     packet.setVersionName("Maintenance");
-                    packet.setMotD(Messages.str(getConfig().getString("MaintenanceMOTD")));
+                    packet.setMotD(str(getConfig().getString("MaintenanceMOTD")));
                 } else {
                     packet.setVersionName(getConfig().getString("VersionName"));
-                    packet.setMotD(Messages.str(getConfig().getString("MOTD")));
+                    packet.setMotD(str(getConfig().getString("MOTD")));
                 }
 
                 // Create WrappedGameProfile objects for the custom player list
@@ -165,5 +182,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
                 event.getPacket().getServerPings().write(0, packet);
             }
         });
+    }
+
+    public static String str(String string){
+        if (string == null) return "";
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 }

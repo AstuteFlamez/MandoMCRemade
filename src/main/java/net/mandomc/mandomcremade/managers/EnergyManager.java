@@ -3,10 +3,10 @@ package net.mandomc.mandomcremade.managers;
 import java.util.HashMap;
 import java.util.UUID;
 
+import net.mandomc.mandomcremade.objects.Energy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.utility.Energy;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

@@ -1,6 +1,6 @@
 package net.mandomc.mandomcremade.listeners;
 
-import net.mandomc.mandomcremade.utility.Energy;
+import net.mandomc.mandomcremade.objects.Energy;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -5,12 +5,13 @@ import net.mandomc.mandomcremade.guis.InventoryButton;
 import net.mandomc.mandomcremade.guis.InventoryGUI;
 import net.mandomc.mandomcremade.guis.RecipeGUI.weapons.WeaponRecipes;
 import net.mandomc.mandomcremade.utility.CustomItems;
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
 public class LightsaberRecipes extends InventoryGUI {
 
@@ -22,7 +23,7 @@ public class LightsaberRecipes extends InventoryGUI {
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&2&lLightsabers"));
+        return Bukkit.createInventory(null, 3 * 9, str("&2&lLightsabers"));
     }
 
     @Override

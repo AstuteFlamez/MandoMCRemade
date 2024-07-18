@@ -1,4 +1,4 @@
-package net.mandomc.mandomcremade.utility;
+package net.mandomc.mandomcremade.objects;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.managers.EnergyManager;

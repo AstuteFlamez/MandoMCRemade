@@ -2,13 +2,15 @@ package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.LangConfig;
-import net.mandomc.mandomcremade.koth.KOTHManager;
+import net.mandomc.mandomcremade.managers.KOTHManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
 public class KOTHCommand implements CommandExecutor {
     private final KOTHManager kothManager;
@@ -34,7 +36,7 @@ public class KOTHCommand implements CommandExecutor {
 
     private void executeCommand(CommandSender sender, String[] args, String prefix) {
         if (args.length == 0) {
-            sender.sendMessage(MandoMCRemade.str(prefix + "Usage: /koth <start|end|status>"));
+            sender.sendMessage(str(prefix + "Usage: /koth <start|end|status>"));
             return;
         }
 

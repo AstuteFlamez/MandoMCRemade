@@ -1,6 +1,7 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
+import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ public class ReloadCommand implements CommandExecutor {
         plugin.reloadConfig();
         WarpConfig.reload();
         SaberConfig.reload();
+        LangConfig.reload();
         Bukkit.getConsoleSender().sendMessage("MMCCore successfully reloaded!");
         if (sender instanceof Player player) player.sendMessage("&7You successfully reloaded the MandoMC Plugin");
         return true;
