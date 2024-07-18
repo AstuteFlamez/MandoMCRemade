@@ -9,6 +9,7 @@
 DatabaseURL: ""
 DatabaseUSER: ""
 DatabasePASSWORD: ""
+# Plaintext Password is a bad idea
 
 ######################################
 #           KOTH Options             #

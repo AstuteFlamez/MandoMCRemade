@@ -67,7 +67,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         Recipes.registerRecipes();
 
-        getCommand("mmc").setExecutor(new MMC(guiManager, this, database));
+        setUpCommands(guiManager);
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
@@ -100,6 +100,18 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.setup();
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
+    }
+
+    public void setUpCommands(GUIManager guiManager){
+        getCommand("give").setExecutor(new GiveCommand());
+        getCommand("perk").setExecutor(new PerkCommand(this.database));
+        getCommand("get").setExecutor(new GetCommand(guiManager));
+        getCommand("yaw").setExecutor(new YawCommand());
+        getCommand("pitch").setExecutor(new PitchCommand());
+        getCommand("reload").setExecutor(new ReloadCommand(this));
+        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
+        getCommand("recipes").setExecutor(new RecipesCommand(guiManager));
+        getCommand("koth").setExecutor(new KothCommand());
     }
 
     public void setUpKOTH(){
