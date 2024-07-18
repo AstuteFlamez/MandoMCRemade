@@ -1,11 +1,13 @@
 package net.mandomc.mandomcremade.koth;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import org.bukkit.Location;
+import net.mandomc.mandomcremade.config.LangConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class KOTHCommand implements CommandExecutor {
     private final KOTHManager kothManager;
@@ -15,22 +17,30 @@ public class KOTHCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can execute this command.");
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+        FileConfiguration config = LangConfig.get();
+        String prefix = config.getString("Prefix");
+
+        if (!(sender instanceof Player player)) {
+            executeCommand(sender, args, prefix);
             return true;
         }
 
-        Player player = (Player) sender;
+        executeCommand(player, args, prefix);
+        return true;
+    }
+
+    private void executeCommand(CommandSender sender, String[] args, String prefix) {
         if (args.length == 0) {
-            player.sendMessage("Usage: /koth <start|end|status>");
-            return true;
+            sender.sendMessage(MandoMCRemade.str(prefix + "Usage: /koth <start|end|status>"));
+            return;
         }
 
         switch (args[0].toLowerCase()) {
             case "start":
                 if (kothManager.isKOTHActive()) {
-                    player.sendMessage("KOTH event is already active.");
+                    sender.sendMessage(prefix + "KOTH event is already active.");
                 } else {
                     kothManager.startKOTH();
                 }
@@ -39,17 +49,15 @@ public class KOTHCommand implements CommandExecutor {
                 if (kothManager.isKOTHActive()) {
                     kothManager.endKOTH();
                 } else {
-                    player.sendMessage("No active KOTH event to end.");
+                    sender.sendMessage(prefix + "No active KOTH event to end.");
                 }
                 break;
             case "status":
-                player.sendMessage("KOTH is " + (kothManager.isKOTHActive() ? "active" : "not active") + ".");
+                sender.sendMessage(prefix + "KOTH is " + (kothManager.isKOTHActive() ? "active" : "not active") + ".");
                 break;
             default:
-                player.sendMessage("Usage: /koth <start|end|status>");
+                sender.sendMessage(prefix + "Usage: /koth <start|end|status>");
                 break;
         }
-
-        return true;
     }
 }

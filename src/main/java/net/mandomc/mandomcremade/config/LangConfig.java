@@ -11,7 +11,7 @@ import org.bukkit.plugin.PluginManager;
 
 import java.io.*;
 
-public class WarpConfig {
+public class LangConfig {
 
     private static File file;
     private static FileConfiguration customFile;
@@ -22,10 +22,10 @@ public class WarpConfig {
         PluginManager pluginManager = server.getPluginManager();
         Plugin plugin = pluginManager.getPlugin("MandoMCRemade");
         assert plugin != null;
-        File file = new File(plugin.getDataFolder(), "warps.yml");
+        File file = new File(plugin.getDataFolder(), "lang.yml");
 
         if (!file.exists()) {
-            try (InputStream inputStream = MandoMCRemade.class.getResourceAsStream("/warps.yml");
+            try (InputStream inputStream = MandoMCRemade.class.getResourceAsStream("/lang.yml");
                  OutputStream outputStream = new FileOutputStream(file)) {
 
                 if (inputStream != null) {
@@ -37,7 +37,7 @@ public class WarpConfig {
                 }
             } catch (IOException e) {
                 ConsoleCommandSender console = Bukkit.getConsoleSender();
-                console.sendMessage("[MMC] The warps.yml file could not be found.");
+                console.sendMessage("[MMC] The lang.yml file could not be found.");
             }
         }
         customFile = YamlConfiguration.loadConfiguration(file);
@@ -52,7 +52,7 @@ public class WarpConfig {
             customFile.save(file);
         }catch (IOException e){
             ConsoleCommandSender console = Bukkit.getConsoleSender();
-            console.sendMessage("[MMC] The warps.yml file could not be saved.");
+            console.sendMessage("[MMC] The lang.yml file could not be saved.");
         }
     }
 

@@ -3,6 +3,8 @@ package net.mandomc.mandomcremade.listeners;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.db.Database;
 import net.mandomc.mandomcremade.db.Perks;
+import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,7 +38,8 @@ public class PlayerJoinListener implements Listener {
             try {
                 database.createPerks(new Perks(player.getUniqueId()));
             } catch(SQLException e){
-                e.printStackTrace();
+                ConsoleCommandSender console = Bukkit.getConsoleSender();
+                console.sendMessage("[MMC] There was an issue creating the perks table for " + player.getName() + ".");
             }
         }
     }

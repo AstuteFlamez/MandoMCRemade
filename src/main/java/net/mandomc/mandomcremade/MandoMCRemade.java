@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import net.mandomc.mandomcremade.commands.*;
+import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
@@ -14,10 +15,11 @@ import net.mandomc.mandomcremade.koth.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.guis.GUIManager;
-import net.mandomc.mandomcremade.utility.Messages;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public static MandoMCRemade instance;
-    private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
 
@@ -40,8 +41,8 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         // Plugin startup logic
-
-        getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is enabled");
+        ConsoleCommandSender console = getServer().getConsoleSender();
+        console.sendMessage("[MandoMC]: Plugin is enabled");
 
         instance = this;
 
@@ -51,18 +52,18 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
 
-        this.database = new Database();
+        Database database = new Database();
 
         try {
-            this.database.getConnection();
+            database.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            console.sendMessage("[MMC]: Database connection failed");
         }
 
         try {
-            this.database.initializeDatabase();
+            database.initializeDatabase();
         } catch (SQLException e) {
-            e.printStackTrace();
+            console.sendMessage("[MMC]: Database initialization failed");
         }
 
         Recipes.registerRecipes();
@@ -100,6 +101,9 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         SaberConfig.setup();
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
+        LangConfig.setup();
+        LangConfig.get().options().copyDefaults(true);
+        LangConfig.save();
     }
 
     public void setUpCommands(GUIManager guiManager){
@@ -122,6 +126,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         int z = getConfig().getInt("KOTHz");
         double radius = getConfig().getDouble("KOTHRadius");
 
+        assert world != null;
         Location kothLocation = new Location(Bukkit.getWorld(world), x, y, z);
 
         kothManager = new KOTHManager(this, kothLocation, radius);
@@ -147,10 +152,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
                 if (getConfig().getBoolean("Maintenance")) {
                     packet.setVersionProtocol(1);
                     packet.setVersionName("Maintenance");;
-                    packet.setMotD(Messages.str(getConfig().getString("MaintenanceMOTD")));
+                    packet.setMotD(str(getConfig().getString("MaintenanceMOTD")));
                 } else {
                     packet.setVersionName(getConfig().getString("VersionName"));;
-                    packet.setMotD(Messages.str(getConfig().getString("MOTD")));
+                    packet.setMotD(str(getConfig().getString("MOTD")));
                 }
 
                 // Create WrappedGameProfile objects for the custom player list
@@ -166,5 +171,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
                 event.getPacket().getServerPings().write(0, packet);
             }
         });
+    }
+
+    public static String str(String string){
+        if (string == null) return "";
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 }

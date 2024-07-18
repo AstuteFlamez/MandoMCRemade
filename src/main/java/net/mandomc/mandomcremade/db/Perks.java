@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Perks {
 
-    private UUID playerUUID;
+    private final UUID playerUUID;
     private int lightsaberThrow;
 
     public Perks(UUID playerUUID, int lightsaberThrow) {
@@ -19,10 +19,6 @@ public class Perks {
 
     public UUID getPlayerUUID() {
         return playerUUID;
-    }
-
-    public void setPlayerUUID(UUID playerUUID) {
-        this.playerUUID = playerUUID;
     }
 
     public int getLightsaberThrow() {
