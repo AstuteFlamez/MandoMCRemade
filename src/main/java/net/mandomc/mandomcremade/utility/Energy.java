@@ -31,7 +31,7 @@ public class Energy {
             @Override
             public void run() {
                 for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
-                    if (onlinePlayer.isSprinting()) {
+                    if (!onlinePlayer.isSprinting()) {
                         addEnergy(25);
                     }
                 }
