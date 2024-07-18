@@ -83,10 +83,11 @@ public class Recipes {
 
     // Example method to initialize and register all recipes
     public static void registerRecipes() {
-        createRecipe(CustomItems.lightsaberCore(), "core", Recipes.core);
+        /*createRecipe(CustomItems.lightsaberCore(), "core", Recipes.core);
         createRecipe(CustomItems.hilt("LukeSkywalker"), "luke_skywalker_hilt", lukeSkywalkerHilt);
         createRecipe(CustomItems.hilt("AnakinSkywalker"), "anakin_skywalker_hilt", anakinSkywalkerHilt);
         createRecipe(CustomItems.lightSaber("LukeSkywalker"), "luke_skywalker_saber", lukeSkywalkerSaber);
         createRecipe(CustomItems.lightSaber("AnakinSkywalker"), "anakin_skywalker_saber", anakinSkywalkerSaber);
+         */
     }
 }

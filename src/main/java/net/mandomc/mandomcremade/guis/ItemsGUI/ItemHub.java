@@ -1,9 +1,9 @@
 package net.mandomc.mandomcremade.guis.ItemsGUI;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.guis.InventoryButton;
 import net.mandomc.mandomcremade.guis.InventoryGUI;
+import net.mandomc.mandomcremade.utility.CustomItems;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -19,21 +19,21 @@ public class ItemHub extends InventoryGUI {
     @Override
     public void decorate(Player player) {
 
-        this.addButton(0, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.tieFighter()));
-        this.addButton(1, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.xWing("red")));
-        this.addButton(2, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.xWing("green")));
-        this.addButton(3, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.xWing("blue")));
-        this.addButton(4, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.kyber("RedKyber")));
-        this.addButton(5, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.kyber("GreenKyber")));
-        this.addButton(6, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.kyber("BlueKyber")));
-        this.addButton(7, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.kyber("PurpleKyber")));
-        this.addButton(8, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.kyber("YellowKyber")));
-        this.addButton(9, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.kyber("WhiteKyber")));
-        this.addButton(10, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.lightsaberCore()));
-        this.addButton(11, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.hilt("LukeSkywalker")));
-        this.addButton(12, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.hilt("AnakinSkywalker")));
-        this.addButton(13, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.lightSaber("LukeSkywalker")));
-        this.addButton(14, this.createGetButton(net.mandomc.mandomcremade.utility.CustomItems.lightSaber("AnakinSkywalker")));
+        this.addButton(0, this.createGetButton(CustomItems.tieFighter()));
+        this.addButton(1, this.createGetButton(CustomItems.xWing("red")));
+        this.addButton(2, this.createGetButton(CustomItems.xWing("green")));
+        this.addButton(3, this.createGetButton(CustomItems.xWing("blue")));
+        this.addButton(4, this.createGetButton(CustomItems.kyber("RedKyber")));
+        this.addButton(5, this.createGetButton(CustomItems.kyber("GreenKyber")));
+        this.addButton(6, this.createGetButton(CustomItems.kyber("BlueKyber")));
+        this.addButton(7, this.createGetButton(CustomItems.kyber("PurpleKyber")));
+        this.addButton(8, this.createGetButton(CustomItems.kyber("YellowKyber")));
+        this.addButton(9, this.createGetButton(CustomItems.kyber("WhiteKyber")));
+        this.addButton(10, this.createGetButton(CustomItems.lightsaberCore()));
+        this.addButton(11, this.createGetButton(CustomItems.hilt("LukeSkywalker")));
+        this.addButton(12, this.createGetButton(CustomItems.hilt("AnakinSkywalker")));
+        this.addButton(13, this.createGetButton(CustomItems.lightSaber("LukeSkywalker")));
+        this.addButton(14, this.createGetButton(CustomItems.lightSaber("AnakinSkywalker")));
 
 
         super.decorate(player);

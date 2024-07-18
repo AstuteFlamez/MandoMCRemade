@@ -103,19 +103,23 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         return instance;
     }
 
-    public void setUpConfigs(){
+    public void setUpConfigs() {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+
         WarpConfig.setup();
         WarpConfig.get().options().copyDefaults(true);
         WarpConfig.save();
+
         SaberConfig.setup();
         SaberConfig.get().options().copyDefaults(true);
         SaberConfig.save();
+
         LangConfig.setup();
         LangConfig.get().options().copyDefaults(true);
         LangConfig.save();
     }
+
 
     public void setUpCommands(GUIManager guiManager){
         getCommand("give").setExecutor(new GiveCommand());

@@ -1,9 +1,6 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.config.SaberConfig;
-import net.mandomc.mandomcremade.config.WarpConfig;
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
