@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 public class Energy {
     public static final double MAX_ENERGY = 100.0;
+    public static final double MIN_ENERGY = 0.0;
 
     private double energy;
     private Player player;
@@ -14,7 +15,7 @@ public class Energy {
 
     public Energy(Player player, double energy, MandoMCRemade plugin_instance) {
         this.player = player;
-        this.energy = Math.max(0.0, Math.min(energy, MAX_ENERGY));
+        this.energy = Math.max(MIN_ENERGY, Math.min(energy, MAX_ENERGY));
         this.plugin_instance = plugin_instance;
         this.isFatigued = false;
     }
@@ -22,7 +23,7 @@ public class Energy {
 
     public double getEnergy(){return energy;}
 
-    public void setEnergy(double amt){this.energy = Math.max(0.0, Math.min(amt, MAX_ENERGY));}
+    public void setEnergy(double amt){this.energy = Math.max(MIN_ENERGY, Math.min(amt, MAX_ENERGY));}
 
     public Player getPlayer(){return player;}
 
