@@ -15,7 +15,7 @@ public class Energy {
 
     public Energy(Player player, double energy, MandoMCRemade plugin_instance) {
         this.player = player;
-        this.energy = Math.max(1.0, Math.min(energy, MAX_ENERGY));
+        this.energy = Math.max(0.0, Math.min(energy, MAX_ENERGY));
         this.plugin_instance = plugin_instance;
         this.isFatigued = false;
     }
@@ -23,7 +23,7 @@ public class Energy {
 
     public double getEnergy(){return energy;}
 
-    public void setEnergy(double amt){this.energy = Math.max(1.0, Math.min(amt, MAX_ENERGY));}
+    public void setEnergy(double amt){this.energy = Math.max(0.0, Math.min(amt, MAX_ENERGY));}
 
     public Player getPlayer(){return player;}
 
