@@ -196,22 +196,17 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
             ItemStack item = event.getItem();
             Energy playerEnergy = Energy.getPlayerEnergy(player);
-
-            if (isLightsaber(item)){
-                if (playerEnergy != null && playerEnergy.getEnergy() <= 0) {
+            if (Energy.isFatigued(player) 
+                {
                     event.setCancelled(true);
                 }
-                else{
+            else if (isLightsaber(item))
+                {
                     playerEnergy.setEnergy(playerEnergy.getEnergy() - 10);
                 }
 
-            }
-            if ((playerEnergy != null && playerEnergy.getEnergy() <= 0) ) {
-                event.setCancelled(true);
-            }
-
         }
-        if (player.isSprinting()) {
+        if (player.isSprinting() && Energy.isFatigued(player) {
             player.setSprinting(false);
         }
     }
