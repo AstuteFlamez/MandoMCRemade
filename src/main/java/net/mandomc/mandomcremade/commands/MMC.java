@@ -5,7 +5,7 @@ import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
 import net.mandomc.mandomcremade.db.Perks;
-import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.managers.GUIManager;
 import net.mandomc.mandomcremade.guis.ItemsGUI.ItemHub;
 import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
 import net.mandomc.mandomcremade.utility.CustomItems;

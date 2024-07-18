@@ -1,5 +1,6 @@
 package net.mandomc.mandomcremade.guis;
 
+import net.mandomc.mandomcremade.managers.GUIManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;

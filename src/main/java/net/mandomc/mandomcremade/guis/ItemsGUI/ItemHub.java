@@ -1,6 +1,6 @@
 package net.mandomc.mandomcremade.guis.ItemsGUI;
 
-import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.managers.GUIManager;
 import net.mandomc.mandomcremade.guis.InventoryButton;
 import net.mandomc.mandomcremade.guis.InventoryGUI;
 import net.mandomc.mandomcremade.utility.Messages;

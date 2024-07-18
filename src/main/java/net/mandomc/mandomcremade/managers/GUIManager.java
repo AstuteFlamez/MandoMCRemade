@@ -1,5 +1,7 @@
-package net.mandomc.mandomcremade.guis;
+package net.mandomc.mandomcremade.managers;
 
+import net.mandomc.mandomcremade.guis.InventoryGUI;
+import net.mandomc.mandomcremade.guis.InventoryHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;

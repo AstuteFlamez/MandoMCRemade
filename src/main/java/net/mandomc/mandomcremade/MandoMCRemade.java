@@ -13,7 +13,9 @@ import net.mandomc.mandomcremade.koth.KOTHCommand;
 import net.mandomc.mandomcremade.koth.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
-import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.managers.EnergyManager;
+import net.mandomc.mandomcremade.managers.GUIManager;
+import net.mandomc.mandomcremade.utility.Energy;
 import net.mandomc.mandomcremade.utility.Messages;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
@@ -32,10 +34,12 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
+    public static ArrayList<Energy> energyList;
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
     }
+
 
     @Override
     public void onEnable() {
@@ -45,11 +49,17 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         instance = this;
 
+        energyList = new ArrayList<>();
+
         setUpConfigs();
+
+        getServer().getPluginManager().registerEvents(this, this);
+
 
         GUIManager guiManager = new GUIManager();
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
+        EnergyManager energyManager = new EnergyManager(this);
 
         this.database = new Database();
 
@@ -72,6 +82,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
 
         setUpKOTH();
 
