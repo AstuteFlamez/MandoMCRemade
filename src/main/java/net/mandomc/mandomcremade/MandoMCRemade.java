@@ -10,7 +10,7 @@ import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
 import net.mandomc.mandomcremade.koth.KOTHCommand;
-import net.mandomc.mandomcremade.koth.KOTHManager;
+import net.mandomc.mandomcremade.managers.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.managers.EnergyManager;
@@ -145,10 +145,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
                 if (getConfig().getBoolean("Maintenance")) {
                     packet.setVersionProtocol(1);
-                    packet.setVersionName("Maintenance");;
+                    packet.setVersionName("Maintenance");
                     packet.setMotD(Messages.str(getConfig().getString("MaintenanceMOTD")));
                 } else {
-                    packet.setVersionName(getConfig().getString("VersionName"));;
+                    packet.setVersionName(getConfig().getString("VersionName"));
                     packet.setMotD(Messages.str(getConfig().getString("MOTD")));
                 }
 

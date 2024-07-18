@@ -1,4 +1,4 @@
-package net.mandomc.mandomcremade.koth;
+package net.mandomc.mandomcremade.managers;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.LangConfig;

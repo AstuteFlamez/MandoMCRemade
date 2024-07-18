@@ -38,7 +38,7 @@ public class PlayerClickListener implements Listener {
     private boolean isLightsaber(ItemStack item) {
 
         ItemMeta meta = item.getItemMeta();
-        if (meta != null && ((ItemMeta) meta).hasDisplayName()) {
+        if (meta != null && meta.hasDisplayName()) {
             String displayName = meta.getDisplayName();
             return displayName.contains("Lightsaber");
         }
