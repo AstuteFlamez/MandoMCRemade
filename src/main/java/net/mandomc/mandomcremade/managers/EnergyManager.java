@@ -26,11 +26,11 @@ public class EnergyManager implements Listener {
         startEnergyTasks();
     }
 
-    public static void addPlayer(Player player, double initialEnergy, MandoMCRemade plugin_instance) {
-        playerEnergyMap.put(player.getUniqueId(), new Energy(player, initialEnergy, plugin_instance));
-    }
 
     public void addEnergy(Player player, double initialEnergy) {
+        if (playerEnergyMap.containsKey(player)) {
+            return; // Player already has an Energy object
+        }
         Energy energy = new Energy(player, initialEnergy, plugin_instance);
         playerEnergyMap.put(player.getUniqueId(), energy);
         setupScoreboard(player);
@@ -57,8 +57,6 @@ public class EnergyManager implements Listener {
     }
 
     public static Energy getPlayerEnergy(Player player) {return playerEnergyMap.get(player.getUniqueId());}
-
-    public static void removePlayer(Player player) {playerEnergyMap.remove(player.getUniqueId());}
 
     private void setupScoreboard(Player player) {
         Energy energy = playerEnergyMap.get(player);
