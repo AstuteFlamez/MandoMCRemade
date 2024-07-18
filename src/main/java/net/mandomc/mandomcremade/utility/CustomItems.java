@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
+
 public class CustomItems {
 
     public static final HashMap<String, ItemStack> CUSTOM_ITEM_MAP;
@@ -46,7 +48,7 @@ public class CustomItems {
         ItemStack item = new ItemStack(material);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(displayName));
+            itemMeta.setDisplayName(str(displayName));
             itemMeta.setCustomModelData(customModelData);
             item.setItemMeta(itemMeta);
         }
@@ -58,25 +60,25 @@ public class CustomItems {
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
             ArrayList<String> itemLore = new ArrayList<>();
-            itemLore.add(Messages.str("&7Right click to spawn and fly!"));
-            itemLore.add(Messages.str("&7/vehicle to change color!"));
+            itemLore.add(str("&7Right click to spawn and fly!"));
+            itemLore.add(str("&7/vehicle to change color!"));
             itemLore.add("");
-            itemLore.add(Messages.str("&6Ability: Proton Torpedos -> &e&lLEFT CLICK"));
-            itemLore.add(Messages.str("&7Proton Torpedos Cooldown: &c60 seconds"));
+            itemLore.add(str("&6Ability: Proton Torpedos -> &e&lLEFT CLICK"));
+            itemLore.add(str("&7Proton Torpedos Cooldown: &c60 seconds"));
             itemMeta.setLore(itemLore);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
 
             switch (color) {
                 case "red":
-                    itemMeta.setDisplayName(Messages.str("&cRed Squadron X-Wing"));
+                    itemMeta.setDisplayName(str("&cRed Squadron X-Wing"));
                     itemMeta.setCustomModelData(1);
                     break;
                 case "green":
-                    itemMeta.setDisplayName(Messages.str("&2Green Squadron X-Wing"));
+                    itemMeta.setDisplayName(str("&2Green Squadron X-Wing"));
                     itemMeta.setCustomModelData(2);
                     break;
                 case "blue":
-                    itemMeta.setDisplayName(Messages.str("&3Blue Squadron X-Wing"));
+                    itemMeta.setDisplayName(str("&3Blue Squadron X-Wing"));
                     itemMeta.setCustomModelData(3);
                     break;
             }
@@ -90,13 +92,13 @@ public class CustomItems {
         ItemStack item = new ItemStack(Material.WOODEN_SWORD);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str("&8Tie-Fighter"));
+            itemMeta.setDisplayName(str("&8Tie-Fighter"));
             ArrayList<String> itemLore = new ArrayList<>();
-            itemLore.add(Messages.str("&7Right click to spawn!"));
-            itemLore.add(Messages.str("&7Right click the cockpit to enter!"));
+            itemLore.add(str("&7Right click to spawn!"));
+            itemLore.add(str("&7Right click the cockpit to enter!"));
             itemLore.add("");
-            itemLore.add(Messages.str("&6Ability: Laser Cannons -> &e&lLEFT CLICK"));
-            itemLore.add(Messages.str("&7Laser Cannons Cooldown: &c2 seconds"));
+            itemLore.add(str("&6Ability: Laser Cannons -> &e&lLEFT CLICK"));
+            itemLore.add(str("&7Laser Cannons Cooldown: &c2 seconds"));
             itemMeta.setLore(itemLore);
             itemMeta.setCustomModelData(4);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
@@ -109,7 +111,7 @@ public class CustomItems {
         ItemStack item = new ItemStack(Material.BEACON);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str("&b&lLightsaber Core"));
+            itemMeta.setDisplayName(str("&b&lLightsaber Core"));
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
             item.setItemMeta(itemMeta);
         }
@@ -123,7 +125,7 @@ public class CustomItems {
         ItemStack item = new ItemStack(Material.NETHER_STAR);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(displayName));
+            itemMeta.setDisplayName(str(displayName));
             itemMeta.setCustomModelData(customModelData);
             itemMeta.setUnbreakable(true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
@@ -140,7 +142,7 @@ public class CustomItems {
         ItemStack item = new ItemStack(Material.STICK);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(displayName + " Hilt"));
+            itemMeta.setDisplayName(str(displayName + " Hilt"));
             itemMeta.setCustomModelData(customModelData);
             itemMeta.setUnbreakable(true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
@@ -158,18 +160,18 @@ public class CustomItems {
         ItemStack item = new ItemStack(Material.SHIELD);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(Messages.str(displayName + " Lightsaber"));
+            itemMeta.setDisplayName(str(displayName + " Lightsaber"));
             ArrayList<String> itemLore = new ArrayList<>();
 
-            itemLore.add(Messages.str("&6&l&oOptifine Required!"));
+            itemLore.add(str("&6&l&oOptifine Required!"));
             itemLore.add("");
-            itemLore.add(Messages.str("&7\"An elegant weapon from a more civilized age.\""));
+            itemLore.add(str("&7\"An elegant weapon from a more civilized age.\""));
             itemLore.add("");
-            itemLore.add(Messages.str("&7Melee Damage: &c" + damage));
+            itemLore.add(str("&7Melee Damage: &c" + damage));
             itemLore.add("");
-            itemLore.add(Messages.str("&6Ability: Saber Throw -> &e&lSHIFT + LEFT CLICK"));
-            itemLore.add(Messages.str("&7Saber Throw Damage: &c24"));
-            itemLore.add(Messages.str("&7Saber Throw Cooldown: &c10 seconds"));
+            itemLore.add(str("&6Ability: Saber Throw -> &e&lSHIFT + LEFT CLICK"));
+            itemLore.add(str("&7Saber Throw Damage: &c24"));
+            itemLore.add(str("&7Saber Throw Cooldown: &c10 seconds"));
 
             itemMeta.setLore(itemLore);
             itemMeta.setCustomModelData(customModelData);
@@ -184,4 +186,5 @@ public class CustomItems {
 
         return item;
     }
+
 }

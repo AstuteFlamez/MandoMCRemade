@@ -1,6 +1,7 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
+import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
@@ -9,7 +10,6 @@ import net.mandomc.mandomcremade.managers.GUIManager;
 import net.mandomc.mandomcremade.guis.ItemsGUI.ItemHub;
 import net.mandomc.mandomcremade.guis.RecipeGUI.RecipeHub;
 import net.mandomc.mandomcremade.utility.CustomItems;
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
+
 public class MMC implements CommandExecutor, TabCompleter {
 
     private final GUIManager guiManager;
@@ -37,6 +39,7 @@ public class MMC implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.database = database;
     }
+
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -59,14 +62,14 @@ public class MMC implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 0) {
-            Messages.msg(player, "&cPlease fill the command with /mmc <cmd>");
+            player.sendMessage("&cPlease fill the command with /mmc <cmd>");
             return true;
         }
 
         switch (args[0].toLowerCase()) {
             case "get":
                 if(player.hasPermission("mmc.admin.get")) {
-                    this.guiManager.openGUI(new ItemHub(guiManager), player);
+                    this.guiManager.openGUI(new ItemHub(), player);
                 }
                 break;
             case "give":
@@ -75,15 +78,15 @@ public class MMC implements CommandExecutor, TabCompleter {
                 }
                 break;
             case "yaw":
-                Messages.msg(player, "&7Your yaw is: " + player.getLocation().getYaw() + "!");
+                player.sendMessage("&7Your yaw is: " + player.getLocation().getYaw() + "!");
                 break;
             case "pitch":
-                Messages.msg(player, "&7Your pitch is: " + player.getLocation().getPitch() + "!");
+                player.sendMessage("&7Your pitch is: " + player.getLocation().getPitch() + "!");
                 break;
             case "reload":
                 if (player.hasPermission("mmc.admin.reload")) {
                     reload();
-                    Messages.msg(player, "&7You successfully reloaded the MandoMC Plugin");
+                    player.sendMessage("&7You successfully reloaded the MandoMC Plugin");
                 }
                 break;
             case "maintenance":
@@ -105,7 +108,7 @@ public class MMC implements CommandExecutor, TabCompleter {
                 handleKothCommand(player, args);
                 break;
             default:
-                Messages.msg(player, "&cPlease fill the command with /mmc <cmd>");
+                player.sendMessage("&cPlease fill the command with /mmc <cmd>");
                 break;
         }
 
@@ -114,11 +117,9 @@ public class MMC implements CommandExecutor, TabCompleter {
 
     private void handleMaintenanceCommand(Player player, String[] args) {
         if (!player.hasPermission("mmc.admin.maintenance")) {
-            Messages.syntaxError(player);
             return;
         }
         if (args.length == 1) {
-            Messages.syntaxError(player);
             return;
         }
         switch (args[1].toLowerCase()) {
@@ -129,7 +130,7 @@ public class MMC implements CommandExecutor, TabCompleter {
                 setMaintenanceMode(player, false, "&7The server has exited maintenance mode.");
                 break;
             default:
-                Messages.msg(player, "&cPlease use the format /mmc maintenance <on/off>");
+                player.sendMessage("&cPlease use the format /mmc maintenance <on/off>");
                 break;
         }
     }
@@ -185,11 +186,9 @@ public class MMC implements CommandExecutor, TabCompleter {
 
     private void handleKothCommand(Player player, String[] args) {
         if (!player.hasPermission("mmc.admin.koth")) {
-            Messages.syntaxError(player);
             return;
         }
         if (args.length == 1) {
-            Messages.syntaxError(player);
             return;
         }
 
@@ -198,10 +197,10 @@ public class MMC implements CommandExecutor, TabCompleter {
                 //new KothRunnable(MandoMCRemade.getInstance()).runTaskTimer(MandoMCRemade.getInstance(), 0L, 20L);
                 break;
             case "end":
-                Messages.msg(player, "&cThis feature has not been implemented yet.");
+                player.sendMessage("&cThis feature has not been implemented yet.");
                 break;
             default:
-                Messages.msg(player, "&cPlease use the format /mmc koth <start/end>");
+                player.sendMessage("&cPlease use the format /mmc koth <start/end>");
                 break;
         }
     }
@@ -212,12 +211,12 @@ public class MMC implements CommandExecutor, TabCompleter {
         if (enable) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (!p.hasPermission("mmc.admin.maintenance")) {
-                    p.kickPlayer(Messages.str(kickMessage));
+                    p.kickPlayer(str(kickMessage));
                 }
             }
-            Messages.msg(player, "&7The server has gone into maintenance mode.");
+            player.sendMessage("&7The server has gone into maintenance mode.");
         } else {
-            Messages.msg(player, "&7The server has exited maintenance mode.");
+            player.sendMessage("&7The server has exited maintenance mode.");
         }
     }
 
@@ -225,6 +224,7 @@ public class MMC implements CommandExecutor, TabCompleter {
         plugin.reloadConfig();
         WarpConfig.reload();
         SaberConfig.reload();
+        LangConfig.reload();
         Bukkit.getConsoleSender().sendMessage("MMCCore successfully reloaded!");
     }
 
@@ -280,6 +280,5 @@ public class MMC implements CommandExecutor, TabCompleter {
         }
         return completions;
     }
-
 
 }

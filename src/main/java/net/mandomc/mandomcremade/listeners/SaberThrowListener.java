@@ -3,9 +3,9 @@ package net.mandomc.mandomcremade.listeners;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.db.Database;
 import net.mandomc.mandomcremade.db.Perks;
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -46,7 +46,7 @@ public class SaberThrowListener implements Listener {
         Perks perks = database.getPerks(player);
 
         if (perks.getLightsaberThrow() != 1) {
-            Messages.msg(player, "You don't have this perk unlocked");
+            player.sendMessage(MandoMCRemade.str("You don't have this perk unlocked"));
             return;
         }
 
@@ -73,7 +73,8 @@ public class SaberThrowListener implements Listener {
 
     private void activateLightsaberCooldown(Player player) {
         lightsaberCooldown.put(player.getUniqueId(), System.currentTimeMillis());
-        Messages.msg(player, "&6You threw your lightsaber!");
+        player.sendMessage(MandoMCRemade.str("&6You threw your lightsaber!"));
+        //Energy.getPlayerEnergy(player.setEnergy(playerEnergy.getEnergy() - 10);
         playerThrowEvent(player, player.getLocation(), targetedEnemy(player,
                 plugin.getConfig().getInt("SaberThrowRange"),
                 plugin.getConfig().getDouble("SaberThrowThreshold")));
@@ -87,7 +88,7 @@ public class SaberThrowListener implements Listener {
             lightsaberCooldown.remove(player.getUniqueId());
         } else {
             long timeRemaining = (cooldown - timeElapsed) / 1000;
-            Messages.msg(player, "&6You are too tired to throw a lightsaber, try again in &c" + timeRemaining + " &6seconds!");
+            player.sendMessage(MandoMCRemade.str("&6You are too tired to throw a lightsaber, try again in &c" + timeRemaining + " &6seconds!"));
         }
     }
 
@@ -96,8 +97,9 @@ public class SaberThrowListener implements Listener {
 
         for (Block block : lineOfSight) {
             Location location = block.getLocation();
-
-            for (Entity entity : location.getWorld().getNearbyEntities(location, 1.5, 1.5, 1.5)) {
+            World world = location.getWorld();
+            assert world != null;
+            for (Entity entity : world.getNearbyEntities(location, 1.5, 1.5, 1.5)) {
                 if (isValidTarget(player, entity, threshold)) {
                     return entity.getLocation();
                 }
@@ -139,7 +141,7 @@ public class SaberThrowListener implements Listener {
 
             public void run() {
                 rotateAndMoveArmorStand(armorStand, vector);
-                if (checkCollision(player, armorStand, throwStack) || i > distance) {
+                if (checkCollision(player, armorStand) || i > distance) {
                     armorStand.remove();
                     if (player.getInventory().firstEmpty() != -1) {
                         player.getInventory().addItem(throwStack);
@@ -154,7 +156,7 @@ public class SaberThrowListener implements Listener {
     }
 
     private ArmorStand createArmorStand(Player player, ItemStack eggItem) {
-        ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, 0.5, 0), EntityType.ARMOR_STAND);
+        ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(100, 0.5, 100), EntityType.ARMOR_STAND);
         armorStand.setArms(true);
         armorStand.setGravity(false);
         armorStand.setVisible(false);
@@ -162,6 +164,7 @@ public class SaberThrowListener implements Listener {
         armorStand.setMarker(true);
         Objects.requireNonNull(armorStand.getEquipment()).setItemInMainHand(eggItem);
         armorStand.setRightArmPose(new EulerAngle(Math.toRadians(0), Math.toRadians(0), Math.toRadians(90)));
+        armorStand.teleport(player.getLocation().add(0, 0.5, 0));
         return armorStand;
     }
 
@@ -172,7 +175,7 @@ public class SaberThrowListener implements Listener {
         armorStand.teleport(armorStand.getLocation().add(vector.normalize()));
     }
 
-    private boolean checkCollision(Player player, ArmorStand armorStand, ItemStack throwStack) {
+    private boolean checkCollision(Player player, ArmorStand armorStand) {
         if (armorStand.getTargetBlockExact(1) != null && !Objects.requireNonNull(armorStand.getTargetBlockExact(1)).isPassable()) {
             return true;
         }

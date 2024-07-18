@@ -1,10 +1,8 @@
 package net.mandomc.mandomcremade.koth;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
-import net.mandomc.mandomcremade.utility.Messages;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import net.mandomc.mandomcremade.config.LangConfig;
+import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -13,6 +11,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.UUID;
+
+import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
 public class KOTHManager {
     private final MandoMCRemade plugin;
@@ -32,12 +32,12 @@ public class KOTHManager {
     public void startKOTH() {
         kothActive = true;
         playerPoints.clear();
-        bossBar = Bukkit.createBossBar(Messages.str(plugin.getConfig().getString("KothBossBarName")), BarColor.RED, BarStyle.SEGMENTED_20);
+        bossBar = Bukkit.createBossBar(str(plugin.getConfig().getString("KothBossBarName")), BarColor.RED, BarStyle.SEGMENTED_20);
         for (Player player : Bukkit.getOnlinePlayers()) {
             bossBar.addPlayer(player);
         }
         bossBar.setProgress(1.0); // Start with a full bar
-        Bukkit.broadcastMessage("KOTH event has started! Head to the hill to capture the point!");
+        Bukkit.broadcastMessage(str(LangConfig.get().getString("KOTHStart")));
 
         new BukkitRunnable() {
             @Override
@@ -51,7 +51,7 @@ public class KOTHManager {
                 updateBossBar();
                 spawnCaptureParticles();
             }
-        }.runTaskTimer(plugin, 0L, 20L); // Run every second (20 ticks)
+        }.runTaskTimer(plugin, 0L, 20L); // Run every second (20 ticks = 1 second)
     }
 
     public void endKOTH() {
@@ -59,7 +59,11 @@ public class KOTHManager {
         if (bossBar != null) {
             bossBar.removeAll();
         }
-        String winner = currentLeader != null ? Bukkit.getPlayer(currentLeader).getName() : "No one";
+        Player player = Bukkit.getPlayer(currentLeader);
+        assert player != null;
+        String name = player.getName();
+
+        String winner = currentLeader != null ? name : "No one";
         Bukkit.broadcastMessage("KOTH event has ended! Congratulations to " + winner + " for winning the event!");
     }
 
@@ -108,11 +112,14 @@ public class KOTHManager {
             double x = captureRadius * Math.cos(theta);
             double z = captureRadius * Math.sin(theta);
             Location particleLocation = kothLocation.clone().add(x, 0, z);
-            kothLocation.getWorld().spawnParticle(Particle.DRIPPING_HONEY, particleLocation, 1);
+            World world = kothLocation.getWorld();
+            assert world != null;
+            world.spawnParticle(Particle.DRIPPING_HONEY, particleLocation, 1);
         }
     }
 
     public boolean isKOTHActive() {
         return kothActive;
     }
+
 }

@@ -2,9 +2,56 @@ name: MandoMCRemade
 version: '${project.version}'
 main: net.mandomc.mandomcremade.MandoMCRemade
 api-version: '1.21'
-authors: [ AstuteFlamez ]
+authors: [ AstuteFlamez, BatmenzDW ]
 description: A core plugin for the minecraft server MandoMC.
 softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]
 commands:
-  mmc:
+  give:
+    description: Give a player a MandoMC item.
+    usage: /give <username> <item>
+    permission: mmc.admin.give
+    permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
+  perk:
+    description: Lock/unlock a player's perks.
+    aliases: [perks]
+    usage: /perk <action> <type> <player>
+  get:
+    description: Opens items GUI.
+    usage: /get
+    permission: mmc.admin.get
+    permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
+  yaw:
+    description: Gives your yaw.
+    usage: /yaw
+  pitch:
+    description: Gives your pitch.
+    usage: /pitch
+  reload:
+    description: Reloads MandoMC plugin.
+    usage: /reload
+    permission: mmc.admin.reload
+    permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
+  maintenance:
+    description: Turns Maintenance mode on or off.
+    usage: /maintenance <on/off>
+    permission: mmc.admin.maintenance
+    permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
+  recipes:
+    description: Opens recipes GUI.
+    usage: /recipes
   koth:
+    description: King of the Hill.
+    usage: /koth <start/end>
+    permission: mmc.admin.koth
+    permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
+permissions:
+  mmc.admin.give:
+    description: Gives access to give command.
+  mmc.admins.get:
+    description: Gives access to get command.
+  mmc.admin.reload:
+    description: Gives access to reload command.
+  mmc.admin.maintenance:
+    description: Gives access to Maintenance command.
+  mmc.admin.koth:
+    description: Gives access to koth command.
