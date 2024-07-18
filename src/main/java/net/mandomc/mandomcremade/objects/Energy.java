@@ -5,7 +5,6 @@ import net.mandomc.mandomcremade.managers.EnergyManager;
 import org.bukkit.entity.Player;
 
 public class Energy {
-    private static final int FATIGUE_COOLDOWN_TICKS = 60;
     public static final double MAX_ENERGY = 100.0;
 
     private double energy;
@@ -31,7 +30,7 @@ public class Energy {
 
     public boolean isFatigued(){return isFatigued;}
 
-    public void setFatigued(boolean fatigued) {isFatigued = fatigued;}
+    public void setFatigued(boolean Fatigued) {isFatigued = Fatigued;}
 
 
 }

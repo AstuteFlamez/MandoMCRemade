@@ -15,8 +15,10 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.Sound;
 
 public class EnergyManager implements Listener {
+    private static final int FATIGUE_COOLDOWN_TICKS = 60;
     private MandoMCRemade plugin_instance;
     private static final HashMap<UUID, Energy> playerEnergyMap = new HashMap<>();
 
@@ -52,7 +54,12 @@ public class EnergyManager implements Listener {
                     if (player == null || !player.isOnline()) continue;
 
                     Energy energy = playerEnergyMap.get(playerId);
-                    if (energy != null && player.isSprinting() && energy.isFatigued()) {player.setSprinting(false);}
+                    if (energy == null) continue;
+
+                    if (player.isSprinting() && energy.isFatigued()) {player.setSprinting(false);}
+
+                    applyFatigue(player);
+
                     updateScoreboard(player);
                 }
             }
@@ -88,6 +95,25 @@ public class EnergyManager implements Listener {
         } else {
 
             setupScoreboard(player);
+        }
+    }
+
+    private void applyFatigue(Player player) {
+        Energy energy = playerEnergyMap.get(player.getUniqueId());
+        if (energy != null && energy.getEnergy() <= 0) {
+            if (!energy.isFatigued()) {
+                energy.setFatigued(true);
+                player.setSprinting(false);
+                player.playSound(player.getLocation(), Sound.ENTITY_WOLF_PANT, 1.0f, 0.5f);
+
+                updateScoreboard(player);
+
+
+                Bukkit.getScheduler().runTaskLater(plugin_instance, () -> {
+                    energy.setFatigued(false);
+                    updateScoreboard(player);
+                }, FATIGUE_COOLDOWN_TICKS);
+            }
         }
     }
 
