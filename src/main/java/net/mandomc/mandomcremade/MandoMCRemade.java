@@ -15,12 +15,18 @@ import net.mandomc.mandomcremade.koth.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.guis.GUIManager;
+import net.mandomc.mandomcremade.utility.Energy;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;    
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,6 +39,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     public static MandoMCRemade instance;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
+    public static ArrayList<Energy> energyList;
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
@@ -46,8 +53,12 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         instance = this;
 
+        energyList = new ArrayList<>();
+        
         setUpConfigs();
 
+        getServer().getPluginManager().registerEvents(this, this);
+        
         GUIManager guiManager = new GUIManager();
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
@@ -176,5 +187,41 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     public static String str(String string){
         if (string == null) return "";
         return ChatColor.translateAlternateColorCodes('&', string);
+    }
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        if (event.getAction().name().contains("LEFT")) {
+
+            ItemStack item = event.getItem();
+            Energy playerEnergy = Energy.getPlayerEnergy(player);
+
+            if (isLightsaber(item)){
+                if (playerEnergy != null && playerEnergy.getEnergy() <= 0) {
+                    event.setCancelled(true);
+                }
+                else{
+                    playerEnergy.setEnergy(playerEnergy.getEnergy() - 10);
+                }
+
+            }
+            if ((playerEnergy != null && playerEnergy.getEnergy() <= 0) ) {
+                event.setCancelled(true);
+            }
+
+        }
+        if (player.isSprinting()) {
+            player.setSprinting(false);
+        }
+    }
+    private boolean isLightsaber(ItemStack item) {
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null && ((ItemMeta) meta).hasDisplayName()) {
+            String displayName = meta.getDisplayName();
+            return displayName.contains("Lightsaber");
+        }
+        return false;
     }
 }
