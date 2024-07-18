@@ -2,7 +2,8 @@ package net.mandomc.mandomcremade.listeners;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.db.Perks;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.data.Perks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -15,11 +16,9 @@ import java.sql.SQLException;
 public class PlayerJoinListener implements Listener {
 
     private final MandoMCRemade plugin;
-    private final Database database;
 
-    public PlayerJoinListener(MandoMCRemade plugin, Database database) {
+    public PlayerJoinListener(MandoMCRemade plugin) {
         this.plugin = plugin;
-        this.database = database;
     }
 
     @EventHandler
@@ -36,7 +35,7 @@ public class PlayerJoinListener implements Listener {
         if(!player.hasPlayedBefore()){
 
             try {
-                database.createPerks(new Perks(player.getUniqueId()));
+                PerksTable.addPlayer(new Perks(player.getUniqueId()));
             } catch(SQLException e){
                 ConsoleCommandSender console = Bukkit.getConsoleSender();
                 console.sendMessage("[MMC] There was an issue creating the perks table for " + player.getName() + ".");

@@ -2,7 +2,8 @@ package net.mandomc.mandomcremade.listeners;
 
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.db.Perks;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.data.Perks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -27,12 +28,10 @@ public class SaberThrowListener implements Listener {
 
     private final HashMap<UUID, Long> lightsaberCooldown;
     private final MandoMCRemade plugin;
-    private final Database database;
 
-    public SaberThrowListener(HashMap<UUID, Long> lightsaberCooldown, MandoMCRemade plugin, Database database) {
+    public SaberThrowListener(HashMap<UUID, Long> lightsaberCooldown, MandoMCRemade plugin) {
         this.lightsaberCooldown = lightsaberCooldown;
         this.plugin = plugin;
-        this.database = database;
     }
 
     @EventHandler
@@ -43,9 +42,9 @@ public class SaberThrowListener implements Listener {
             return;
         }
 
-        Perks perks = database.getPerks(player);
+        Perks perks = PerksTable.getPerks(player);
 
-        if (perks.getLightsaberThrow() != 1) {
+        if (perks.getLightsaberThrow()) {
             player.sendMessage(MandoMCRemade.str("You don't have this perk unlocked"));
             return;
         }

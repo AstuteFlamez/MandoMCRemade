@@ -9,7 +9,8 @@ import net.mandomc.mandomcremade.commands.*;
 import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
-import net.mandomc.mandomcremade.db.Database;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.QuestsTable;
 import net.mandomc.mandomcremade.managers.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
@@ -31,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public static MandoMCRemade instance;
-    private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
     public static ArrayList<Energy> energyList;
@@ -61,24 +61,18 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(guiListener, this);
         EnergyManager energyManager = new EnergyManager(this);
 
-        this.database = new Database();
-
-        try {
-            this.database.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            this.database.initializeDatabase();
+        try
+        {
+            PerksTable.initializePerksTable();
+            QuestsTable.initializeQuestsTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         Recipes.registerRecipes();
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database), this);
-        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
 
@@ -121,13 +115,14 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public void setUpCommands(GUIManager guiManager){
         getCommand("give").setExecutor(new GiveCommand());
-        getCommand("perk").setExecutor(new PerkCommand(this.database));
+        getCommand("perk").setExecutor(new PerkCommand());
         getCommand("get").setExecutor(new GetCommand(guiManager));
         getCommand("yaw").setExecutor(new YawCommand());
         getCommand("pitch").setExecutor(new PitchCommand());
         getCommand("reload").setExecutor(new ReloadCommand(this));
         getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
         getCommand("recipes").setExecutor(new RecipesCommand(guiManager));
+        getCommand("quests").setExecutor(new QuestCommand());
     }
 
     public void setUpKOTH(){

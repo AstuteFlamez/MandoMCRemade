@@ -1,28 +1,21 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.db.Perks;
-import net.mandomc.mandomcremade.utility.CustomItems;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.data.Perks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class PerkCommand implements CommandExecutor {
 
-    private final Database database;
-    public PerkCommand(Database database) {
-        this.database = database;
+    public PerkCommand() {
+
     }
 
     @Override
@@ -37,18 +30,18 @@ public class PerkCommand implements CommandExecutor {
         if (player == null) return false;
         Perks perks;
         try{
-            perks = database.getPerks(player);
+            perks = PerksTable.getPerks(player);
             switch(type){
                 case "lightsaberthrow":
                     switch(action){
                         case "lock":
-                            perks.setLightsaberThrow(0);
-                            database.updatePerks(perks);
+                            perks.setLightsaberThrow(false);
+                            PerksTable.updatePerks(perks);
                             Bukkit.getConsoleSender().sendMessage(player.getName() + " has had their lightsaber throw perk locked");
                             break;
                         case "unlock":
-                            perks.setLightsaberThrow(1);
-                            database.updatePerks(perks);
+                            perks.setLightsaberThrow(true);
+                            PerksTable.updatePerks(perks);
                             Bukkit.getConsoleSender().sendMessage(player.getName() + " has had their lightsaber throw perk unlocked");
                             break;
                         default:
