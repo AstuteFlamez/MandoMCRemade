@@ -8,3 +8,4 @@ softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]
 commands:
   mmc:
   koth:
+  maintenance:

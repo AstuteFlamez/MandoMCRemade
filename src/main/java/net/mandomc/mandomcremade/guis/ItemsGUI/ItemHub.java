@@ -1,9 +1,9 @@
 package net.mandomc.mandomcremade.guis.ItemsGUI;
 
+import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.guis.InventoryButton;
 import net.mandomc.mandomcremade.guis.InventoryGUI;
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,15 +11,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemHub extends InventoryGUI {
 
-    private final GUIManager guiManager;
-
-    public ItemHub(GUIManager guiManager) {
-        this.guiManager = guiManager;
-    }
-
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 3 * 9, Messages.str("&c&lCustom Items"));
+        return Bukkit.createInventory(null, 3 * 9, MandoMCRemade.str("&c&lCustom Items"));
     }
 
     @Override

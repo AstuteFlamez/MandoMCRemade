@@ -1,10 +1,10 @@
 package net.mandomc.mandomcremade.guis.RecipeGUI.weapons.lightsabers;
 
+import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.guis.GUIManager;
 import net.mandomc.mandomcremade.guis.InventoryButton;
 import net.mandomc.mandomcremade.guis.InventoryGUI;
 import net.mandomc.mandomcremade.utility.CustomItems;
-import net.mandomc.mandomcremade.utility.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ public class LukeSkywalker extends InventoryGUI {
 
     @Override
     protected Inventory createInventory() {
-        return Bukkit.createInventory(null, 6 * 9, Messages.str("&a&lLuke Skywalker's Lightsaber"));
+        return Bukkit.createInventory(null, 6 * 9, MandoMCRemade.str("&a&lLuke Skywalker's Lightsaber"));
     }
 
     @Override
