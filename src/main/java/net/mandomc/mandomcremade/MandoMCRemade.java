@@ -196,7 +196,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
             ItemStack item = event.getItem();
             Energy playerEnergy = Energy.getPlayerEnergy(player);
-            if (Energy.isFatigued(player) 
+            if (playerEnergy != null && playerEnergy <= 0) 
                 {
                     event.setCancelled(true);
                 }
@@ -206,7 +206,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
                 }
 
         }
-        if (player.isSprinting() && Energy.isFatigued(player) {
+        if (player.isSprinting() && (playerEnergy != null && playerEnergy <= 0)) {
             player.setSprinting(false);
         }
     }
