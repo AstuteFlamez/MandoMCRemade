@@ -29,7 +29,7 @@ public class EnergyManager implements Listener {
 
     public void addEnergy(Player player, double initialEnergy) {
         if (playerEnergyMap.containsKey(player)) {
-            return; // Player already has an Energy object
+            return;
         }
         Energy energy = new Energy(player, initialEnergy, plugin_instance);
         playerEnergyMap.put(player.getUniqueId(), energy);
@@ -39,18 +39,21 @@ public class EnergyManager implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        // Add energy to the player with an initial value
-        addEnergy(player, 100.0); // Adjust the initial energy value as needed
+
+        addEnergy(player, 100.0);
     }
 
     private void startEnergyTasks() {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Energy energy : playerEnergyMap.values()) {
-                    if (energy != null && energy.getPlayer().isSprinting() && energy.isFatigued()) {
-                        energy.getPlayer().setSprinting(false);
-                    }
+                for (UUID playerId : playerEnergyMap.keySet()) {
+                    Player player = Bukkit.getPlayer(playerId);
+                    if (player == null || !player.isOnline()) continue;
+
+                    Energy energy = playerEnergyMap.get(playerId);
+                    if (energy != null && player.isSprinting() && energy.isFatigued()) {player.setSprinting(false);}
+                    updateScoreboard(player);
                 }
             }
         }.runTaskTimer(plugin_instance, 0L, 20L);
@@ -67,6 +70,25 @@ public class EnergyManager implements Listener {
         Objective objective = scoreboard.registerNewObjective("energy", "dummy", "Energy: " + (int) energy.getEnergy());
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         player.setScoreboard(scoreboard);
+    }
+
+    private void updateScoreboard(Player player) {
+        Energy energy = playerEnergyMap.get(player.getUniqueId());
+        if (energy == null) return;
+
+        Scoreboard scoreboard = player.getScoreboard();
+        Objective objective = scoreboard.getObjective("energy");
+        if (objective != null) {
+            if (energy.getEnergy() <= 0) {
+                objective.setDisplayName("&eEnergy: &4" + (int) energy.getEnergy());
+            }
+            else{
+                objective.setDisplayName("&eEnergy: " + (int) energy.getEnergy());
+            }
+        } else {
+
+            setupScoreboard(player);
+        }
     }
 
 }
