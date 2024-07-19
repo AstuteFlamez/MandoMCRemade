@@ -8,14 +8,19 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
-public class KOTHManager {
+public class KOTHManager implements Listener {
+
     private final MandoMCRemade plugin;
     private final Location kothLocation;
     private final double captureRadius;
@@ -23,26 +28,25 @@ public class KOTHManager {
     private final HashMap<UUID, Integer> playerPoints = new HashMap<>();
     private BossBar bossBar;
     private UUID currentLeader = null;
+    private final ArrayList<Player> players;
     FileConfiguration config = LangConfig.get();
-    String prefix = config.getString("Prefix");
+    String prefix = config.getString("EventPrefix");
 
     public KOTHManager(MandoMCRemade plugin, Location kothLocation, double captureRadius) {
         this.plugin = plugin;
         this.kothLocation = kothLocation;
         this.captureRadius = captureRadius;
+
+        players = new ArrayList<>();
     }
 
     public void startKOTH() {
         kothActive = true;
         playerPoints.clear();
-        String name = str("&2The KOTH Event has started!");
-        bossBar = Bukkit.createBossBar(name, BarColor.GREEN, BarStyle.SEGMENTED_20);
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            bossBar.addPlayer(player);
-        }
-        bossBar.setProgress(1.0); // Start with a full bar
 
-        String start = str("&7The KOTH Event has started!");
+        createBossBar();
+
+        String start = str("&7The &b&lKOTH &7Event has started!");
         Bukkit.broadcastMessage(prefix + start);
 
         new BukkitRunnable() {
@@ -60,44 +64,56 @@ public class KOTHManager {
         }.runTaskTimer(plugin, 0L, 20L); // Run every second (20 ticks = 1 second)
     }
 
-    public void endKOTH() {
-        kothActive = false;
-        if (bossBar != null) {
-            bossBar.removeAll();
-        }
-        Player player = Bukkit.getPlayer(currentLeader);
-        assert player != null;
-        String name = player.getName();
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        if(isKOTHActive()) createBossBar();
+    }
 
-        String winner = currentLeader != null ? name : "No one";
-        String end = str("&7KOTH event has ended! Congratulations to " + winner + " for winning the event!");
-        Bukkit.broadcastMessage(prefix + end);
+    private void createBossBar(){
+        World world = kothLocation.getWorld();
+        String worldName = world.getName();
+        double x = kothLocation.getX();
+        double z = kothLocation.getZ();
+        String name = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", &c&lX: " + x + ", &c&lZ: " + z);
+        bossBar = Bukkit.createBossBar(name, BarColor.BLUE, BarStyle.SEGMENTED_20);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            bossBar.addPlayer(player);
+        }
+        bossBar.setProgress(1.0); // Start with a full bar
     }
 
     private void updatePlayerPoints() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getLocation().distance(kothLocation) <= captureRadius) {
+                if(!players.contains(player)) players.add(player);
+
+                if(players.size()>1) return;
+
                 UUID playerId = player.getUniqueId();
-                int newPoints = playerPoints.getOrDefault(playerId, 0) + 1;
+                int newPoints = playerPoints.getOrDefault(playerId, 30) - 1;
                 playerPoints.put(playerId, newPoints);
 
-                if (newPoints >= 100) {
+                if (newPoints <= 0) {
                     currentLeader = playerId;
                     endKOTH();
                     return;
                 }
+            }else{
+                players.remove(player);
+                UUID playerId = player.getUniqueId();
+                playerPoints.put(playerId, 30);
             }
         }
     }
 
     private void updateBossBar() {
         UUID newLeader = null;
-        int maxPoints = -1;
+        int minPoints = 101;
 
         for (UUID playerId : playerPoints.keySet()) {
             int points = playerPoints.get(playerId);
-            if (points > maxPoints) {
-                maxPoints = points;
+            if (points < minPoints) {
+                minPoints = points;
                 newLeader = playerId;
             }
         }
@@ -107,11 +123,25 @@ public class KOTHManager {
         if (currentLeader != null) {
             Player leader = Bukkit.getPlayer(currentLeader);
             if (leader != null) {
-                double progress = 1.0 - (playerPoints.get(currentLeader) / 100.0); // Progress goes backwards
+
+                double progress = (playerPoints.get(currentLeader) / 30.0);
                 bossBar.setProgress(Math.max(0, progress));
                 // Ensure the progress is not negative
+                int seconds = playerPoints.get(currentLeader);
+                String plural = "";
+                if(seconds==1) plural = "s";
 
-                String title = str("&2" + leader.getName() + " is leading with " + playerPoints.get(currentLeader) + " points.");
+                String title = str("&r" + leader.getName() + " &7has &6" + seconds + " &7second" + plural + " left to capture &b&lKOTH!");
+                if(players.size()>1) {
+                    title = str("&b&lKOTH &7is contested by multiple players.");
+                }else if(players.isEmpty()) {
+                    World world = kothLocation.getWorld();
+                    String worldName = world.getName();
+                    double x = kothLocation.getX();
+                    double z = kothLocation.getZ();
+                    title = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", &c&lX: " + x + ", &b&lZ: " + z);
+                }
+
                 bossBar.setTitle(title);
             }
         }
@@ -132,4 +162,17 @@ public class KOTHManager {
         return kothActive;
     }
 
+    public void endKOTH() {
+        kothActive = false;
+        if (bossBar != null) {
+            bossBar.removeAll();
+        }
+        Player player = Bukkit.getPlayer(currentLeader);
+        if(player == null) return;
+        String name = player.getName();
+
+        String winner = currentLeader != null ? name : "No one";
+        String end = str("&b&lKOTH &7event has ended! Congratulations to " + winner + " for winning the event!");
+        Bukkit.broadcastMessage(prefix + end);
+    }
 }
