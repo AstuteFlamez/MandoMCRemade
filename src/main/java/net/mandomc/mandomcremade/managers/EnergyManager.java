@@ -62,16 +62,18 @@ public class EnergyManager implements Listener {
             public void run() {
                 for (UUID playerId : playerEnergyMap.keySet()) {
                     Player player = Bukkit.getPlayer(playerId);
-                    Energy playerEnergy = Energy.getPlayerEnergy(player);
+
                     if (player == null || !player.isOnline()) continue;
 
                     Energy energy = playerEnergyMap.get(playerId);
                     if (energy == null) continue;
 
-                    if (player.isSprinting() && energy.isFatigued()) {player.setSprinting(false);}
+                    if (player.isSprinting() && energy.isFatigued()) {
+                        player.setSprinting(false);
+                    }
 
-                    if (!player.isSprinting() && !energy.isFatigued()){
-                        playerEnergy.setEnergy(playerEnergy.getEnergy() + 20.0);
+                    if (!player.isSprinting() && !energy.isFatigued()) {
+                        energy.setEnergy(energy.getEnergy() + 20.0);
                     }
 
                     applyFatigue(player);
