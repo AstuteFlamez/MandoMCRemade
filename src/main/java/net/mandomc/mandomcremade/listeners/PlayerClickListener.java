@@ -31,6 +31,9 @@ public class PlayerClickListener implements Listener {
     public void onPlayerToggleSprint(PlayerToggleSprintEvent event){
         Player player = event.getPlayer();
         Energy playerEnergy = Energy.getPlayerEnergy(player);
+
+        if(playerEnergy == null) return;
+
         if (playerEnergy.getEnergy() <= 0){
                 event.setCancelled(true);
         }
