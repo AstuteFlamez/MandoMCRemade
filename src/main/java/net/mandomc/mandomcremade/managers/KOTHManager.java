@@ -66,14 +66,19 @@ public class KOTHManager implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if(isKOTHActive()) createBossBar();
+        Bukkit.broadcastMessage("KOTHManager line 69");
+        if(isKOTHActive()){
+            Bukkit.broadcastMessage("koth debug message");
+            Player player = event.getPlayer();
+            bossBar.addPlayer(player);
+        }
     }
 
     private void createBossBar(){
         World world = kothLocation.getWorld();
         String worldName = world.getName();
-        double x = kothLocation.getX();
-        double z = kothLocation.getZ();
+        int x = (int) kothLocation.getX();
+        int z = (int) kothLocation.getZ();
         String name = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", X: " + x + ", Z: " + z);
         bossBar = Bukkit.createBossBar(name, BarColor.BLUE, BarStyle.SEGMENTED_20);
         for (Player player : Bukkit.getOnlinePlayers()) {
