@@ -6,6 +6,7 @@ import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,6 +23,8 @@ public class KOTHManager {
     private final HashMap<UUID, Integer> playerPoints = new HashMap<>();
     private BossBar bossBar;
     private UUID currentLeader = null;
+    FileConfiguration config = LangConfig.get();
+    String prefix = config.getString("Prefix");
 
     public KOTHManager(MandoMCRemade plugin, Location kothLocation, double captureRadius) {
         this.plugin = plugin;
@@ -32,12 +35,15 @@ public class KOTHManager {
     public void startKOTH() {
         kothActive = true;
         playerPoints.clear();
-        bossBar = Bukkit.createBossBar(str(plugin.getConfig().getString("KothBossBarName")), BarColor.RED, BarStyle.SEGMENTED_20);
+        String name = str("&2The KOTH Event has started!");
+        bossBar = Bukkit.createBossBar(name, BarColor.GREEN, BarStyle.SEGMENTED_20);
         for (Player player : Bukkit.getOnlinePlayers()) {
             bossBar.addPlayer(player);
         }
         bossBar.setProgress(1.0); // Start with a full bar
-        Bukkit.broadcastMessage(str(LangConfig.get().getString("KOTHStart")));
+
+        String start = str("&7The KOTH Event has started!");
+        Bukkit.broadcastMessage(prefix + start);
 
         new BukkitRunnable() {
             @Override
@@ -64,7 +70,8 @@ public class KOTHManager {
         String name = player.getName();
 
         String winner = currentLeader != null ? name : "No one";
-        Bukkit.broadcastMessage("KOTH event has ended! Congratulations to " + winner + " for winning the event!");
+        String end = str("&7KOTH event has ended! Congratulations to " + winner + " for winning the event!");
+        Bukkit.broadcastMessage(prefix + end);
     }
 
     private void updatePlayerPoints() {
@@ -101,8 +108,11 @@ public class KOTHManager {
             Player leader = Bukkit.getPlayer(currentLeader);
             if (leader != null) {
                 double progress = 1.0 - (playerPoints.get(currentLeader) / 100.0); // Progress goes backwards
-                bossBar.setProgress(Math.max(0, progress)); // Ensure the progress is not negative
-                bossBar.setTitle(leader.getName() + " is leading with " + playerPoints.get(currentLeader) + " points.");
+                bossBar.setProgress(Math.max(0, progress));
+                // Ensure the progress is not negative
+
+                String title = str("&2" + leader.getName() + " is leading with " + playerPoints.get(currentLeader) + " points.");
+                bossBar.setTitle(title);
             }
         }
     }

@@ -35,6 +35,7 @@ public class PlayerClickListener implements Listener {
                 event.setCancelled(true);
         }
     }
+
     private boolean isLightsaber(ItemStack item) {
 
         ItemMeta meta = item.getItemMeta();

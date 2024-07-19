@@ -1,6 +1,5 @@
 package net.mandomc.mandomcremade.commands;
 
-import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.managers.KOTHManager;
 import org.bukkit.command.Command;
@@ -21,7 +20,6 @@ public class KOTHCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         FileConfiguration config = LangConfig.get();
         String prefix = config.getString("Prefix");
 
@@ -30,20 +28,29 @@ public class KOTHCommand implements CommandExecutor {
             return true;
         }
 
+        if(!player.hasPermission("mmc.admin.koth")) {
+            String noPermission = str(config.getString("NoPermission"));
+            player.sendMessage(prefix + noPermission);
+            return true;
+        }
+
         executeCommand(player, args, prefix);
         return true;
     }
 
     private void executeCommand(CommandSender sender, String[] args, String prefix) {
+        String usage = str("&cUsage: /koth <start|end|status>");
+
         if (args.length == 0) {
-            sender.sendMessage(str(prefix + "Usage: /koth <start|end|status>"));
+            sender.sendMessage(str(prefix + usage));
             return;
         }
 
         switch (args[0].toLowerCase()) {
             case "start":
                 if (kothManager.isKOTHActive()) {
-                    sender.sendMessage(prefix + "KOTH event is already active.");
+                    String active = str("&7The KOTH event is already active.");
+                    sender.sendMessage(prefix + active);
                 } else {
                     kothManager.startKOTH();
                 }
@@ -52,14 +59,16 @@ public class KOTHCommand implements CommandExecutor {
                 if (kothManager.isKOTHActive()) {
                     kothManager.endKOTH();
                 } else {
-                    sender.sendMessage(prefix + "No active KOTH event to end.");
+                    String unactive = str("&7There is no active KOTH event to end.");
+                    sender.sendMessage(prefix + unactive);
                 }
                 break;
             case "status":
-                sender.sendMessage(prefix + "KOTH is " + (kothManager.isKOTHActive() ? "active" : "not active") + ".");
+                String status = str("&7KOTH is " + (kothManager.isKOTHActive() ? "active" : "not active") + ".");
+                sender.sendMessage(prefix + status);
                 break;
             default:
-                sender.sendMessage(prefix + "Usage: /koth <start|end|status>");
+                sender.sendMessage(prefix + usage);
                 break;
         }
     }

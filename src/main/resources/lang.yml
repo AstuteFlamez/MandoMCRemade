@@ -1,8 +1,7 @@
 Prefix: "&6&lMandoMc &8» &7"
+EventPrefix: "&a&l(!) Events &8» &7"
 NoPermissions: "&cThe Force is not with you..."
 IncorrectSyntax: "&cYou typed the command incorrectly..."
 PlayerOnly: "Only players can execute this command."
 
 MaintenanceKick: "&4&lMandoMC has gone into Maintenance Mode! Try logging again soon."
-
-KOTHStart: ""
