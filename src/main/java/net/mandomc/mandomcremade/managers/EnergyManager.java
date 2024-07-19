@@ -16,6 +16,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.Sound;
+import org.bukkit.ChatColor;
 
 public class EnergyManager implements Listener {
     private static final int FATIGUE_COOLDOWN_TICKS = 60;
@@ -91,8 +92,10 @@ public class EnergyManager implements Listener {
         if (energy == null) return;
 
         ScoreboardManager manager = Bukkit.getScoreboardManager();
+        if (manager == null) return;
+
         Scoreboard scoreboard = manager.getNewScoreboard();
-        Objective objective = scoreboard.registerNewObjective("energy", "dummy", "Energy: " + (int) energy.getEnergy());
+        Objective objective = scoreboard.registerNewObjective("energy", "dummy", ChatColor.YELLOW + "Energy: " + ChatColor.RED + (int) energy.getEnergy());
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         player.setScoreboard(scoreboard);
     }
@@ -105,13 +108,11 @@ public class EnergyManager implements Listener {
         Objective objective = scoreboard.getObjective("energy");
         if (objective != null) {
             if (energy.getEnergy() <= 0) {
-                objective.setDisplayName("&eEnergy: &4" + (int) energy.getEnergy());
-            }
-            else{
-                objective.setDisplayName("&eEnergy: " + (int) energy.getEnergy());
+                objective.setDisplayName(ChatColor.YELLOW + "Energy: " + ChatColor.RED + (int) energy.getEnergy());
+            } else {
+                objective.setDisplayName(ChatColor.YELLOW + "Energy: " + (int) energy.getEnergy());
             }
         } else {
-
             setupScoreboard(player);
         }
     }
