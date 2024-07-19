@@ -19,21 +19,20 @@ import org.bukkit.Sound;
 
 public class EnergyManager implements Listener {
     private static final int FATIGUE_COOLDOWN_TICKS = 60;
-    private MandoMCRemade plugin_instance;
+    private final MandoMCRemade plugin;
     private static final HashMap<UUID, Energy> playerEnergyMap = new HashMap<>();
 
-    public EnergyManager(MandoMCRemade plugin_instance) {
-        this.plugin_instance = plugin_instance;
-        Bukkit.getPluginManager().registerEvents(this, plugin_instance);
+    public EnergyManager(MandoMCRemade plugin) {
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         startEnergyTasks();
     }
-
 
     public void addEnergy(Player player, double initialEnergy) {
         if (playerEnergyMap.containsKey(player)) {
             return;
         }
-        Energy energy = new Energy(player, initialEnergy, plugin_instance);
+        Energy energy = new Energy(player, initialEnergy, plugin);
         playerEnergyMap.put(player.getUniqueId(), energy);
         setupScoreboard(player);
     }
@@ -68,7 +67,7 @@ public class EnergyManager implements Listener {
                     updateScoreboard(player);
                 }
             }
-        }.runTaskTimer(plugin_instance, 0L, 20L);
+        }.runTaskTimer(plugin, 0L, 20L);
     }
 
     public static Energy getPlayerEnergy(Player player) {return playerEnergyMap.get(player.getUniqueId());}
@@ -114,7 +113,7 @@ public class EnergyManager implements Listener {
                 updateScoreboard(player);
 
 
-                Bukkit.getScheduler().runTaskLater(plugin_instance, () -> {
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
                     energy.setFatigued(false);
                     updateScoreboard(player);
                 }, FATIGUE_COOLDOWN_TICKS);

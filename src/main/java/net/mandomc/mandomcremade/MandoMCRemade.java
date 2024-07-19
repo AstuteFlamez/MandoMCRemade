@@ -81,6 +81,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
+        getServer().getPluginManager().registerEvents(new EnergyManager(this), this);
 
         setUpKOTH();
 
