@@ -29,7 +29,7 @@ public class EnergyManager implements Listener {
     }
 
     public void addEnergy(Player player, double initialEnergy) {
-        if (playerEnergyMap.containsKey(player)) {
+        if (playerEnergyMap.containsKey(player.getUniqueId())) {
             return;
         }
         Energy energy = new Energy(player, initialEnergy, plugin);
@@ -37,12 +37,24 @@ public class EnergyManager implements Listener {
         setupScoreboard(player);
     }
 
+    public void removeEnergy(Player player) {
+        playerEnergyMap.remove(player.getUniqueId());
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        addEnergy(player, 100.0);
+        addEnergy(player, 0.0);
     }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        removeEnergy(player);
+    }
+
 
     private void startEnergyTasks() {
         new BukkitRunnable() {
@@ -73,7 +85,7 @@ public class EnergyManager implements Listener {
     public static Energy getPlayerEnergy(Player player) {return playerEnergyMap.get(player.getUniqueId());}
 
     private void setupScoreboard(Player player) {
-        Energy energy = playerEnergyMap.get(player);
+        Energy energy = playerEnergyMap.get(player.getUniqueId());
         if (energy == null) return;
 
         ScoreboardManager manager = Bukkit.getScoreboardManager();
