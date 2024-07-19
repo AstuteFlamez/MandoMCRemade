@@ -74,7 +74,7 @@ public class KOTHManager implements Listener {
         String worldName = world.getName();
         double x = kothLocation.getX();
         double z = kothLocation.getZ();
-        String name = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", &c&lX: " + x + ", &c&lZ: " + z);
+        String name = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", X: " + x + ", Z: " + z);
         bossBar = Bukkit.createBossBar(name, BarColor.BLUE, BarStyle.SEGMENTED_20);
         for (Player player : Bukkit.getOnlinePlayers()) {
             bossBar.addPlayer(player);
@@ -84,6 +84,7 @@ public class KOTHManager implements Listener {
 
     private void updatePlayerPoints() {
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getWorld() != kothLocation.getWorld()) return;
             if (player.getLocation().distance(kothLocation) <= captureRadius) {
                 if(!players.contains(player)) players.add(player);
 
