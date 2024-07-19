@@ -139,10 +139,13 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         int z = getConfig().getInt("KOTHz");
         double radius = getConfig().getDouble("KOTHRadius");
 
+        assert world != null;
         Location kothLocation = new Location(Bukkit.getWorld(world), x, y, z);
 
         kothManager = new KOTHManager(this, kothLocation, radius);
         this.getCommand("koth").setExecutor(new KOTHCommand(kothManager));
+
+        getServer().getPluginManager().registerEvents(new KOTHManager(this, kothLocation, radius), this);
 
         // Schedule KOTH event every 4 hours
         new BukkitRunnable() {
