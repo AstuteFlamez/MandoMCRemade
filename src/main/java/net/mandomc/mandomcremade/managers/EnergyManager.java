@@ -30,10 +30,9 @@ public class EnergyManager implements Listener {
     }
 
     public void addEnergy(Player player, double initialEnergy) {
-        if (playerEnergyMap.containsKey(player.getUniqueId())) {
-            return;
-        }
+        if (playerEnergyMap.containsKey(player.getUniqueId())) {return;}
         Energy energy = new Energy(player, initialEnergy, plugin);
+        Bukkit.getConsoleSender().sendMessage("Added energy to " + player.getName());
         playerEnergyMap.put(player.getUniqueId(), energy);
         setupScoreboard(player);
     }
@@ -74,6 +73,7 @@ public class EnergyManager implements Listener {
                     }
 
                     if (!player.isSprinting() && !energy.isFatigued()) {
+                        Bukkit.getConsoleSender().sendMessage("Adding 20 energy!");
                         energy.setEnergy(energy.getEnergy() + 20.0);
                     }
 
@@ -93,11 +93,12 @@ public class EnergyManager implements Listener {
 
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         if (manager == null) return;
-
+        Bukkit.getConsoleSender().sendMessage("Scoreboard setting up....");
         Scoreboard scoreboard = manager.getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("energy", "dummy", ChatColor.YELLOW + "Energy: " + ChatColor.RED + (int) energy.getEnergy());
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         player.setScoreboard(scoreboard);
+        Bukkit.getConsoleSender().sendMessage("Scoreboard set up!");
     }
 
     private void updateScoreboard(Player player) {
@@ -106,6 +107,7 @@ public class EnergyManager implements Listener {
 
         Scoreboard scoreboard = player.getScoreboard();
         Objective objective = scoreboard.getObjective("energy");
+        Bukkit.getConsoleSender().sendMessage("Updating scoreboard of " + player.getName());
         if (objective != null) {
             if (energy.getEnergy() <= 0) {
                 objective.setDisplayName(ChatColor.YELLOW + "Energy: " + ChatColor.RED + (int) energy.getEnergy());
