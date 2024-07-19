@@ -5,13 +5,18 @@ import net.mandomc.mandomcremade.managers.KOTHManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
-public class KOTHCommand implements CommandExecutor {
+public class KOTHCommand implements CommandExecutor, TabCompleter {
     private final KOTHManager kothManager;
 
     public KOTHCommand(KOTHManager kothManager) {
@@ -21,7 +26,7 @@ public class KOTHCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         FileConfiguration config = LangConfig.get();
-        String prefix = config.getString("Prefix");
+        String prefix = config.getString("EventPrefix");
 
         if (!(sender instanceof Player player)) {
             executeCommand(sender, args, prefix);
@@ -71,5 +76,11 @@ public class KOTHCommand implements CommandExecutor {
                 sender.sendMessage(prefix + usage);
                 break;
         }
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return Arrays.asList("start", "end", "status");
     }
 }
