@@ -140,7 +140,7 @@ public class KOTHManager implements Listener {
                     String worldName = world.getName();
                     double x = kothLocation.getX();
                     double z = kothLocation.getZ();
-                    title = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", &c&lX: " + x + ", &b&lZ: " + z);
+                    title = str("&b&lKOTH &7is uncontested! &c&lPlanet: " + worldName + ", &c&lX: " + x + ", &c&lZ: " + z);
                 }
 
                 bossBar.setTitle(title);

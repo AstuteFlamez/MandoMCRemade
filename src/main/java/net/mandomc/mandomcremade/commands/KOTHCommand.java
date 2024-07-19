@@ -39,8 +39,6 @@ public class KOTHCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if(kothManager.isKOTHActive()) return true;
-
         executeCommand(player, args, prefix);
         return true;
     }
