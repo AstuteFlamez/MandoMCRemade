@@ -151,6 +151,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if(kothManager.isKOTHActive()) cancel();
                 kothManager.startKOTH();
             }
         }.runTaskTimer(this, TimeUnit.MINUTES.toSeconds(5) * 20, TimeUnit.HOURS.toSeconds(4) * 20);
