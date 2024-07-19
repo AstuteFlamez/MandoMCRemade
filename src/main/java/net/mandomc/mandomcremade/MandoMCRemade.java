@@ -20,6 +20,7 @@ import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,6 +28,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import static org.bukkit.Bukkit.getConsoleSender;
 
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
@@ -151,10 +154,14 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(kothManager.isKOTHActive()) cancel();
+                if(kothManager.isKOTHActive()){
+                    ConsoleCommandSender console = Bukkit.getConsoleSender();
+                    console.sendMessage("[MMC] Could not start scheduled KOTH. There is already an active instance.");
+                    cancel();
+                }
                 kothManager.startKOTH();
             }
-        }.runTaskTimer(this, TimeUnit.MINUTES.toSeconds(5) * 20, TimeUnit.HOURS.toSeconds(4) * 20);
+        }.runTaskTimer(this, TimeUnit.MINUTES.toSeconds(0) * 20, TimeUnit.HOURS.toSeconds(4) * 20);
     }
 
     public void setUpServerList(){
