@@ -25,16 +25,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
-import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-import static org.bukkit.Bukkit.getConsoleSender;
 
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 

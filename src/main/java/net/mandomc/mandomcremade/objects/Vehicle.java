@@ -28,11 +28,11 @@ public class Vehicle {
         this.owner = owner;
     }
 
-    public LivingEntity getVehicle() {
+    public LivingEntity getVehicleMob() {
         return vehicleMob;
     }
 
-    public void setVehicle(LivingEntity vehicleMob) {
+    public void setVehicleMob(LivingEntity vehicleMob) {
         this.vehicleMob = vehicleMob;
     }
 

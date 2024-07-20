@@ -3,11 +3,11 @@ package net.mandomc.mandomcremade.listeners;
 import net.mandomc.mandomcremade.managers.VehicleManager;
 import net.mandomc.mandomcremade.objects.Vehicle;
 import net.mandomc.mandomcremade.utility.CustomItems;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDismountEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -28,7 +28,7 @@ public class VehicleListener implements Listener {
         PlayerInventory inventory = player.getInventory();
         ItemStack item = inventory.getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
-        if(meta == null) return;
+        if (meta == null) return;
         String name = meta.getDisplayName();
 
         String tieFighter = CustomItems.tieFighter().getItemMeta().getDisplayName();
@@ -39,17 +39,19 @@ public class VehicleListener implements Listener {
         switch (event.getAction()) {
             case RIGHT_CLICK_AIR:
             case RIGHT_CLICK_BLOCK:
-                if(name.equals(tieFighter) || name.equals(redXWing) || name.equals(blueXWing) || name.equals(greenXWing)) {
+                if (name.equals(tieFighter) || name.equals(redXWing) || name.equals(blueXWing) || name.equals(greenXWing)) {
                     new VehicleManager(player.getUniqueId());
                 }
                 break;
             case LEFT_CLICK_AIR:
-                for(Vehicle vehicle : VehicleManager.vehicles){
-                    if(vehicle.getPilot() == null) return;
-                    if(vehicle.getPilot() == uuid) VehicleManager.shootTorpedos(player);
+                for (Vehicle vehicle : VehicleManager.vehicles) {
+                    if (vehicle.getPilot() == null) return;
+                    if (vehicle.getPilot().equals(uuid)) {
+                        VehicleManager.shootTorpedoes(player);
+                    }
                 }
+                break;
         }
-
     }
 
     @EventHandler
@@ -58,15 +60,14 @@ public class VehicleListener implements Listener {
         UUID uuid = player.getUniqueId();
         Entity clickedEntity = event.getRightClicked();
 
-        if(!(clickedEntity instanceof LivingEntity)) return;
+        if (!(clickedEntity instanceof LivingEntity)) return;
 
-        for(Vehicle vehicle : VehicleManager.vehicles){
-            LivingEntity phantom = vehicle.getVehicle();
+        for (Vehicle vehicle : VehicleManager.vehicles) {
+            LivingEntity phantom = vehicle.getVehicleMob();
             LivingEntity zombie = vehicle.getModelMob();
 
-            if(clickedEntity == phantom || clickedEntity == zombie) {
-
-                if(vehicle.getPilot() != null) return;
+            if (clickedEntity == phantom || clickedEntity == zombie) {
+                if (vehicle.getPilot() != null) return;
 
                 vehicle.setPilot(uuid);
                 phantom.addPassenger(player);
@@ -79,8 +80,10 @@ public class VehicleListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        for(Vehicle vehicle : VehicleManager.vehicles){
-            if(vehicle.getOwner() == uuid) VehicleManager.removeVehicle(vehicle);
+        for (Vehicle vehicle : VehicleManager.vehicles) {
+            if (vehicle.getOwner().equals(uuid)) {
+                VehicleManager.removeVehicle(vehicle);
+            }
         }
     }
 
@@ -89,27 +92,41 @@ public class VehicleListener implements Listener {
         Entity entity = event.getDismounted();
         if (!(entity instanceof LivingEntity livingEntity)) return;
 
-        // Use an iterator to safely remove elements from the list during iteration
         Iterator<Vehicle> iterator = VehicleManager.vehicles.iterator();
         while (iterator.hasNext()) {
             Vehicle vehicle = iterator.next();
-            if (vehicle.getVehicle() == livingEntity) {
-                iterator.remove();  // Remove the vehicle from the list
-                VehicleManager.removeVehicle(vehicle);  // Perform additional removal logic
+            if (vehicle.getVehicleMob() == livingEntity) {
+                iterator.remove();
+                VehicleManager.removeVehicle(vehicle);
             }
         }
     }
 
     @EventHandler
-    public void onCombustion(EntityCombustEvent event){
+    public void onCombustion(EntityCombustEvent event) {
         Entity entity = event.getEntity();
-        for(Vehicle vehicle : VehicleManager.vehicles){
-            Entity phantom = vehicle.getVehicle();
+        for (Vehicle vehicle : VehicleManager.vehicles) {
+            Entity phantom = vehicle.getVehicleMob();
             Entity zombie = vehicle.getModelMob();
-            if(entity == phantom || entity == zombie) {
+            if (entity == phantom || entity == zombie) {
                 event.setCancelled(true);
             }
         }
     }
 
+    @EventHandler
+    public void onEntityAttack(EntityDamageByEntityEvent event) {
+        Entity entity = event.getEntity();
+        Entity damager = event.getDamager();
+
+        if (!(entity instanceof LivingEntity)) return;
+
+        for (Vehicle vehicle : VehicleManager.vehicles) {
+            Entity phantom = vehicle.getVehicleMob();
+            Entity zombie = vehicle.getModelMob();
+            if (damager == phantom || damager == zombie) {
+                event.setCancelled(true);
+            }
+        }
+    }
 }
