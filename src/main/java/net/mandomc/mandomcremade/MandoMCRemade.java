@@ -25,7 +25,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -37,8 +36,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
-    private StaminaManager staminaManager;
-    private CustomScoreboard customScoreboard;
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
@@ -54,8 +51,9 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         instance = this;
 
         StaminaStorageManager storageManager = new StaminaStorageManager();
-        this.staminaManager = new StaminaManager(storageManager);
-        this.customScoreboard = new CustomScoreboard();
+        CustomScoreboard customScoreboard = new CustomScoreboard();
+        StaminaManager staminaManager = new StaminaManager(storageManager, customScoreboard);
+
 
         setUpConfigs();
 
@@ -97,7 +95,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         new VehicleTask().runTaskTimer(this, 0L, 1L);
 
 
-        new StaminaTask(this, staminaManager, customScoreboard).runTaskTimer(this, 0, 4);
+        new StaminaTask(this, staminaManager, customScoreboard).runTaskTimer(this, 0, 5);
 
     }
 
@@ -139,14 +137,14 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     }
 
     public void setUpCommands(GUIManager guiManager){
-        getCommand("give").setExecutor(new GiveCommand());
-        getCommand("perk").setExecutor(new PerkCommand(this.database));
-        getCommand("get").setExecutor(new GetCommand(guiManager));
-        getCommand("yaw").setExecutor(new YawCommand());
-        getCommand("pitch").setExecutor(new PitchCommand());
-        getCommand("reload").setExecutor(new ReloadCommand(this));
-        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
-        getCommand("recipes").setExecutor(new RecipesCommand(guiManager));
+        Objects.requireNonNull(getCommand("give")).setExecutor(new GiveCommand());
+        Objects.requireNonNull(getCommand("perk")).setExecutor(new PerkCommand(this.database));
+        Objects.requireNonNull(getCommand("get")).setExecutor(new GetCommand(guiManager));
+        Objects.requireNonNull(getCommand("yaw")).setExecutor(new YawCommand());
+        Objects.requireNonNull(getCommand("pitch")).setExecutor(new PitchCommand());
+        Objects.requireNonNull(getCommand("reload")).setExecutor(new ReloadCommand(this));
+        Objects.requireNonNull(getCommand("maintenance")).setExecutor(new MaintenanceCommand(this));
+        Objects.requireNonNull(getCommand("recipes")).setExecutor(new RecipesCommand(guiManager));
     }
 
     public void setUpKOTH(){
@@ -161,7 +159,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Location kothLocation = new Location(Bukkit.getWorld(world), x, y, z);
 
         kothManager = new KOTHManager(this, kothLocation, radius);
-        this.getCommand("koth").setExecutor(new KOTHCommand(kothManager));
+        Objects.requireNonNull(this.getCommand("koth")).setExecutor(new KOTHCommand(kothManager));
 
         getServer().getPluginManager().registerEvents(kothManager, this);
 

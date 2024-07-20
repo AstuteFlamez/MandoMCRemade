@@ -3,12 +3,13 @@ package net.mandomc.mandomcremade.utility;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -134,7 +135,6 @@ public class CustomItems {
         return item;
     }
 
-
     public static ItemStack hilt(String character) {
         String displayName = SaberConfig.get().getString(character + "Name");
         int customModelData = SaberConfig.get().getInt(character + "CustomModelData");
@@ -187,4 +187,12 @@ public class CustomItems {
         return item;
     }
 
+    public static boolean isHoldingLightsaber(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+            String itemName = item.getItemMeta().getDisplayName().toLowerCase();
+            return itemName.contains("lightsaber");
+        }
+        return false;
+    }
 }

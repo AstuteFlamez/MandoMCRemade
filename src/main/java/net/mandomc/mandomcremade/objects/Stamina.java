@@ -53,7 +53,7 @@ public class Stamina {
     }
 
     public boolean isRegenerationOnCooldown() {
-        return System.currentTimeMillis() - lastEnergySpentTime < 2500;
+        return System.currentTimeMillis() - lastEnergySpentTime < 2000;
     }
 
 }

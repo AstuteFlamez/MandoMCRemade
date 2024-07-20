@@ -24,7 +24,7 @@ public class StaminaTask extends BukkitRunnable {
             Stamina stamina = staminaManager.getStamina(player);
             if (stamina != null) {
                 if (!player.isSprinting() && stamina.getStaminaAmount() < 100 && !stamina.isEffectOnCooldown()) {
-                    stamina.addStamina(5);
+                    stamina.addStamina(10);
                 }
                 customScoreboard.updateScore(player, stamina.getStaminaAmount());
             }
