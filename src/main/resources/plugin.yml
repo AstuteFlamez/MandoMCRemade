@@ -5,6 +5,7 @@ api-version: '1.21'
 authors: [ AstuteFlamez, BatmenzDW ]
 description: A core plugin for the minecraft server MandoMC.
 softdepend: [MythicMobs,WorldGuard,ProtocolLib,Citizens]
+depend: [WeaponMechanics]
 commands:
   give:
     description: Give a player a MandoMC item.

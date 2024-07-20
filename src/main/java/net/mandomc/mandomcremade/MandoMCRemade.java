@@ -10,14 +10,12 @@ import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.managers.KOTHManager;
+import net.mandomc.mandomcremade.managers.*;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
-import net.mandomc.mandomcremade.managers.EnergyManager;
-import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.managers.VehicleManager;
-import net.mandomc.mandomcremade.objects.Energy;
+import net.mandomc.mandomcremade.objects.CustomScoreboard;
 import net.mandomc.mandomcremade.objects.Vehicle;
+import net.mandomc.mandomcremade.tasks.StaminaTask;
 import net.mandomc.mandomcremade.tasks.VehicleTask;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
@@ -25,16 +23,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
-import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
 
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-import static org.bukkit.Bukkit.getConsoleSender;
 
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
@@ -42,7 +37,8 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
-    public static ArrayList<Energy> energyList;
+    private StaminaManager staminaManager;
+    private CustomScoreboard customScoreboard;
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
@@ -57,7 +53,9 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         instance = this;
 
-        energyList = new ArrayList<>();
+        StaminaStorageManager storageManager = new StaminaStorageManager();
+        this.staminaManager = new StaminaManager(storageManager);
+        this.customScoreboard = new CustomScoreboard();
 
         setUpConfigs();
 
@@ -67,7 +65,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         GUIManager guiManager = new GUIManager();
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
-        EnergyManager energyManager = new EnergyManager(this);
+
 
         this.database = new Database();
 
@@ -85,11 +83,9 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         Recipes.registerRecipes();
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database, staminaManager, customScoreboard), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
-        getServer().getPluginManager().registerEvents(new EnergyManager(this), this);
         getServer().getPluginManager().registerEvents(new VehicleListener(), this);
 
         setUpKOTH();
@@ -99,7 +95,13 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         setUpServerList();
 
         new VehicleTask().runTaskTimer(this, 0L, 1L);
+
+
+        new StaminaTask(this, staminaManager, customScoreboard).runTaskTimer(this, 0, 4);
+
     }
+
+
 
     @Override
     public void onDisable() {
@@ -111,6 +113,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         for(Vehicle vehicle : VehicleManager.vehicles){
             VehicleManager.removeVehicle(vehicle);
         }
+
 
     }
 
@@ -212,4 +215,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         if (string == null) return "";
         return ChatColor.translateAlternateColorCodes('&', string);
     }
+
+
 }
