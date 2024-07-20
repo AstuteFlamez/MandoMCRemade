@@ -18,9 +18,10 @@ public class PlayerClickListener implements Listener {
         if (event.getAction().name().contains("LEFT")) {
 
             ItemStack item = event.getItem();
+            if(item == null) return;
+
             Energy playerEnergy = Energy.getPlayerEnergy(player);
 
-            assert item != null;
             if (isLightsaber(item) && (playerEnergy.getEnergy() <= 0)) {event.setCancelled(true);}
             else {playerEnergy.setEnergy(playerEnergy.getEnergy() - 10);}
 
