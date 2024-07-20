@@ -2,6 +2,7 @@ package net.mandomc.mandomcremade;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
@@ -94,7 +95,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         setUpServerList();
 
-        new VehicleTask().runTaskTimer(this, 0L, 1L);
+        //new VehicleTask().runTaskTimer(this, 0L, 1L);
+
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new WASDKeyListener(this));
     }
 
     @Override
@@ -104,10 +108,12 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
         kothManager.endKOTH();
 
-        for(Vehicle vehicle : VehicleManager.vehicles){
+        Iterator<Vehicle> iterator = VehicleManager.vehicles.iterator();
+        while (iterator.hasNext()) {
+            Vehicle vehicle = iterator.next();
+            iterator.remove();
             VehicleManager.removeVehicle(vehicle);
         }
-
     }
 
     public static MandoMCRemade getInstance(){
