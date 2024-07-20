@@ -15,15 +15,20 @@ import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.managers.EnergyManager;
 import net.mandomc.mandomcremade.managers.GUIManager;
+import net.mandomc.mandomcremade.managers.VehicleManager;
 import net.mandomc.mandomcremade.objects.Energy;
+import net.mandomc.mandomcremade.objects.Vehicle;
+import net.mandomc.mandomcremade.tasks.VehicleTask;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
+import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -38,7 +43,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
     public static ArrayList<Energy> energyList;
-
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
@@ -64,7 +68,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
         EnergyManager energyManager = new EnergyManager(this);
-        Bukkit.getPluginManager().registerEvents(energyManager, this);
 
         this.database = new Database();
 
@@ -85,13 +88,17 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
         getServer().getPluginManager().registerEvents(this, this);
-
+        getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
+        getServer().getPluginManager().registerEvents(new EnergyManager(this), this);
+        getServer().getPluginManager().registerEvents(new VehicleListener(), this);
 
         setUpKOTH();
 
         setUpCommands(guiManager);
 
         setUpServerList();
+
+        new VehicleTask().runTaskTimer(this, 0L, 1L);
     }
 
     @Override
@@ -100,6 +107,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         ProtocolLibrary.getProtocolManager().removePacketListeners(this);
         getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
         kothManager.endKOTH();
+
+        for(Vehicle vehicle : VehicleManager.vehicles){
+            VehicleManager.removeVehicle(vehicle);
+        }
 
     }
 
@@ -201,7 +212,4 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         if (string == null) return "";
         return ChatColor.translateAlternateColorCodes('&', string);
     }
-
-
-
 }
