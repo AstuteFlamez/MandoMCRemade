@@ -34,7 +34,11 @@ public class VehicleManager {
         Player player = Bukkit.getPlayer(owner);
         if (player == null) return;
 
-        vehicle = new Vehicle(owner, spawnAndConfigureEntities(player, EntityType.PHANTOM), spawnAndConfigureEntities(player, EntityType.ZOMBIE));
+        vehicle = new Vehicle(owner, spawnAndConfigureEntities(player, EntityType.SLIME), spawnAndConfigureEntities(player, EntityType.ZOMBIE));
+
+        LivingEntity phantom = vehicle.getVehicleMob();
+        LivingEntity zombie = vehicle.getModelMob();
+        phantom.addPassenger(zombie);
 
         ItemStack modelItem = removeModelItemFromPlayer(player);
         vehicle.setModelItem(modelItem);
@@ -57,7 +61,7 @@ public class VehicleManager {
     private LivingEntity configureEntity(LivingEntity entity, Player player) {
         entity.setAI(false);
         entity.setSilent(true);
-        entity.setInvisible(true);
+        entity.setInvisible(false);
         entity.setCollidable(false);
         entity.setVisualFire(false);
         entity.setPersistent(true);

@@ -9,14 +9,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
 public class WASDKeyListener extends PacketAdapter {
-
-    private static final double BASE_SPEED = 0.2;
-    private static final double SPEED_CHANGE = 1.0; // Increased speed change
 
     public WASDKeyListener(Plugin plugin) {
         super(plugin, PacketType.Play.Client.STEER_VEHICLE);
@@ -48,26 +46,16 @@ public class WASDKeyListener extends PacketAdapter {
     }
 
     private void handleMovement(Player player, Vehicle vehicle, float forward, float sideways, boolean jump, boolean unmount) {
-
         LivingEntity phantom = vehicle.getVehicleMob();
         LivingEntity model = vehicle.getModelMob();
 
         phantom.setAI(true);
-        phantom.setRotation(player.getLocation().getYaw(), player.getLocation().getPitch());
+        phantom.setRotation(player.getLocation().getYaw(), (player.getLocation().getPitch()*-1));
 
         // Calculate movement direction
         double yaw = Math.toRadians(phantom.getLocation().getYaw());
-
-        // Calculate speed based on W (forward > 0) or S (forward < 0)
-        double speed = BASE_SPEED;
-        if (forward > 0) {
-            speed += SPEED_CHANGE; // Significantly increase speed when W is pressed
-        } else if (forward < 0) {
-            speed = Math.max(0, speed - SPEED_CHANGE); // Decrease speed when S is pressed, but do not go backward
-        }
-
-        double dx = -Math.sin(yaw) * speed + Math.cos(yaw) * sideways;
-        double dz = Math.cos(yaw) * speed + Math.sin(yaw) * sideways;
+        double dx = -Math.sin(yaw) * forward + Math.cos(yaw) * sideways;
+        double dz = Math.cos(yaw) * forward + Math.sin(yaw) * sideways;
 
         // Adjust vertical velocity based on jump and unmount
         double dy = 0;
@@ -80,11 +68,16 @@ public class WASDKeyListener extends PacketAdapter {
         // Apply velocity changes
         phantom.setVelocity(new Vector(dx, dy, dz));
 
-        Location location = phantom.getLocation(); // Get phantom's location
-        Location targetLocation = location.clone(); // Clone the location to avoid modifying phantom's location
-        targetLocation.setY(targetLocation.getY() - 1); // Adjust the Y-coordinate to be one block lower
-
-        // Schedule the teleport to run on the main server thread
-        Bukkit.getScheduler().runTask(plugin, () -> model.teleport(targetLocation));
+        // Schedule model teleport to sync with phantom
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Location location = player.getLocation(); // Get phantom's location
+                Location targetLocation = location.clone(); // Clone the location to avoid modifying phantom's location
+                targetLocation.setY(targetLocation.getY() - 0.15); // Adjust the Y-coordinate to be one block lower
+                //targetLocation.setPitch(targetLocation.getPitch() * -1);
+                model.teleport(targetLocation); // Teleport the model to the adjusted location
+            }
+        }.runTask(plugin);
     }
 }
