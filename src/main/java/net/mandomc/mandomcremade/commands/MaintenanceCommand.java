@@ -25,7 +25,7 @@ public class MaintenanceCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        switch (args[1].toLowerCase()) {
+        switch (args[0].toLowerCase()) {
             case "on":
                 setMaintenanceMode(sender, true, "&4&lMandoMC has gone into Maintenance Mode! Try logging again soon.");
                 break;

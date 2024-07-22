@@ -12,7 +12,7 @@ public class QuestsTable extends Database {
         Connection connection = getConnection();
 
         Statement statement = connection.createStatement();
-        String sql = "CREATE TABLE IF NOT EXISTS quests(QuestName varchar(64) primary key, Description text)";
+        String sql = "CREATE TABLE IF NOT EXISTS quests(QuestName varchar(64) primary key, Description text, Parent varchar(64))";
 
         statement.executeUpdate(sql);
 
@@ -57,7 +57,7 @@ public class QuestsTable extends Database {
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
-            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"));
+            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("Parent"));
 
             statement.close();
             connection.close();
@@ -77,9 +77,29 @@ public class QuestsTable extends Database {
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Quest> quests = new ArrayList<>();
         while (resultSet.next()) {
-            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"));
+            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("Parent"));
             quests.add(quest);
         }
+
+        resultSet.close();
+        statement.close();
+        connection.close();
+        return quests;
+    }
+
+    public static ArrayList<Quest> getChildren(String parent) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM quests WHERE Parent = ?");
+        statement.setString(1, parent);
+
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Quest> quests = new ArrayList<>();
+        while (resultSet.next()) {
+            Quest child = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("Parent"));
+            quests.add(child);
+        }
+
+        resultSet.close();
         statement.close();
         connection.close();
         return quests;

@@ -10,6 +10,7 @@ import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.PlayerQuestsTable;
 import net.mandomc.mandomcremade.db.QuestsTable;
 import net.mandomc.mandomcremade.managers.KOTHManager;
 import net.mandomc.mandomcremade.listeners.*;
@@ -65,6 +66,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         {
             PerksTable.initializePerksTable();
             QuestsTable.initializeQuestsTable();
+            PlayerQuestsTable.initializePlayerQuestsTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -58,4 +58,4 @@ permissions:
   mmc.admin.koth:
     description: Gives access to koth command.
   mmc.quests.manage:
-    description: Gives the ability to add/remove quests.
+    description: Gives the ability to add/remove/modify quests.
