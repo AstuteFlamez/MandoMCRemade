@@ -10,6 +10,9 @@ import net.mandomc.mandomcremade.commands.*;
 import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.config.SaberConfig;
 import net.mandomc.mandomcremade.config.WarpConfig;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.PlayerQuestsTable;
+import net.mandomc.mandomcremade.db.QuestsTable;
 import net.mandomc.mandomcremade.db.Database;
 import net.mandomc.mandomcremade.managers.*;
 import net.mandomc.mandomcremade.listeners.*;
@@ -34,7 +37,6 @@ import java.util.concurrent.TimeUnit;
 public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public static MandoMCRemade instance;
-    private Database database;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
 
@@ -66,21 +68,17 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(guiListener, this);
 
 
-        this.database = new Database();
-
-        try {
-            this.database.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            this.database.initializeDatabase();
+        try
+        {
+            PerksTable.initializePerksTable();
+            QuestsTable.initializeQuestsTable();
+            PlayerQuestsTable.initializePlayerQuestsTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         Recipes.registerRecipes();
+
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database, staminaManager, customScoreboard), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
@@ -148,6 +146,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("reload")).setExecutor(new ReloadCommand(this));
         Objects.requireNonNull(getCommand("maintenance")).setExecutor(new MaintenanceCommand(this));
         Objects.requireNonNull(getCommand("recipes")).setExecutor(new RecipesCommand(guiManager));
+        Objects.requireNonNull(getCommand("quests").setExecutor(new QuestCommand()));
     }
 
     public void setUpKOTH(){

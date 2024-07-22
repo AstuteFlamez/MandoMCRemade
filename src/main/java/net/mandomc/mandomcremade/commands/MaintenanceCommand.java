@@ -41,7 +41,7 @@ public class MaintenanceCommand implements CommandExecutor, TabCompleter {
             }
         }
 
-        switch (args[1].toLowerCase()) {
+        switch (args[0].toLowerCase()) {
             case "on":
                 setMaintenanceMode(sender, true);
                 sender.sendMessage(prefix + enterMaintenance);

@@ -3,7 +3,8 @@ package net.mandomc.mandomcremade.listeners;
 import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponReloadCompleteEvent;
 import net.mandomc.mandomcremade.MandoMCRemade;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.db.Perks;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.data.Perks;
 import net.mandomc.mandomcremade.managers.StaminaManager;
 import net.mandomc.mandomcremade.objects.CustomScoreboard;
 import net.mandomc.mandomcremade.objects.Stamina;
@@ -52,7 +53,7 @@ public class PlayerJoinListener implements Listener {
         if (!player.hasPlayedBefore()) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
-                    database.createPerks(new Perks(player.getUniqueId()));
+                    PerksTable.addPlayer(new Perks(player.getUniqueId()));
                 } catch (SQLException e) {
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         ConsoleCommandSender console = Bukkit.getConsoleSender();

@@ -2,7 +2,8 @@ package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.config.LangConfig;
 import net.mandomc.mandomcremade.db.Database;
-import net.mandomc.mandomcremade.db.Perks;
+import net.mandomc.mandomcremade.db.PerksTable;
+import net.mandomc.mandomcremade.db.data.Perks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,13 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.SQLException;
 
 import static net.mandomc.mandomcremade.MandoMCRemade.str;
-
 public class PerkCommand implements CommandExecutor {
 
-    private final Database database;
-
-    public PerkCommand(Database database) {
-        this.database = database;
+    public PerkCommand() {
     }
 
     @Override
@@ -53,18 +50,18 @@ public class PerkCommand implements CommandExecutor {
 
         Perks perks;
         try{
-            perks = database.getPerks(player);
+            perks = PerksTable.getPerks(player);
             switch(type){
                 case "lightsaberthrow":
                     switch(action){
                         case "lock":
-                            perks.setLightsaberThrow(0);
-                            database.updatePerks(perks);
+                            perks.setLightsaberThrow(false);
+                            PerksTable.updatePerks(perks);
                             sender.sendMessage(prefix + msg);
                             break;
                         case "unlock":
-                            perks.setLightsaberThrow(1);
-                            database.updatePerks(perks);
+                            perks.setLightsaberThrow(true);
+                            PerksTable.updatePerks(perks);
                             sender.sendMessage(prefix + msg);
                             break;
                         default:
