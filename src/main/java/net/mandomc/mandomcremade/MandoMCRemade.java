@@ -80,8 +80,8 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Recipes.registerRecipes();
 
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database, staminaManager, customScoreboard), this);
-        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, staminaManager, customScoreboard), this);
+        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new VehicleListener(), this);
 
@@ -139,14 +139,14 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
     public void setUpCommands(GUIManager guiManager){
         Objects.requireNonNull(getCommand("give")).setExecutor(new GiveCommand());
-        Objects.requireNonNull(getCommand("perk")).setExecutor(new PerkCommand(this.database));
+        Objects.requireNonNull(getCommand("perk")).setExecutor(new PerkCommand());
         Objects.requireNonNull(getCommand("get")).setExecutor(new GetCommand(guiManager));
         Objects.requireNonNull(getCommand("yaw")).setExecutor(new YawCommand());
         Objects.requireNonNull(getCommand("pitch")).setExecutor(new PitchCommand());
         Objects.requireNonNull(getCommand("reload")).setExecutor(new ReloadCommand(this));
         Objects.requireNonNull(getCommand("maintenance")).setExecutor(new MaintenanceCommand(this));
         Objects.requireNonNull(getCommand("recipes")).setExecutor(new RecipesCommand(guiManager));
-        Objects.requireNonNull(getCommand("quests").setExecutor(new QuestCommand()));
+        Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestCommand());
     }
 
     public void setUpKOTH(){

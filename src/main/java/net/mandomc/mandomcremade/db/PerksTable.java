@@ -85,7 +85,7 @@ public class PerksTable extends Database {
     public static void deletePerks(Perks perks) throws SQLException {
 
         Connection connection = getConnection();
-        PreparedStatement statement = getConnection().prepareStatement("DELETE FROM forcepowers WHERE uuid = ?");
+        PreparedStatement statement = getConnection().prepareStatement("DELETE FROM perks WHERE uuid = ?");
         statement.setString(1, perks.getPlayerUUID().toString());
 
         statement.executeUpdate();
