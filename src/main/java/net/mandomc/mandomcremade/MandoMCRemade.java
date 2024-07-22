@@ -2,6 +2,7 @@ package net.mandomc.mandomcremade;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
@@ -12,16 +13,19 @@ import net.mandomc.mandomcremade.config.WarpConfig;
 import net.mandomc.mandomcremade.db.PerksTable;
 import net.mandomc.mandomcremade.db.PlayerQuestsTable;
 import net.mandomc.mandomcremade.db.QuestsTable;
-import net.mandomc.mandomcremade.managers.KOTHManager;
+import net.mandomc.mandomcremade.db.Database;
+import net.mandomc.mandomcremade.managers.*;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
-import net.mandomc.mandomcremade.managers.EnergyManager;
-import net.mandomc.mandomcremade.managers.GUIManager;
-import net.mandomc.mandomcremade.objects.Energy;
+import net.mandomc.mandomcremade.objects.CustomScoreboard;
+import net.mandomc.mandomcremade.objects.Vehicle;
+import net.mandomc.mandomcremade.tasks.StaminaTask;
+import net.mandomc.mandomcremade.tasks.VehicleTask;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -35,7 +39,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     public static MandoMCRemade instance;
     private KOTHManager kothManager;
     private final HashMap<UUID, Long> lightsaberCooldown;
-    public static ArrayList<Energy> energyList;
 
     public MandoMCRemade() {
         lightsaberCooldown = new HashMap<>();
@@ -50,7 +53,10 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         instance = this;
 
-        energyList = new ArrayList<>();
+        StaminaStorageManager storageManager = new StaminaStorageManager();
+        CustomScoreboard customScoreboard = new CustomScoreboard();
+        StaminaManager staminaManager = new StaminaManager(storageManager, customScoreboard);
+
 
         setUpConfigs();
 
@@ -60,7 +66,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         GUIManager guiManager = new GUIManager();
         GUIListener guiListener = new GUIListener(guiManager);
         Bukkit.getPluginManager().registerEvents(guiListener, this);
-        EnergyManager energyManager = new EnergyManager(this);
+
 
         try
         {
@@ -73,17 +79,27 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         Recipes.registerRecipes();
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
+
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database, staminaManager, customScoreboard), this);
+        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this, database), this);
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new PlayerClickListener(), this);
+        getServer().getPluginManager().registerEvents(new VehicleListener(), this);
 
         setUpKOTH();
 
         setUpCommands(guiManager);
 
         setUpServerList();
+
+
+        new StaminaTask(this, staminaManager, customScoreboard).runTaskTimer(this, 0, 5);
+
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new WASDKeyListener(this));
+
     }
+
+
 
     @Override
     public void onDisable() {
@@ -92,6 +108,12 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
         kothManager.endKOTH();
 
+        Iterator<Vehicle> iterator = VehicleManager.vehicles.iterator();
+        while (iterator.hasNext()) {
+            Vehicle vehicle = iterator.next();
+            iterator.remove();
+            VehicleManager.removeVehicle(vehicle);
+        }
     }
 
     public static MandoMCRemade getInstance(){
@@ -116,15 +138,15 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     }
 
     public void setUpCommands(GUIManager guiManager){
-        getCommand("give").setExecutor(new GiveCommand());
-        getCommand("perk").setExecutor(new PerkCommand());
-        getCommand("get").setExecutor(new GetCommand(guiManager));
-        getCommand("yaw").setExecutor(new YawCommand());
-        getCommand("pitch").setExecutor(new PitchCommand());
-        getCommand("reload").setExecutor(new ReloadCommand(this));
-        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
-        getCommand("recipes").setExecutor(new RecipesCommand(guiManager));
-        getCommand("quests").setExecutor(new QuestCommand());
+        Objects.requireNonNull(getCommand("give")).setExecutor(new GiveCommand());
+        Objects.requireNonNull(getCommand("perk")).setExecutor(new PerkCommand(this.database));
+        Objects.requireNonNull(getCommand("get")).setExecutor(new GetCommand(guiManager));
+        Objects.requireNonNull(getCommand("yaw")).setExecutor(new YawCommand());
+        Objects.requireNonNull(getCommand("pitch")).setExecutor(new PitchCommand());
+        Objects.requireNonNull(getCommand("reload")).setExecutor(new ReloadCommand(this));
+        Objects.requireNonNull(getCommand("maintenance")).setExecutor(new MaintenanceCommand(this));
+        Objects.requireNonNull(getCommand("recipes")).setExecutor(new RecipesCommand(guiManager));
+        Objects.requireNonNull(getCommand("quests").setExecutor(new QuestCommand()));
     }
 
     public void setUpKOTH(){
@@ -135,18 +157,26 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         int z = getConfig().getInt("KOTHz");
         double radius = getConfig().getDouble("KOTHRadius");
 
+        assert world != null;
         Location kothLocation = new Location(Bukkit.getWorld(world), x, y, z);
 
         kothManager = new KOTHManager(this, kothLocation, radius);
-        this.getCommand("koth").setExecutor(new KOTHCommand(kothManager));
+        Objects.requireNonNull(this.getCommand("koth")).setExecutor(new KOTHCommand(kothManager));
+
+        getServer().getPluginManager().registerEvents(kothManager, this);
 
         // Schedule KOTH event every 4 hours
         new BukkitRunnable() {
             @Override
             public void run() {
+                if(kothManager.isKOTHActive()){
+                    ConsoleCommandSender console = Bukkit.getConsoleSender();
+                    console.sendMessage("[MMC] Could not start scheduled KOTH. There is already an active instance.");
+                    cancel();
+                }
                 kothManager.startKOTH();
             }
-        }.runTaskTimer(this, TimeUnit.MINUTES.toSeconds(5) * 20, TimeUnit.HOURS.toSeconds(4) * 20);
+        }.runTaskTimer(this, TimeUnit.MINUTES.toSeconds(0) * 20, TimeUnit.HOURS.toSeconds(4) * 20);
     }
 
     public void setUpServerList(){
@@ -185,4 +215,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         if (string == null) return "";
         return ChatColor.translateAlternateColorCodes('&', string);
     }
+
+
 }
