@@ -16,10 +16,8 @@ public class Database {
         String user = MandoMCRemade.getInstance().getConfig().getString("DatabaseUSER");
         String password = MandoMCRemade.getInstance().getConfig().getString("DatabasePASSWORD");
 
-        Connection connection = DriverManager.getConnection(url, user, password);
+        //        Bukkit.getConsoleSender().sendMessage("[MandoMCRemade] Database connected!");
 
-        Bukkit.getConsoleSender().sendMessage("[MandoMCRemade] Database connected!");
-
-        return connection;
+        return DriverManager.getConnection(url, user, password);
     }
 }

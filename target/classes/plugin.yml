@@ -46,6 +46,7 @@ commands:
     permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
   quests:
     description: Quests.
+    usage: /quests list
 permissions:
   mmc.admin.give:
     description: Gives access to give command.
