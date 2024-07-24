@@ -44,6 +44,8 @@ commands:
     usage: /koth <start/end>
     permission: mmc.admin.koth
     permission-message: "&a&lMandoMC &8» &7 &cThe Force is not with you..."
+  quests:
+    description: Quests.
 permissions:
   mmc.admin.give:
     description: Gives access to give command.
@@ -55,3 +57,5 @@ permissions:
     description: Gives access to Maintenance command.
   mmc.admin.koth:
     description: Gives access to koth command.
+  mmc.quests.manage:
+    description: Gives the ability to add/remove/modify quests.

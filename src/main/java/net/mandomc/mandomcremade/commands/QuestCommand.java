@@ -29,8 +29,8 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
         String prefix = str(config.getString("Prefix"));
         String noPermission = str(config.getString("NoPermission"));
 
-        String action = args[0].toLowerCase();
-        String quest = args[1];
+        String action = args.length == 0 ? "list" : args[0].toLowerCase();
+        String quest = args.length < 2 ? "" : args[1];
         try {
             switch (action) {
                 case "create":
@@ -39,11 +39,8 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(prefix + noPermission);
                         break;
                     }
-                    String desc = args[2];
-                    String parent = null;
-                    if (args.length > 3) {
-                        parent = args[3];
-                    }
+                    String desc = args.length >= 3 ? args[2] : "";
+                    String parent = args.length >= 4 ? args[3] : null;
                     QuestsTable.addQuest(new Quest(quest, desc, parent));
                     break;
                 case "list":
@@ -100,7 +97,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(prefix + noPermission);
                         break;
                     }
-                    String targetNameG = args[2];
+                    String targetNameG = args.length >= 3 ? args[2] : "";
 
                     PlayerQuestsTable.playerStartQuest(Bukkit.getPlayer(targetNameG).getUniqueId().toString(), quest);
                     break;
@@ -118,8 +115,8 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(prefix + noPermission);
                         break;
                     }
-                    String targetNameU = args[2];
-                    String progress = args[3];
+                    String targetNameU = args.length >= 3 ? args[2] : "";
+                    String progress = args.length >= 4 ? args[3] : "";
 
                     PlayerQuestsTable.updateQuestProgress(Bukkit.getPlayer(targetNameU).getUniqueId().toString(), quest, Float.parseFloat(progress));
                     break;
@@ -151,8 +148,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("list")) {
                     if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
                     completions.add("all");
-                    ArrayList<Player> players = (ArrayList<Player>) Bukkit.getOnlinePlayers();
-                    for (Player p: players){
+                    for (Player p: Bukkit.getOnlinePlayers()){
                         completions.add(p.getName());
                     }
                     break;
@@ -171,8 +167,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     case "give":
                     case "take":
                     case "update":
-                        ArrayList<Player> players = (ArrayList<Player>) Bukkit.getOnlinePlayers();
-                        for (Player p: players){
+                        for (Player p: Bukkit.getOnlinePlayers()){
                             completions.add(p.getName());
                         }
                         break;
