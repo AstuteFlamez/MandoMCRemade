@@ -80,6 +80,9 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         ArrayList<PlayerQuest> quests = PlayerQuestsTable.getInProgressQuests(target.getUniqueId().toString());
                         for (PlayerQuest q : quests) {
                             output.append(q.getQuestName()).append(": ").append(String.format("%.0f",q.getQuestProgress() * 100)).append("%\n");
+
+                            Quest quest1 = QuestsTable.getQuest(q.getQuestName());
+                            output.append("\t").append(quest1.getQuestDesc());
                         }
 
                         OutputString(sender, output.toString());
