@@ -29,13 +29,11 @@ import java.sql.SQLException;
 public class PlayerJoinListener implements Listener {
 
     private final MandoMCRemade plugin;
-    private final Database database;
     private final StaminaManager staminaManager;
     private final CustomScoreboard customScoreboard;
 
-    public PlayerJoinListener(MandoMCRemade plugin, Database database, StaminaManager staminaManager, CustomScoreboard customScoreboard) {
+    public PlayerJoinListener(MandoMCRemade plugin, StaminaManager staminaManager, CustomScoreboard customScoreboard) {
         this.plugin = plugin;
-        this.database = database;
         this.staminaManager = staminaManager;
         this.customScoreboard = customScoreboard;
     }
