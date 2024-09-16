@@ -40,8 +40,9 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     String desc = args.length >= 3 ? args[2] : "";
-                    String parent = args.length >= 4 ? args[3] : null;
-                    QuestsTable.addQuest(new Quest(quest, desc, parent));
+                    String trigger = args.length >= 4 ? args[3] : null;
+                    String parent = args.length >= 5 ? args[4] : null;
+                    QuestsTable.addQuest(new Quest(quest, desc, trigger, parent));
                     return true;
                 case "list":
                     if (Objects.equals(args.length >= 2 ? args[1].toLowerCase() : "", "all")) {
@@ -50,7 +51,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                             return true;
                         }
                         StringBuilder output = new StringBuilder();
-                        ArrayList<Quest> quests = QuestsTable.getAllQuests();
+                        List<Quest> quests = QuestsTable.getAllQuests();
                         for (Quest q : quests) {
                             output.append(q.getQuestName()).append("\n");
                         }
@@ -74,7 +75,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                             }
                         }
                         StringBuilder output = new StringBuilder();
-                        ArrayList<PlayerQuest> quests = PlayerQuestsTable.getInProgressQuests(target.getUniqueId().toString());
+                        List<PlayerQuest> quests = PlayerQuestsTable.getInProgressQuests(target.getUniqueId().toString());
                         for (PlayerQuest q : quests) {
                             output.append(q.getQuestName()).append(": ").append(String.format("%.0f",q.getQuestProgress() * 100)).append("%\n");
 
@@ -120,6 +121,24 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
 
                     PlayerQuestsTable.updateQuestProgress(Bukkit.getPlayer(targetNameU).getUniqueId().toString(), quest, Float.parseFloat(progress));
                     return true;
+                case "trigger":
+                    if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) {
+                        player.sendMessage(prefix + noPermission);
+                        return true;
+                    }
+                    String targetNameTr = args.length >= 3 ? args[2] : "";
+                    String toTrigger = args.length >= 4 ? args[3] : "";
+                    Float progressAmount = args.length >= 5 ? Float.parseFloat(args[4]) : 1.0f;
+
+                    List<PlayerQuest> quests = PlayerQuestsTable.getTriggeredQuests(Bukkit.getPlayer(targetNameTr).getUniqueId().toString(), toTrigger);
+
+                    for (PlayerQuest q : quests) {
+                        PlayerQuestsTable.updateQuestProgress(Bukkit.getPlayer(targetNameTr).getUniqueId().toString(), q.getQuestName(), progressAmount);
+                    }
+
+                    String output = quests.size() + " quests triggered for " + targetNameTr;
+
+                    OutputString(sender, output);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -141,6 +160,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     completions.add("give");
                     completions.add("take");
                     completions.add("update");
+                    completions.add("trigger");
                 }
                 break;
             case 2:
@@ -152,8 +172,15 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 }
+                else if (args[0].equalsIgnoreCase("trigger")) {
+                    if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
+                    for (Player p: Bukkit.getOnlinePlayers()){
+                        completions.add(p.getName());
+                    }
+                    break;
+                }
                 try {
-                    ArrayList<Quest> quests = QuestsTable.getAllQuests();
+                    List<Quest> quests = QuestsTable.getAllQuests();
                     for (Quest q: quests){
                         completions.add(q.getQuestName());
                     }

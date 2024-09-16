@@ -82,6 +82,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, staminaManager, customScoreboard), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
+        getServer().getPluginManager().registerEvents(new QuestEventListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new VehicleListener(), this);
 

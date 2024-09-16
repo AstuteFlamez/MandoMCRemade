@@ -4,11 +4,13 @@ public class Quest {
     private String QuestName;
     private String QuestDesc;
     private String Parent;
+    private String QuestTrigger;
 
-    public Quest(String questName, String questDesc, String parent) {
+    public Quest(String questName, String questDesc, String trigger, String parent) {
         QuestName = questName;
         QuestDesc = questDesc;
         Parent = parent;
+        QuestTrigger = trigger;
     }
 
     public Quest(String questName) {
@@ -38,4 +40,8 @@ public class Quest {
     public void setParent(String parent) {
         Parent = parent;
     }
+
+    public String getQuestTrigger() {return QuestTrigger;}
+
+    public void setQuestTrigger(String questTrigger) {QuestTrigger = questTrigger;}
 }
