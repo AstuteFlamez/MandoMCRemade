@@ -41,8 +41,10 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     }
                     String desc = args.length >= 3 ? args[2] : "";
                     String trigger = args.length >= 4 ? args[3] : null;
-                    String parent = args.length >= 5 ? args[4] : null;
-                    QuestsTable.addQuest(new Quest(quest, desc, trigger, parent));
+                    // TODO: add reward json handling
+                    Integer rewardPool = args.length >= 5 ? Integer.parseInt(args[4]) : null;
+                    String parent = args.length >= 6 ? args[5] : null;
+                    QuestsTable.addQuest(new Quest(quest, desc, trigger, rewardPool, parent));
                     return true;
                 case "list":
                     if (Objects.equals(args.length >= 2 ? args[1].toLowerCase() : "", "all")) {

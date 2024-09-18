@@ -13,7 +13,7 @@ public class QuestsTable extends Database {
         Connection connection = getConnection();
 
         Statement statement = connection.createStatement();
-        String sql = "CREATE TABLE IF NOT EXISTS quests(QuestName varchar(64) primary key, Description text, QuestTrigger varchar(64), Parent varchar(64))";
+        String sql = "CREATE TABLE IF NOT EXISTS quests(QuestName varchar(64) primary key, Description text, QuestTrigger varchar(64), RewardPool int, Parent varchar(64))";
 
         statement.executeUpdate(sql);
 
@@ -27,9 +27,12 @@ public class QuestsTable extends Database {
     public static void addQuest(Quest quest) throws SQLException {
         Connection connection = getConnection();
 
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO quests (QuestName, Description) VALUES (?, ?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO quests (QuestName, Description, QuestTrigger, RewardPool, Parent) VALUES (?, ?, ?, ?, ?)");
         statement.setString(1, quest.getQuestName());
         statement.setString(2, quest.getQuestDesc());
+        statement.setString(3, quest.getQuestTrigger());
+        statement.setInt(4, quest.getRewardsPool());
+        statement.setString(5, quest.getParent());
 
         statement.executeUpdate();
 
@@ -58,7 +61,7 @@ public class QuestsTable extends Database {
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
-            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("QuestTrigger"), resultSet.getString("Parent"));
+            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("QuestTrigger"), resultSet.getInt("RewardPool"), resultSet.getString("Parent"));
 
             statement.close();
             connection.close();
@@ -78,7 +81,7 @@ public class QuestsTable extends Database {
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Quest> quests = new ArrayList<>();
         while (resultSet.next()) {
-            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("QuestTrigger"), resultSet.getString("Parent"));
+            Quest quest = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("QuestTrigger"), resultSet.getInt("RewardPool"), resultSet.getString("Parent"));
             quests.add(quest);
         }
 
@@ -96,7 +99,7 @@ public class QuestsTable extends Database {
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Quest> quests = new ArrayList<>();
         while (resultSet.next()) {
-            Quest child = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("QuestTrigger"), resultSet.getString("Parent"));
+            Quest child = new Quest(resultSet.getString("QuestName"), resultSet.getString("Description"), resultSet.getString("QuestTrigger"), resultSet.getInt("RewardPool"), resultSet.getString("Parent"));
             quests.add(child);
         }
 

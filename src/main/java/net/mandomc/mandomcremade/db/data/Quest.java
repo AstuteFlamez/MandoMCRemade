@@ -5,12 +5,14 @@ public class Quest {
     private String QuestDesc;
     private String Parent;
     private String QuestTrigger;
+    private Integer RewardsPool;
 
-    public Quest(String questName, String questDesc, String trigger, String parent) {
+    public Quest(String questName, String questDesc, String trigger, Integer rewardsPool, String parent) {
         QuestName = questName;
         QuestDesc = questDesc;
         Parent = parent;
         QuestTrigger = trigger;
+        RewardsPool = rewardsPool;
     }
 
     public Quest(String questName) {
@@ -44,4 +46,8 @@ public class Quest {
     public String getQuestTrigger() {return QuestTrigger;}
 
     public void setQuestTrigger(String questTrigger) {QuestTrigger = questTrigger;}
+
+    public Integer getRewardsPool() {return RewardsPool;}
+
+    public void setRewardsPool(Integer rewardsPool) {RewardsPool = rewardsPool;}
 }

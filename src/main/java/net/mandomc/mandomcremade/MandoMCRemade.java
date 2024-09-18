@@ -148,6 +148,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("maintenance")).setExecutor(new MaintenanceCommand(this));
         Objects.requireNonNull(getCommand("recipes")).setExecutor(new RecipesCommand(guiManager));
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestCommand());
+        Objects.requireNonNull(getCommand("test")).setExecutor(new TestCommand());
     }
 
     public void setUpKOTH(){
