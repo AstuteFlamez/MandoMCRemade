@@ -156,7 +156,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
 
                     int poolCount = RewardPoolTable.getPoolCount();
 
-                    if (poolId.equals("pools")) {
+                    if (poolId.equals("pools") || poolId.equals("-1")) {
                         OutputString(sender, "Pool Count: " + poolCount);
                         return true;
                     }
@@ -256,7 +256,8 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
 
                         default:
                             OutputString(sender, "No reward type specified.");
-                            return false;
+                            OutputString(sender, "/quests rewards <pool> <add|remove|give|list>");
+                            return true;
                     }
             }
         } catch (SQLException e) {
@@ -324,6 +325,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         break;
                     case "rewards":
                         if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
+                        if (args[1].equalsIgnoreCase("pools")) break;
                         completions.add("add");
                         completions.add("remove");
                         completions.add("give");
