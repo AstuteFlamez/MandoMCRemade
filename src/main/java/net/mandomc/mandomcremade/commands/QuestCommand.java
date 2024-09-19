@@ -188,6 +188,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
 
                                         ItemRewardsTable.addItemReward(pool, item);
 
+                                        OutputString(sender, "Added item " + item + " to pool " + pool);
                                         return true;
                                     }
                                     else {
@@ -209,6 +210,8 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                                     int intId = Integer.parseInt(itemId);
 
                                     ItemRewardsTable.removeItemReward(pool, intId);
+
+                                    OutputString(sender, "Item " + intId + " removed from pool" + poolId);
                                     return true;
 
                                 case "event":
@@ -247,6 +250,9 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                             QuestRewards rewards = RewardPoolTable.getRewardPool(pool);
 
                             rewards.givePlayer(targetUuid);
+
+                            OutputString(sender, "Rewards given to " + targetNameRw);
+                            return true;
 
                         default:
                             OutputString(sender, "No reward type specified.");
@@ -326,7 +332,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
             case 4:
                 if (args[0].equalsIgnoreCase("rewards")) {
                     if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
-                    if (args[3].equalsIgnoreCase("give")) {
+                    if (args[2].equalsIgnoreCase("give")) {
                         for (Player p: Bukkit.getOnlinePlayers()){
                             completions.add(p.getName());
                         }
