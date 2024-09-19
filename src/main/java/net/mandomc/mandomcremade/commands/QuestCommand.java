@@ -7,6 +7,7 @@ import net.mandomc.mandomcremade.db.QuestsTable;
 import net.mandomc.mandomcremade.db.RewardPoolTable;
 import net.mandomc.mandomcremade.db.data.PlayerQuest;
 import net.mandomc.mandomcremade.db.data.Quest;
+import net.mandomc.mandomcremade.db.data.QuestRewards;
 import net.mandomc.mandomcremade.db.data.RewardItem;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
@@ -20,6 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import static net.mandomc.mandomcremade.MandoMCRemade.str;
 
@@ -238,8 +240,13 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
 
                             return true;
 
-//                        case "give":
+                        case "give":
+                            String targetNameRw = args.length >= 4 ? args[3] : "";
+                            UUID targetUuid = Bukkit.getPlayer(targetNameRw).getUniqueId();
 
+                            QuestRewards rewards = RewardPoolTable.getRewardPool(pool);
+
+                            rewards.givePlayer(targetUuid);
 
                         default:
                             OutputString(sender, "No reward type specified.");
@@ -313,14 +320,21 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
                         completions.add("add");
                         completions.add("remove");
+                        completions.add("give");
                         completions.add("list");
                 }
             case 4:
                 if (args[0].equalsIgnoreCase("rewards")) {
                     if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
-
+                    if (args[3].equalsIgnoreCase("give")) {
+                        for (Player p: Bukkit.getOnlinePlayers()){
+                            completions.add(p.getName());
+                        }
+                        break;
+                    }
                     completions.add("item");
                     completions.add("event");
+                    break;
                 }
         }
 //        sender.sendMessage(completions.toString());

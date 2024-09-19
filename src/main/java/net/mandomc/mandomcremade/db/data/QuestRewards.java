@@ -10,7 +10,12 @@ public record QuestRewards(List<RewardItem> itemRewards, List<RewardEvent> event
 
     public void givePlayer(String uuid)
     {
-        PlayerInventory inventory = Bukkit.getPlayer(UUID.fromString(uuid)).getInventory();
+        givePlayer(UUID.fromString(uuid));
+    }
+
+    public void givePlayer(UUID uuid)
+    {
+        PlayerInventory inventory = Bukkit.getPlayer(uuid).getInventory();
 
         for (RewardItem item : itemRewards){
             inventory.addItem(item.getItemStack());
