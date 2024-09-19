@@ -2,6 +2,7 @@ package net.mandomc.mandomcremade.db;
 
 import net.mandomc.mandomcremade.db.data.PlayerQuest;
 import net.mandomc.mandomcremade.db.data.Quest;
+import net.mandomc.mandomcremade.db.data.QuestRewards;
 import org.bukkit.Bukkit;
 
 import java.sql.*;
@@ -80,6 +81,10 @@ public class PlayerQuestsTable extends Database {
         statement.executeUpdate();
         statement.close();
         connection.close();
+
+        QuestRewards rewards = QuestsTable.getQuestRewards(questName);
+
+        rewards.givePlayer(uuid);
 
         List<Quest> quests = QuestsTable.getChildren(questName);
 

@@ -49,7 +49,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
 
-        getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is enabled. Version: " + getDescription().getVersion());
+        getServer().getConsoleSender().sendMessage("[MandoMCRemade]: Plugin is enabled. Version: " + getDescription().getVersion());
 
         instance = this;
 

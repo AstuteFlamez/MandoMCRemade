@@ -150,7 +150,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(prefix + noPermission);
                         return true;
                     }
-                    String poolId = args.length >= 3 ? args[2] : "-1";
+                    String poolId = args.length >= 2 ? args[1] : "-1";
 
                     int poolCount = RewardPoolTable.getPoolCount();
 
@@ -163,7 +163,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
 
                     if (!RewardPoolTable.poolExists(pool))
                     {
-                        if (poolCount < pool) {
+                        if (poolCount + 1 == pool) {
                             RewardPoolTable.createNewPool();
                         }
                         else
@@ -173,26 +173,46 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                         }
                     }
 
+                    String rewardAction = args.length >= 3 ? args[2] : "";
                     String rewardType = args.length >= 4 ? args[3] : "";
 
-                    switch (rewardType) {
-                        case "item":
-                            if (sender instanceof Player player) {
-                                ItemStack item = player.getInventory().getItemInMainHand();
+                    switch (rewardAction) {
+                        case "add":
 
-                                ItemRewardsTable.addItemReward(pool, item);
+                            switch (rewardType) {
+                                case "item":
+                                    if (sender instanceof Player player) {
+                                        ItemStack item = player.getInventory().getItemInMainHand();
 
-                                return true;
+                                        ItemRewardsTable.addItemReward(pool, item);
+
+                                        return true;
+                                    }
+                                    else {
+                                        OutputString(sender, "Adding quest reward items from console is currently not supported.");
+                                        return false;
+                                    }
+
+                                case "event":
+                                    String eventType = args.length >= 5 ? args[4] : "";
+
+                                    return true;
+
                             }
-                            else {
-                                OutputString(sender, "Adding quest reward items from console is currently not supported.");
-                                return false;
+
+                        case "remove":
+                            switch (rewardType) {
+                                case "item":
+                                    String itemId = args.length >= 5 ? args[4] : "";
+                                    int intId = Integer.parseInt(itemId);
+
+                                    ItemRewardsTable.removeItemReward(pool, intId);
+                                    return true;
+
+                                case "event":
+
+                                    return true;
                             }
-
-                        case "event":
-                            String eventType = args.length >= 5 ? args[4] : "";
-
-                            return true;
 
                         case "list":
                             StringBuilder sb = new StringBuilder();
@@ -217,6 +237,9 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                             OutputString(sender, sb.toString());
 
                             return true;
+
+//                        case "give":
+
 
                         default:
                             OutputString(sender, "No reward type specified.");
@@ -263,6 +286,11 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 }
+                else if (args[0].equalsIgnoreCase("rewards")) {
+                    if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
+                    completions.add("pools");
+                    break;
+                }
                 try {
                     List<Quest> quests = QuestsTable.getAllQuests();
                     for (Quest q: quests){
@@ -281,6 +309,18 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                             completions.add(p.getName());
                         }
                         break;
+                    case "rewards":
+                        if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
+                        completions.add("add");
+                        completions.add("remove");
+                        completions.add("list");
+                }
+            case 4:
+                if (args[0].equalsIgnoreCase("rewards")) {
+                    if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) break;
+
+                    completions.add("item");
+                    completions.add("event");
                 }
         }
 //        sender.sendMessage(completions.toString());
