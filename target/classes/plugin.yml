@@ -47,6 +47,8 @@ commands:
   quests:
     description: Quests.
     usage: /quests list
+  test:
+    description: For Testing.
 permissions:
   mmc.admin.give:
     description: Gives access to give command.

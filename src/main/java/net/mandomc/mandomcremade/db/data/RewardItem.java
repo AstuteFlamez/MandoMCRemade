@@ -1,23 +1,84 @@
 package net.mandomc.mandomcremade.db.data;
 
+import io.lumine.mythic.bukkit.adapters.BukkitItemStack;
+import io.lumine.mythic.bukkit.utils.shadows.nbt.NBTTagCompound;
+import io.lumine.mythic.core.utils.jnbt.CompoundTag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class RewardItem {
-    private int id;
-    private String itemName;
-    private int count;
-    private String metaData;
-    private int poolId;
 
-    public RewardItem(int id, String itemName, int count, String metaData, int poolId) {
-        this.id = id;
-        this.itemName = itemName;
-        this.count = count;
-        this.metaData = metaData;
+    private final int poolId;
+    private final int id;
+    private final byte[] itemStack;
+
+    public RewardItem(int poolId, int id, ItemStack item) {
         this.poolId = poolId;
+        this.id = id;
+
+        this.itemStack = convertToByteArray(item);
     }
 
-//    public ItemStack asItemStack() {
-//
-//    }
+    public RewardItem(int poolId, ItemStack item) {this(poolId, -1, item);}
+
+    public RewardItem(int poolId, int id, byte[] itemBytes) {
+        this.poolId = poolId;
+        this.id = id;
+        this.itemStack = itemBytes;
+    }
+
+    public int getPoolId() {
+        return poolId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public byte[] getItemStackBytes(){
+        return itemStack;
+    }
+
+    public static byte[] convertToByteArray(ItemStack item) {
+        if (item == null) return null;
+
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try
+        {
+            BukkitObjectOutputStream objectOutput = new BukkitObjectOutputStream(output);
+            objectOutput.writeObject(item);
+            objectOutput.close();
+
+            return output.toByteArray();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ItemStack getItemStack() {
+        if (itemStack == null) return null;
+
+        ByteArrayInputStream input = new ByteArrayInputStream(itemStack);
+
+        try {
+            BukkitObjectInputStream objectInput = new BukkitObjectInputStream(input);
+            return (ItemStack) objectInput.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String toString(){
+        return "id: " + id + "; item:" + getItemStack().toString();
+    }
 }

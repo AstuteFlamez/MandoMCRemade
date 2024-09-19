@@ -107,7 +107,9 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         // Plugin shutdown logic
         ProtocolLibrary.getProtocolManager().removePacketListeners(this);
         getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
-        kothManager.endKOTH();
+
+        if (kothManager.isKOTHActive())
+            kothManager.endKOTH();
 
         Iterator<Vehicle> iterator = VehicleManager.vehicles.iterator();
         while (iterator.hasNext()) {

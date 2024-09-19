@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class TestCommand implements CommandExecutor {
 
+    public TestCommand() {}
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 

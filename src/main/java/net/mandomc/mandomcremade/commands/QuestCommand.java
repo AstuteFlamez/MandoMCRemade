@@ -1,14 +1,18 @@
 package net.mandomc.mandomcremade.commands;
 
 import net.mandomc.mandomcremade.config.LangConfig;
+import net.mandomc.mandomcremade.db.ItemRewardsTable;
 import net.mandomc.mandomcremade.db.PlayerQuestsTable;
 import net.mandomc.mandomcremade.db.QuestsTable;
+import net.mandomc.mandomcremade.db.RewardPoolTable;
 import net.mandomc.mandomcremade.db.data.PlayerQuest;
 import net.mandomc.mandomcremade.db.data.Quest;
+import net.mandomc.mandomcremade.db.data.RewardItem;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +45,6 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     }
                     String desc = args.length >= 3 ? args[2] : "";
                     String trigger = args.length >= 4 ? args[3] : null;
-                    // TODO: add reward json handling
                     Integer rewardPool = args.length >= 5 ? Integer.parseInt(args[4]) : null;
                     String parent = args.length >= 6 ? args[5] : null;
                     QuestsTable.addQuest(new Quest(quest, desc, trigger, rewardPool, parent));
@@ -130,7 +133,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     }
                     String targetNameTr = args.length >= 3 ? args[2] : "";
                     String toTrigger = args.length >= 4 ? args[3] : "";
-                    Float progressAmount = args.length >= 5 ? Float.parseFloat(args[4]) : 1.0f;
+                    float progressAmount = args.length >= 5 ? Float.parseFloat(args[4]) : 1.0f;
 
                     List<PlayerQuest> quests = PlayerQuestsTable.getTriggeredQuests(Bukkit.getPlayer(targetNameTr).getUniqueId().toString(), toTrigger);
 
@@ -141,6 +144,84 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     String output = quests.size() + " quests triggered for " + targetNameTr;
 
                     OutputString(sender, output);
+                    return true;
+                case "rewards":
+                    if (sender instanceof Player player && !player.hasPermission("mmc.quests.manage")) {
+                        player.sendMessage(prefix + noPermission);
+                        return true;
+                    }
+                    String poolId = args.length >= 3 ? args[2] : "-1";
+
+                    int poolCount = RewardPoolTable.getPoolCount();
+
+                    if (poolId.equals("pools")) {
+                        OutputString(sender, "Pool Count: " + poolCount);
+                        return true;
+                    }
+
+                    int pool = Integer.parseInt(poolId);
+
+                    if (!RewardPoolTable.poolExists(pool))
+                    {
+                        if (poolCount < pool) {
+                            RewardPoolTable.createNewPool();
+                        }
+                        else
+                        {
+                            OutputString(sender, "Pool " + pool + " does not exist and is not next to be added.");
+                            return true;
+                        }
+                    }
+
+                    String rewardType = args.length >= 4 ? args[3] : "";
+
+                    switch (rewardType) {
+                        case "item":
+                            if (sender instanceof Player player) {
+                                ItemStack item = player.getInventory().getItemInMainHand();
+
+                                ItemRewardsTable.addItemReward(pool, item);
+
+                                return true;
+                            }
+                            else {
+                                OutputString(sender, "Adding quest reward items from console is currently not supported.");
+                                return false;
+                            }
+
+                        case "event":
+                            String eventType = args.length >= 5 ? args[4] : "";
+
+                            return true;
+
+                        case "list":
+                            StringBuilder sb = new StringBuilder();
+
+                            sb.append("Rewards in Pool #").append(pool).append(":\n");
+                            sb.append("--------------------").append("\n");
+
+                            List<RewardItem> items = ItemRewardsTable.getItemRewards(pool);
+
+                            if (!items.isEmpty()) {
+                                sb.append("Items:\n");
+
+                                for (RewardItem item : items) {
+                                    sb.append(item.toString()).append("\n");
+                                }
+
+                                sb.append("--------------------").append("\n");
+                            }
+
+                            // TODO: add rewardEvent output
+
+                            OutputString(sender, sb.toString());
+
+                            return true;
+
+                        default:
+                            OutputString(sender, "No reward type specified.");
+                            return false;
+                    }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -163,6 +244,7 @@ public class QuestCommand implements CommandExecutor, TabCompleter {
                     completions.add("take");
                     completions.add("update");
                     completions.add("trigger");
+                    completions.add("rewards");
                 }
                 break;
             case 2:

@@ -65,3 +65,9 @@ SaberThrowDamage: 24
 SaberThrowRange: 20
 #as a decimal
 SaberThrowThreshold: 0.95 #0-0.99, 0=don't even gotta aim, 0.99=gotta be SUPER accurate
+
+######################################
+#           Quest Options            #
+######################################
+
+StarterQuest: 'Intro'
