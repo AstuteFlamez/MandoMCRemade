@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 import static net.mandomc.mandomcremade.MandoMCRemade.str;
@@ -74,7 +75,7 @@ public class KOTHManager implements Listener {
 
     private void createBossBar(){
         World world = kothLocation.getWorld();
-        assert world != null;
+        Objects.requireNonNull(world);
         String worldName = world.getName();
         int x = (int) kothLocation.getX();
         int z = (int) kothLocation.getZ();

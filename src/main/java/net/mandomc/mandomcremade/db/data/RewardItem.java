@@ -79,6 +79,6 @@ public class RewardItem {
     }
 
     public String toString(){
-        return "id: " + id + "; item:" + getItemStack().getItemMeta().getItemName();
+        return "id: " + id + "; item:" + getItemStack();
     }
 }

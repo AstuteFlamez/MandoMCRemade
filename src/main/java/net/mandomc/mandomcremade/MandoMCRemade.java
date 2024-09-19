@@ -161,7 +161,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         int z = getConfig().getInt("KOTHz");
         double radius = getConfig().getDouble("KOTHRadius");
 
-        assert world != null;
+        Objects.requireNonNull(world);
         Location kothLocation = new Location(Bukkit.getWorld(world), x, y, z);
 
         kothManager = new KOTHManager(this, kothLocation, radius);
@@ -175,7 +175,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
             public void run() {
                 if(kothManager.isKOTHActive()){
                     ConsoleCommandSender console = Bukkit.getConsoleSender();
-                    console.sendMessage("[MMC] Could not start scheduled KOTH. There is already an active instance.");
+                    console.sendMessage("[MandoMCRemade] Could not start scheduled KOTH. There is already an active instance.");
                     cancel();
                 }
                 kothManager.startKOTH();
