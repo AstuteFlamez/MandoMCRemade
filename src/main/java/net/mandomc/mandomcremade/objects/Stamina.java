@@ -29,7 +29,7 @@ public class Stamina {
     }
 
     public void setStaminaAmount(int staminaAmount) {
-        this.staminaAmount = Math.max(0, Math.min(100, staminaAmount)); // Ensure stamina is within 0-100
+        this.staminaAmount = Math.max(0, Math.min(1800, staminaAmount));
     }
 
     public void addStamina(int amount) {
@@ -53,7 +53,7 @@ public class Stamina {
     }
 
     public boolean isRegenerationOnCooldown() {
-        return System.currentTimeMillis() - lastEnergySpentTime < 2000;
+        return System.currentTimeMillis() - lastEnergySpentTime < 4000;
     }
 
 }

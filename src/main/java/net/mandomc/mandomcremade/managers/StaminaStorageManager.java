@@ -1,5 +1,6 @@
 package net.mandomc.mandomcremade.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.*;
@@ -19,10 +20,13 @@ public class StaminaStorageManager {
     public void saveStamina(Player player, int stamina) {
         staminaData.put(player.getUniqueId(), stamina);
         saveStaminaData();
+        Bukkit.getLogger().info("Saved stamina for " + player.getName() + ": " + stamina);
     }
 
     public int loadStamina(Player player) {
-        return staminaData.getOrDefault(player.getUniqueId(), 20);
+        int stamina = staminaData.getOrDefault(player.getUniqueId(), 2500);
+        Bukkit.getLogger().info("Loaded stamina for " + player.getName() + ": " + stamina);
+        return stamina;
     }
 
     public void removeStamina(Player player) {

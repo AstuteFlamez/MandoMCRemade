@@ -1,8 +1,9 @@
 package net.mandomc.mandomcremade.managers;
 
 import net.mandomc.mandomcremade.objects.Stamina;
-import net.mandomc.mandomcremade.objects.CustomScoreboard;
 import net.mandomc.mandomcremade.managers.StaminaStorageManager;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -15,10 +16,8 @@ import java.util.UUID;
 public class StaminaManager {
     private final StaminaStorageManager storageManager;
     private final Map<UUID, Stamina> playerStaminaMap;
-    private final CustomScoreboard customScoreboard;
 
-    public StaminaManager(StaminaStorageManager storageManager, CustomScoreboard customScoreboard) {
-        this.customScoreboard = customScoreboard;
+    public StaminaManager(StaminaStorageManager storageManager) {
         this.storageManager = storageManager;
         this.playerStaminaMap = new HashMap<>();
     }
@@ -27,16 +26,16 @@ public class StaminaManager {
         int initialStamina = storageManager.loadStamina(player);
         playerStaminaMap.put(player.getUniqueId(), new Stamina(player, initialStamina));
     }
-
-    public Stamina getStamina(Player player) {
-        return playerStaminaMap.get(player.getUniqueId());
-    }
-
+    
     public void removePlayer(Player player) {
         Stamina stamina = playerStaminaMap.remove(player.getUniqueId());
         if (stamina != null) {
             storageManager.saveStamina(player, stamina.getStaminaAmount());
         }
+    }
+    
+    public Stamina getStamina(Player player) {
+        return playerStaminaMap.get(player.getUniqueId());
     }
 
     public void setStamina(Player player, int amount) {
@@ -46,7 +45,6 @@ public class StaminaManager {
             storageManager.saveStamina(player, stamina.getStaminaAmount());
         }
     }
-
 
     public void addStamina(Player player, int amount) {
         Stamina stamina = getStamina(player);
@@ -64,6 +62,7 @@ public class StaminaManager {
         }
     }
 
+
     public void handleStaminaDecrease(Player player, Stamina stamina, int amount) {
         if (stamina != null) {
             stamina.removeStamina(amount);
@@ -74,7 +73,6 @@ public class StaminaManager {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 2));
             }
             this.setStamina(player, stamina.getStaminaAmount());
-            customScoreboard.updateScore(player, stamina.getStaminaAmount());
         }
     }
 

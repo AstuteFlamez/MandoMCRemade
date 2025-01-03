@@ -50,6 +50,7 @@
     </build>
 
     <repositories>
+
         <repository>
             <id>jeff-media-public</id>
             <url>https://repo.jeff-media.com/public/</url>
@@ -79,7 +80,10 @@
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
-
+        <repository>
+            <id>weaponmechanics-repo</id>
+            <url>https://repo.craftermc.com/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -106,11 +110,6 @@
             <artifactId>ProtocolLib</artifactId>
             <version>5.2.0-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.cjcrafter</groupId>
-            <artifactId>weaponmechanics</artifactId>
-            <version>3.4.1</version>
         </dependency>
         <dependency>
             <groupId>com.jeff_media</groupId>

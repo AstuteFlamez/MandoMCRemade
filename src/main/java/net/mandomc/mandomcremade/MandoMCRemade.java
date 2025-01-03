@@ -17,7 +17,6 @@ import net.mandomc.mandomcremade.db.Database;
 import net.mandomc.mandomcremade.managers.*;
 import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
-import net.mandomc.mandomcremade.objects.CustomScoreboard;
 import net.mandomc.mandomcremade.objects.Vehicle;
 import net.mandomc.mandomcremade.tasks.StaminaTask;
 import net.mandomc.mandomcremade.tasks.VehicleTask;
@@ -29,7 +28,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
+import net.mandomc.mandomcremade.listeners.WeaponMechanicsListener;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -54,8 +53,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         instance = this;
 
         StaminaStorageManager storageManager = new StaminaStorageManager();
-        CustomScoreboard customScoreboard = new CustomScoreboard();
-        StaminaManager staminaManager = new StaminaManager(storageManager, customScoreboard);
+        StaminaManager staminaManager = new StaminaManager(storageManager);
 
 
         setUpConfigs();
@@ -80,10 +78,13 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         Recipes.registerRecipes();
 
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, staminaManager, customScoreboard), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, staminaManager), this);
+        getServer().getPluginManager().registerEvents(new WeaponMechanicsListener(staminaManager), this);
         getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new VehicleListener(), this);
+        
+
 
         setUpKOTH();
 
@@ -92,7 +93,7 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         setUpServerList();
 
 
-        new StaminaTask(this, staminaManager, customScoreboard).runTaskTimer(this, 0, 5);
+        new StaminaTask(this, staminaManager).runTaskTimer(this, 0, 2);
 
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.addPacketListener(new WASDKeyListener(this));
@@ -108,12 +109,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         getServer().getConsoleSender().sendMessage("[MandoMC]: Plugin is disabled");
         kothManager.endKOTH();
 
-        Iterator<Vehicle> iterator = VehicleManager.vehicles.iterator();
-        while (iterator.hasNext()) {
-            Vehicle vehicle = iterator.next();
-            iterator.remove();
-            VehicleManager.removeVehicle(vehicle);
-        }
     }
 
     public static MandoMCRemade getInstance(){
