@@ -20,12 +20,10 @@ public class StaminaStorageManager {
     public void saveStamina(Player player, int stamina) {
         staminaData.put(player.getUniqueId(), stamina);
         saveStaminaData();
-        Bukkit.getLogger().info("Saved stamina for " + player.getName() + ": " + stamina);
     }
 
     public int loadStamina(Player player) {
         int stamina = staminaData.getOrDefault(player.getUniqueId(), 2500);
-        Bukkit.getLogger().info("Loaded stamina for " + player.getName() + ": " + stamina);
         return stamina;
     }
 

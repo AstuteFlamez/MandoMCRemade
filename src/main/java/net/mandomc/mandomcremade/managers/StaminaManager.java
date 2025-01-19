@@ -71,9 +71,11 @@ public class StaminaManager {
                 stamina.startEffectCooldown(5000);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 2));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 2));
+                player.playSound(player.getLocation(), "misc.staminadepleted", 0.3f, 1.0f);
             }
             this.setStamina(player, stamina.getStaminaAmount());
         }
     }
+    
 
 }

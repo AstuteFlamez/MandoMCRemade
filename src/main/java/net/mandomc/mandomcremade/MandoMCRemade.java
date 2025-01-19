@@ -19,7 +19,6 @@ import net.mandomc.mandomcremade.listeners.*;
 import net.mandomc.mandomcremade.guis.GUIListener;
 import net.mandomc.mandomcremade.objects.Vehicle;
 import net.mandomc.mandomcremade.tasks.StaminaTask;
-import net.mandomc.mandomcremade.tasks.VehicleTask;
 import net.mandomc.mandomcremade.utility.Recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,7 +27,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import net.mandomc.mandomcremade.listeners.WeaponMechanicsListener;
+
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -79,10 +78,9 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
 
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, staminaManager), this);
-        getServer().getPluginManager().registerEvents(new WeaponMechanicsListener(staminaManager), this);
-        getServer().getPluginManager().registerEvents(new SaberThrowListener(lightsaberCooldown, this), this);
+        getServer().getPluginManager().registerEvents(new WeaponMechanicsListener(staminaManager, this), this);
+        getServer().getPluginManager().registerEvents(new SaberListener(lightsaberCooldown, this, staminaManager), this);
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new VehicleListener(), this);
         
 
 
@@ -96,7 +94,6 @@ public final class MandoMCRemade extends JavaPlugin implements Listener {
         new StaminaTask(this, staminaManager).runTaskTimer(this, 0, 2);
 
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        protocolManager.addPacketListener(new WASDKeyListener(this));
 
     }
 
